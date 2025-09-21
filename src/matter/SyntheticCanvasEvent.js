@@ -8,7 +8,6 @@ document.addEventListener(
       return;
     }
     function createSyntheticCanvasEvent(originalEvent, eventType) {
-      // Check if render is available
       if (!window.render || !window.render.canvas) {
         console.warn("Render canvas not available yet");
         return;

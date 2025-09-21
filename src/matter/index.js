@@ -120,13 +120,11 @@ function createBoxComposite(x, y, width, height, options = {}, boxId = 1) {
 var render = null;
 var body = null;
 
-// Make render available globally for SyntheticCanvasEvent.js
 window.render = null;
 
 document.addEventListener("DOMContentLoaded", function initializePhysics() {
   body = document.body;
   if (!body) {
-    // Elements don't exist yet, try again in 100ms
     console.log("Elements not found, retrying...");
     setTimeout(initializePhysics, 100);
     return;
@@ -138,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   let test = document.getElementById("test");
 
   if (!test) {
-    // Elements don't exist yet, try again in 100ms
     console.log("Elements not found, retrying...");
     setTimeout(initializePhysics, 100);
     return;
@@ -153,10 +150,8 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   console.log(initialPos2);
   console.log(initialPos3);
 
-  // create an engine
   var engine = Engine.create();
 
-  // create renderer with absolute positioning
   render = Render.create({
     element: document.body,
     engine: engine,
@@ -168,26 +163,23 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     },
   });
 
-  // Make render available globally for SyntheticCanvasEvent.js
   window.render = render;
-
-  // Style the canvas to be absolutely positioned on top
   render.canvas.style.position = "absolute";
   render.canvas.style.top = "0";
   render.canvas.style.left = "0";
   render.canvas.style.zIndex = "1000";
-  render.canvas.style.pointerEvents = "none"; // Disable pointer events so HTML elements can receive real events
+  render.canvas.style.pointerEvents = "none";
   render.canvas.style.opacity = 1;
 
   var ground = Bodies.rectangle(
     Math.floor(bodySize.width / 2),
-    Math.floor(bodySize.height) - 50,
+    Math.floor(bodySize.height),
     Math.floor(bodySize.width) * 2,
-    50,
+    5,
     {
       isStatic: true,
       restitution: 0.5,
-      render: { fillStyle: "gray" },
+      render: { fillStyle: "blue" },
     }
   );
 
@@ -226,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     mouseConstraint = MouseConstraint.create(engine, {
       mouse: mouse,
       constraint: {
-        stiffness: 0.002,
+        stiffness: 0.02,
         render: {
           visible: true,
         },
@@ -267,49 +259,6 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     3
   );
 
-  var ground = Bodies.rectangle(
-    Math.floor(bodySize.width / 2),
-    Math.floor(bodySize.height) - 50,
-    Math.floor(bodySize.width) * 2,
-    50,
-    {
-      isStatic: true,
-      restitution: 0.5,
-      render: { fillStyle: "gray" },
-    }
-  );
-
-  var ceiling = Bodies.rectangle(
-    Math.floor(bodySize.width / 2),
-    0,
-    Math.floor(bodySize.width) * 2,
-    5,
-    {
-      isStatic: true,
-      render: { fillStyle: "gray" },
-    }
-  );
-  var leftWall = Bodies.rectangle(
-    0,
-    Math.floor(bodySize.height / 2),
-    5,
-    Math.floor(bodySize.height) * 2,
-    {
-      isStatic: true,
-      render: { fillStyle: "gray" },
-    }
-  );
-  var rightWall = Bodies.rectangle(
-    Math.floor(bodySize.width),
-    Math.floor(bodySize.height / 2),
-    5,
-    Math.floor(bodySize.height) * 2,
-    {
-      isStatic: true,
-      render: { fillStyle: "gray" },
-    }
-  );
-
   // add all of the bodies to the world
   Composite.add(engine.world, [
     boxA.composite,
@@ -333,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   engine.velocityIterations = 8; // Increase from default 4 to 8 for better collision resolution
   engine.positionIterations = 6; // Increase from default 6 for better position correction
   engine.constraintIterations = 2; // Keep constraint iterations at 2
-
+  engine.enableSleeping = true;
   // run the engine and renderer
   Runner.run(runner, engine);
   Render.run(render);
@@ -341,7 +290,6 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   // Debug function to test specific rotation cases
 
   function setAbsoluteTransform(element, x, y, angle) {
-    // Build the complete transformation matrix from all parents
     let cumulativeMatrix = new DOMMatrix(); // Identity matrix
     let parent = element.parentElement;
     const parentChain = [];
