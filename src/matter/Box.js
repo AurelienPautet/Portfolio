@@ -8,12 +8,12 @@ export default class Box {
     this.height = height;
     this.options = options;
     this.boxId = boxId;
-    this.compositeData = this.createBox();
+    this.bodyData = this.createBox();
   }
 
   createBox() {
     return {
-      composite: Bodies.rectangle(this.x, this.y, this.width, this.height, {
+      body: Bodies.rectangle(this.x, this.y, this.width, this.height, {
         ...this.options,
         render: {
           wireframes: true,
@@ -27,11 +27,11 @@ export default class Box {
 
   getCenter() {
     return {
-      x: this.compositeData.composite.position.x,
-      y: this.compositeData.composite.position.y,
+      x: this.bodyData.body.position.x,
+      y: this.bodyData.body.position.y,
     };
   }
   getAngle() {
-    return this.compositeData.composite.angle;
+    return this.bodyData.body.angle;
   }
 }

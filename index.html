@@ -4,12 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="module" src="./src/matter/index.js"></script>
-    <script src="./src/matter/SyntheticCanvasEvent.js"></script>
+    <script type="module" src="./src/matter/SyntheticCanvasEvent.js"></script>
 
     <title>Portfolio</title>
   </head>
-  <body class="w-screen h-screen select-none">
-    <div id="root" class="w-full h-full"></div>
+  <body
+    class="min-w-screen min-h-screen select-none overflow-x-hidden no-scrollbar"
+  >
+    <div
+      id="root"
+      class="w-full h-full no-scrollbar bg-accent min-w-screen min-h-screen"
+    ></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

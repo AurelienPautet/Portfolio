@@ -1,4 +1,4 @@
-import { Composite } from "matter-js";
+import { Composite, Constraint } from "matter-js";
 
 export default class PhysicalDomObject {
   static domElementIdCounter = 0;
@@ -13,6 +13,10 @@ export default class PhysicalDomObject {
     this.physicalBody = null;
     this.parent = parent;
     this.children = [];
+    this.constraint = null;
+    this.originalInertia = null;
+    this.originalInverseInertia = null;
+    this.originalStatic = domElement.classList.contains("static");
   }
   init(physicalBodyClass) {
     PhysicalDomObject.domElementIdCounter += 1;
@@ -33,9 +37,63 @@ export default class PhysicalDomObject {
         this.options,
         PhysicalDomObject.domElementIdCounter
       );
-      Composite.add(window.engine.world, [
-        this.physicalBody.compositeData.composite,
-      ]);
+      Composite.add(window.engine.world, [this.physicalBody.bodyData.body]);
+      this.addConstraint();
+    }
+  }
+  addConstraint() {
+    console.log(this.physicalBody);
+    console.log(this.initialPos.x);
+
+    if (this.originalStatic) {
+      this.physicalBody.bodyData.body.isStatic = true;
+    }
+
+    if (this.domElement.classList.contains("nonconstrained")) {
+      return;
+    }
+
+    if (this.physicalBody) {
+      if (this.constraint) {
+        return;
+      }
+      this.originalInertia = this.physicalBody.bodyData.body.inertia;
+      this.originalInverseInertia =
+        this.physicalBody.bodyData.body.inverseInertia;
+
+      this.physicalBody.bodyData.body.inertia = Infinity;
+      this.physicalBody.bodyData.body.inverseInertia = 0;
+
+      const constraint = Constraint.create({
+        bodyB: this.physicalBody.bodyData.body,
+        pointA: {
+          x: this.initialPos.x,
+          y: this.initialPos.y,
+        },
+        length: 1,
+        stiffness: 1,
+        damping: 1,
+        angularStiffness: 1,
+        render: {
+          visible: true,
+        },
+      });
+      Composite.add(window.engine.world, [constraint]);
+      this.constraint = constraint;
+    }
+    console.log("Constraint added");
+  }
+
+  removeConstraint() {
+    this.physicalBody.bodyData.body.isStatic = false;
+    if (this.constraint) {
+      if (this.originalInertia !== null) {
+        this.physicalBody.bodyData.body.inertia = this.originalInertia;
+        this.physicalBody.bodyData.body.inverseInertia =
+          this.originalInverseInertia;
+      }
+      Composite.remove(window.engine.world, this.constraint);
+      this.constraint = null;
     }
   }
 }

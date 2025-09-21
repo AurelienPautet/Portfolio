@@ -1,42 +1,92 @@
 import { useState } from "react";
 
-import Waow from "./components/waow";
-
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <div
-        id="test"
-        className="physical m-10 h-96 w-1/2 p-6 max-w-sm mx-auto bg-green-500 rounded-xl shadow-md flex items-center space-x-4"
-      >
-        CACA sqqqqqq
-        <button
-          id="test2"
-          className="physical h-10 border-10 border-blue-800 hover:border-blue-700 hover:bg-blue-700 bg-blue-500 rounded-xl shadow-md flex items-center"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          VAS Y CLIQUE {count}
-          <Waow />
-        </button>
+      <div className="navbar bg-base-100 shadow-sm">
+        <div className="flex-none">
+          <button className="physical btn btn-square  ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="inline-block h-5 w-5 stroke-current"
+            >
+              {" "}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>{" "}
+            </svg>
+          </button>
+        </div>
+        <div className=" flex-1 flex gap-2">
+          <a
+            className="physical btn w-36  text-xl"
+            onClick={() => setCount((count) => count + 1)}
+          >
+            Aurélien {count}
+          </a>
+          <a className="physical btn   text-xl">Pautet</a>
+        </div>
+        <div className="flex-none">
+          <button className="physical btn btn-square  ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="inline-block h-5 w-5 stroke-current"
+            >
+              {" "}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+              ></path>{" "}
+            </svg>
+          </button>
+        </div>
       </div>
-      <div
-        id=""
-        className="m-10 p-6 max-w-sm mx-auto bg-green-500 rounded-xl shadow-md flex items-center space-x-4"
-      >
-        CACA
-        <button
-          id=""
-          className="h-10 border-10 border-blue-800 hover:border-blue-700 hover:bg-blue-700 bg-blue-500 rounded-xl shadow-md flex items-center"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          VAS Y CLIQUE {count}
-          <Waow />
-        </button>
+      <div className=" card m-5">
+        <div className="physical bg-accent-content card-body">
+          <h2 className="physical card-title w-fit">Hello World!</h2>
+          <p className="physical w-fit">Welcome to my portfolio website.</p>
+          <div className=" card-actions justify-end">
+            <button className="physical btn btn-primary">Get Started</button>
+          </div>
+        </div>
       </div>
-      <div className="bg-green-500 p-10"></div>
+      <div className="flex justify-center items-center w-full">
+        <div className="physical static w-fit p-20 bg-base-100">
+          <div className="grid grid-cols-3 gap-1">
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical  nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical  nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical  nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical  nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical  nonconstrained w-10 h-10 bg-accent"></div>
+            <div className="physical  nonconstrained w-10 h-10 bg-accent"></div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

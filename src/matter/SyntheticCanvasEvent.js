@@ -7,55 +7,87 @@ document.addEventListener(
       setTimeout(initializeSyntheticEvents, 100);
       return;
     }
+
     function createSyntheticCanvasEvent(originalEvent, eventType) {
       if (!window.render || !window.render.canvas) {
         console.warn("Render canvas not available yet");
         return;
       }
 
+      const canvas = window.render.canvas;
+      const canvasRect = canvas.getBoundingClientRect();
+
+      let clientX, clientY;
+
+      if (
+        originalEvent.clientX !== undefined &&
+        originalEvent.clientY !== undefined
+      ) {
+        clientX = originalEvent.clientX;
+        clientY = originalEvent.clientY;
+      } else if (
+        originalEvent.pageX !== undefined &&
+        originalEvent.pageY !== undefined
+      ) {
+        clientX = originalEvent.pageX - window.scrollX;
+        clientY = originalEvent.pageY - window.scrollY;
+      } else {
+        clientX = 0;
+        clientY = 0;
+      }
+
+      const canvasX = clientX - canvasRect.left;
+      const canvasY = clientY - canvasRect.top;
+
       let syntheticEvent;
-      if (eventType.startsWith("pointer")) {
-        syntheticEvent = new PointerEvent(eventType, {
-          pointerId: originalEvent.pointerId || 1,
+
+      if (eventType.startsWith("pointer") || eventType.startsWith("touch")) {
+        const mappedEventType = eventType.replace("touch", "pointer");
+        syntheticEvent = new PointerEvent(mappedEventType, {
+          pointerId: originalEvent.pointerId || originalEvent.identifier || 1,
           bubbles: true,
           cancelable: true,
-          clientX: originalEvent.clientX + window.scrollX,
-          clientY: originalEvent.clientY + window.scrollY,
-          screenX: originalEvent.screenX + window.scrollX,
-          screenY: originalEvent.screenY + window.scrollY,
-          button: originalEvent.button,
-          buttons: originalEvent.buttons,
-          ctrlKey: originalEvent.ctrlKey,
-          shiftKey: originalEvent.shiftKey,
-          altKey: originalEvent.altKey,
-          metaKey: originalEvent.metaKey,
-          pressure: originalEvent.pressure || 0.5,
-          pointerType: originalEvent.pointerType || "mouse",
+          clientX: clientX,
+          clientY: clientY,
+          screenX: originalEvent.screenX || clientX,
+          screenY: originalEvent.screenY || clientY,
+          button: originalEvent.button || 0,
+          buttons:
+            originalEvent.buttons || (eventType.includes("down") ? 1 : 0),
+          ctrlKey: originalEvent.ctrlKey || false,
+          shiftKey: originalEvent.shiftKey || false,
+          altKey: originalEvent.altKey || false,
+          metaKey: originalEvent.metaKey || false,
+          pressure: originalEvent.pressure || originalEvent.force || 0.5,
+          pointerType: originalEvent.pointerType || "touch",
+          width: originalEvent.radiusX || originalEvent.width || 1,
+          height: originalEvent.radiusY || originalEvent.height || 1,
         });
       } else {
         syntheticEvent = new MouseEvent(eventType, {
           bubbles: true,
           cancelable: true,
-          clientX: originalEvent.clientX + window.scrollX,
-          clientY: originalEvent.clientY + window.scrollY,
-          screenX: originalEvent.screenX + window.scrollX,
-          screenY: originalEvent.screenY + window.scrollY,
-          button: originalEvent.button,
-          buttons: originalEvent.buttons,
-          ctrlKey: originalEvent.ctrlKey,
-          shiftKey: originalEvent.shiftKey,
-          altKey: originalEvent.altKey,
-          metaKey: originalEvent.metaKey,
+          clientX: clientX,
+          clientY: clientY,
+          screenX: originalEvent.screenX || clientX,
+          screenY: originalEvent.screenY || clientY,
+          button: originalEvent.button || 0,
+          buttons: originalEvent.buttons || 0,
+          ctrlKey: originalEvent.ctrlKey || false,
+          shiftKey: originalEvent.shiftKey || false,
+          altKey: originalEvent.altKey || false,
+          metaKey: originalEvent.metaKey || false,
           relatedTarget: null,
         });
       }
 
-      const originalPointerEvents = window.render.canvas.style.pointerEvents;
-      window.render.canvas.style.pointerEvents = "auto";
-      window.render.canvas.dispatchEvent(syntheticEvent);
-      window.render.canvas.style.pointerEvents = originalPointerEvents;
+      const originalPointerEvents = canvas.style.pointerEvents;
+      canvas.style.pointerEvents = "auto";
+      const eventDispatched = canvas.dispatchEvent(syntheticEvent);
+      canvas.style.pointerEvents = originalPointerEvents;
     }
 
+    // Mouse events
     interactiveDiv.addEventListener("mousemove", function (event) {
       createSyntheticCanvasEvent(event, "mousemove");
     });
@@ -68,17 +100,43 @@ document.addEventListener(
       createSyntheticCanvasEvent(event, "mouseup");
     });
 
-    interactiveDiv.addEventListener("click", function (event) {
-      createSyntheticCanvasEvent(event, "click");
-    });
+    interactiveDiv.addEventListener(
+      "touchstart",
+      function (event) {
+        for (let i = 0; i < event.changedTouches.length; i++) {
+          const touch = event.changedTouches[i];
 
-    interactiveDiv.addEventListener("dblclick", function (event) {
-      createSyntheticCanvasEvent(event, "dblclick");
-    });
+          createSyntheticCanvasEvent(touch, "pointerdown");
+          createSyntheticCanvasEvent(touch, "mousedown");
+        }
+      },
+      { passive: false }
+    );
 
-    interactiveDiv.addEventListener("contextmenu", function (event) {
-      createSyntheticCanvasEvent(event, "contextmenu");
-    });
+    interactiveDiv.addEventListener(
+      "touchmove",
+      function (event) {
+        event.preventDefault();
+        for (let i = 0; i < event.changedTouches.length; i++) {
+          const touch = event.changedTouches[i];
+          createSyntheticCanvasEvent(touch, "pointermove");
+          createSyntheticCanvasEvent(touch, "mousemove");
+        }
+      },
+      { passive: false }
+    );
+
+    interactiveDiv.addEventListener(
+      "touchend",
+      function (event) {
+        for (let i = 0; i < event.changedTouches.length; i++) {
+          const touch = event.changedTouches[i];
+          createSyntheticCanvasEvent(touch, "pointerup");
+          createSyntheticCanvasEvent(touch, "mouseup");
+        }
+      },
+      { passive: false }
+    );
 
     interactiveDiv.addEventListener("pointerdown", function (event) {
       createSyntheticCanvasEvent(event, "pointerdown");
@@ -99,5 +157,7 @@ document.addEventListener(
     interactiveDiv.addEventListener("wheel", function (event) {
       createSyntheticCanvasEvent(event, "wheel");
     });
+
+    console.log("Synthetic event listeners initialized");
   }
 );

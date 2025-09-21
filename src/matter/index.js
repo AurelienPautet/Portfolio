@@ -13,18 +13,10 @@ var Engine = Matter.Engine,
   Mouse = Matter.Mouse,
   MouseConstraint = Matter.MouseConstraint;
 
-function getOffset(el) {
-  const rect = el.getBoundingClientRect();
-  return {
-    x: rect.left + window.scrollX,
-    y: rect.top + window.scrollY,
-    width: rect.width,
-    height: rect.height,
-  };
-}
-
 var render = null;
 var body = null;
+
+var canvasOpacity = 1;
 
 window.render = null;
 
@@ -39,22 +31,13 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
 
   console.log(bodySize);
 
-  let test = document.getElementById("test");
+  let test = document.getElementsByClassName("physical");
 
-  if (!test) {
+  if (test.length === 0) {
     console.log("Elements not found, retrying...");
     setTimeout(initializePhysics, 100);
     return;
   }
-
-  let initialPos = getOffset(test);
-  let test2 = document.getElementById("test2");
-  let initialPos2 = getOffset(test2);
-  let test3 = document.getElementById("test3");
-  let initialPos3 = getOffset(test3);
-  console.log(initialPos);
-  console.log(initialPos2);
-  console.log(initialPos3);
 
   window.engine = Engine.create();
 
@@ -75,13 +58,14 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   render.canvas.style.left = "0";
   render.canvas.style.zIndex = "1000";
   render.canvas.style.pointerEvents = "none";
-  render.canvas.style.opacity = 1;
+  render.canvas.style.opacity = canvasOpacity;
+  render.canvas.style.overflow = "hidden";
 
   var ground = Bodies.rectangle(
     Math.floor(bodySize.width / 2),
-    Math.floor(bodySize.height),
+    Math.floor(bodySize.height) + 248,
     Math.floor(bodySize.width) * 2,
-    5,
+    500,
     {
       isStatic: true,
       restitution: 0.5,
@@ -91,18 +75,18 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
 
   var ceiling = Bodies.rectangle(
     Math.floor(bodySize.width / 2),
-    0,
+    -248,
     Math.floor(bodySize.width) * 2,
-    5,
+    500,
     {
       isStatic: true,
       render: { fillStyle: "gray" },
     }
   );
   var leftWall = Bodies.rectangle(
-    0,
+    -248,
     Math.floor(bodySize.height / 2),
-    5,
+    500,
     Math.floor(bodySize.height) * 2,
     {
       isStatic: true,
@@ -110,9 +94,9 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     }
   );
   var rightWall = Bodies.rectangle(
-    Math.floor(bodySize.width),
+    Math.floor(bodySize.width) + 248,
     Math.floor(bodySize.height / 2),
-    5,
+    500,
     Math.floor(bodySize.height) * 2,
     {
       isStatic: true,
@@ -124,7 +108,9 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     mouseConstraint = MouseConstraint.create(window.engine, {
       mouse: mouse,
       constraint: {
-        stiffness: 0.02,
+        stiffness: 0.2,
+        angularStiffness: 0.2,
+        damping: 0.1,
         render: {
           visible: true,
         },
@@ -204,10 +190,10 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   });
 
   window.engine.timing.timeScale = 1;
-  window.engine.velocityIterations = 8;
-  window.engine.positionIterations = 6;
+  window.engine.velocityIterations = 10;
+  window.engine.positionIterations = 8;
   window.engine.constraintIterations = 2;
-  window.engine.enableSleeping = true;
+  window.engine.enableSleeping = false;
   Runner.run(runner, window.engine);
   Render.run(render);
 
@@ -264,9 +250,31 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     }px) rotate(${angleCorrection}rad)`;
   }
 
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Control") {
+      canvasOpacity = canvasOpacity === 1 ? 0 : 1;
+      if (render && render.canvas) {
+        render.canvas.style.opacity = canvasOpacity;
+      }
+    }
+    if (e.key.toLowerCase() === "k") {
+      for (const physicalDomObject of physicalDomObjects) {
+        if (typeof physicalDomObject.removeConstraint === "function") {
+          physicalDomObject.removeConstraint();
+        }
+      }
+    }
+    if (e.key.toLowerCase() === "l") {
+      for (const physicalDomObject of physicalDomObjects) {
+        if (typeof physicalDomObject.addConstraint === "function") {
+          physicalDomObject.addConstraint();
+        }
+      }
+    }
+  });
+
   function uiLoop() {
     for (const physicalDomObject of physicalDomObjects) {
-      console.log(physicalDomObject);
       setAbsoluteTransform(physicalDomObject);
     }
 
