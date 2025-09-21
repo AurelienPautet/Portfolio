@@ -14,9 +14,9 @@ export default class BoxComposite {
 
   createBoxComposite() {
     this.options.mass = this.options.mass || 1;
-
+    const wallGroup = -this.boxId;
     const wallsOptions = {
-      ...options,
+      ...this.options,
       collisionFilter: { group: wallGroup },
       category: 0x0001,
       mask: 0xffff,

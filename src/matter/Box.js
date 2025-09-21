@@ -8,18 +8,20 @@ export default class Box {
     this.height = height;
     this.options = options;
     this.boxId = boxId;
-    this.compositeData = this.createBoxComposite();
+    this.compositeData = this.createBox();
   }
 
   createBox() {
     return {
-      composite: Bodies.rectangle(
-        this.x,
-        this.y,
-        this.width,
-        this.height,
-        this.options
-      ),
+      composite: Bodies.rectangle(this.x, this.y, this.width, this.height, {
+        ...this.options,
+        render: {
+          wireframes: true,
+          fillStyle: "transparent",
+          strokeStyle: "red",
+          lineWidth: 1,
+        },
+      }),
     };
   }
 
