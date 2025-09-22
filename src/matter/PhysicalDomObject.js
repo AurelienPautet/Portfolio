@@ -17,6 +17,7 @@ export default class PhysicalDomObject {
     this.originalInertia = null;
     this.originalInverseInertia = null;
     this.originalStatic = domElement.classList.contains("static");
+    this.originalSticky = domElement.classList.contains("sticky");
   }
   init(physicalBodyClass) {
     PhysicalDomObject.domElementIdCounter += 1;
@@ -35,6 +36,7 @@ export default class PhysicalDomObject {
         width,
         height,
         this.options,
+        { isSticky: this.originalSticky },
         PhysicalDomObject.domElementIdCounter
       );
       Composite.add(window.engine.world, [this.physicalBody.bodyData.body]);
@@ -86,6 +88,10 @@ export default class PhysicalDomObject {
 
   removeConstraint() {
     this.physicalBody.bodyData.body.isStatic = false;
+    this.physicalBody.bodyData.body.collisionFilter.category =
+      window.defaultCategory;
+    this.physicalBody.bodyData.body.collisionFilter.mask =
+      window.defaultCategory | window.wallCategory;
     if (this.constraint) {
       if (this.originalInertia !== null) {
         this.physicalBody.bodyData.body.inertia = this.originalInertia;
@@ -94,6 +100,13 @@ export default class PhysicalDomObject {
       }
       Composite.remove(window.engine.world, this.constraint);
       this.constraint = null;
+    }
+  }
+
+  updateConstraint() {
+    if (this.constraint && this.originalSticky) {
+      this.constraint.pointA.x = this.initialPos.x + window.scrollX;
+      this.constraint.pointA.y = this.initialPos.y + window.scrollY;
     }
   }
 }

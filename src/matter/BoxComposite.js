@@ -1,12 +1,21 @@
 import { Bodies, Composite, Constraint, Body } from "matter-js";
 
 export default class BoxComposite {
-  constructor(x, y, width, height, options = {}, boxId = 1) {
+  constructor(
+    x,
+    y,
+    width,
+    height,
+    options = {},
+    customOptions = {},
+    boxId = 1
+  ) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
     this.options = options;
+    this.customOptions = customOptions;
     this.boxId = boxId;
     this.wallThickness = 5;
     this.bodyData = this.createBoxComposite();
@@ -17,9 +26,6 @@ export default class BoxComposite {
     const wallGroup = -this.boxId;
     const wallsOptions = {
       ...this.options,
-      collisionFilter: { group: wallGroup },
-      category: 0x0001,
-      mask: 0xffff,
       render: { fillStyle: "red" },
     };
 
@@ -62,6 +68,14 @@ export default class BoxComposite {
 
     var compoundBodyB = Body.create({
       parts: [topWall, bottomWall, leftWall, rightWall],
+      collisionFilter: {
+        category: this.customOptions.isSticky
+          ? window.stickyCategory
+          : window.defaultCategory,
+        mask: this.customOptions.isSticky
+          ? window.wallCategory | window.stickyCategory
+          : window.wallCategory | window.defaultCategory,
+      },
     });
 
     return {

@@ -17,6 +17,9 @@ var render = null;
 var body = null;
 
 var canvasOpacity = 0;
+window.defaultCategory = 0x0001;
+window.wallCategory = 0x0004;
+window.stickyCategory = 0x0002;
 
 window.render = null;
 
@@ -35,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   let test = document.getElementsByClassName("physical");
 
   if (test.length === 0) {
-    console.log("Elements not found, retrying...");
+    console.log(" dqsd Elements not found, retrying...");
     setTimeout(initializePhysics, 100);
     return;
   }
@@ -71,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
       isStatic: true,
       restitution: 0.5,
       render: { fillStyle: "blue" },
+      collisionFilter: { category: window.wallCategory },
     }
   );
 
@@ -82,6 +86,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     {
       isStatic: true,
       render: { fillStyle: "gray" },
+      collisionFilter: { category: window.wallCategory },
     }
   );
   var leftWall = Bodies.rectangle(
@@ -92,6 +97,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     {
       isStatic: true,
       render: { fillStyle: "gray" },
+      collisionFilter: { category: window.wallCategory },
     }
   );
   var rightWall = Bodies.rectangle(
@@ -102,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     {
       isStatic: true,
       render: { fillStyle: "gray" },
+      collisionFilter: { category: window.wallCategory },
     }
   );
 
@@ -178,6 +185,14 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   ); */
 
   // add all of the bodies to the world
+  console.log(mouseConstraint);
+
+  mouseConstraint.collisionFilter.mask =
+    window.defaultCategory | window.stickyCategory | window.wallCategory;
+  mouseConstraint.collisionFilter.category =
+    window.defaultCategory | window.stickyCategory | window.wallCategory;
+  console.log(mouseConstraint);
+
   Composite.add(window.engine.world, [
     ground,
     ceiling,
@@ -278,13 +293,11 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   let lastTimestamp = performance.now();
 
   window.addEventListener("scroll", function () {
-    console.log("scroll", window.scrollY);
     const currentScrollY = window.scrollY;
     const currentTimestamp = performance.now();
     const deltaY = currentScrollY - lastScrollY;
     const deltaTime = (currentTimestamp - lastTimestamp) / 1000; // seconds
     const velocityY = deltaTime > 0 ? deltaY / deltaTime : 0;
-    console.log("velocityY", velocityY);
     for (const physicalDomObject of physicalDomObjects) {
       console.log(
         physicalDomObject.physicalBody,
@@ -294,7 +307,6 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
         physicalDomObject.physicalBody &&
         physicalDomObject.physicalBody.bodyData.body
       ) {
-        console.log("applying force", velocityY);
         const forceMagnitude = 0.00005 * velocityY;
         Matter.Body.applyForce(
           physicalDomObject.physicalBody.bodyData.body,
@@ -310,6 +322,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
 
   function uiLoop() {
     for (const physicalDomObject of physicalDomObjects) {
+      physicalDomObject.updateConstraint();
       setAbsoluteTransform(physicalDomObject);
     }
 

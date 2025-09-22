@@ -1,5 +1,12 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: autumn --default;
+}
+
+@theme {
+  --font-display: "Oswald", sans-serif;
+}
+
 /* add the code bellow */
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
