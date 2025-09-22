@@ -4,7 +4,7 @@ const HomeTitle = () => {
   return (
     <div className="w-full  flex-col justify-center items-center gap-2 mt-10 mb-2">
       <WordSeparate
-        text="Welcome to my portfolio"
+        text="Aurélien, 20 years old"
         className="physical text-4xl w-fit h-fit  font-bold text-primary"
       />
       <WordSeparate

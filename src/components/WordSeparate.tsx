@@ -15,7 +15,7 @@ const WordSeparate = ({
 }: WordSeparateProps) => {
   return (
     <div
-      className={`flex w-full h-full flex-wrap justify-center items-center gap-${wordGap}`}
+      className={`flex w-full h-fit flex-wrap justify-center items-center gap-${wordGap}`}
     >
       {text.split(" ").map((word, index) => (
         <Tag className={className}>
