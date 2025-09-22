@@ -71,7 +71,7 @@ export default class PhysicalDomObject {
           y: this.initialPos.y,
         },
         length: 1,
-        stiffness: 1,
+        stiffness: 0.02,
         damping: 1,
         angularStiffness: 1,
         render: {

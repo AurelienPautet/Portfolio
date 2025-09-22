@@ -16,12 +16,13 @@ var Engine = Matter.Engine,
 var render = null;
 var body = null;
 
-var canvasOpacity = 1;
+var canvasOpacity = 0;
 
 window.render = null;
 
 document.addEventListener("DOMContentLoaded", function initializePhysics() {
   body = document.body;
+  window.scrollTo(0, 0);
   if (!body) {
     console.log("Elements not found, retrying...");
     setTimeout(initializePhysics, 100);
@@ -271,6 +272,40 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
         }
       }
     }
+  });
+
+  let lastScrollY = window.scrollY;
+  let lastTimestamp = performance.now();
+
+  window.addEventListener("scroll", function () {
+    console.log("scroll", window.scrollY);
+    const currentScrollY = window.scrollY;
+    const currentTimestamp = performance.now();
+    const deltaY = currentScrollY - lastScrollY;
+    const deltaTime = (currentTimestamp - lastTimestamp) / 1000; // seconds
+    const velocityY = deltaTime > 0 ? deltaY / deltaTime : 0;
+    console.log("velocityY", velocityY);
+    for (const physicalDomObject of physicalDomObjects) {
+      console.log(
+        physicalDomObject.physicalBody,
+        physicalDomObject.physicalBody.bodyData.body
+      );
+      if (
+        physicalDomObject.physicalBody &&
+        physicalDomObject.physicalBody.bodyData.body
+      ) {
+        console.log("applying force", velocityY);
+        const forceMagnitude = 0.00005 * velocityY;
+        Matter.Body.applyForce(
+          physicalDomObject.physicalBody.bodyData.body,
+          physicalDomObject.physicalBody.bodyData.body.position,
+          { x: 0, y: forceMagnitude }
+        );
+      }
+    }
+
+    lastScrollY = currentScrollY;
+    lastTimestamp = currentTimestamp;
   });
 
   function uiLoop() {

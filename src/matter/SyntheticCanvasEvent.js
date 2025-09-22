@@ -23,14 +23,14 @@ document.addEventListener(
         originalEvent.clientX !== undefined &&
         originalEvent.clientY !== undefined
       ) {
-        clientX = originalEvent.clientX;
-        clientY = originalEvent.clientY;
+        clientX = originalEvent.clientX + window.scrollX;
+        clientY = originalEvent.clientY + window.scrollY;
       } else if (
         originalEvent.pageX !== undefined &&
         originalEvent.pageY !== undefined
       ) {
-        clientX = originalEvent.pageX - window.scrollX;
-        clientY = originalEvent.pageY - window.scrollY;
+        clientX = originalEvent.pageX + window.scrollX;
+        clientY = originalEvent.pageY + window.scrollY;
       } else {
         clientX = 0;
         clientY = 0;
