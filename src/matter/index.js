@@ -3,6 +3,7 @@ import Matter from "matter-js";
 import PhysicalDomObject from "./PhysicalDomObject";
 import BoxComposite from "./BoxComposite";
 import Box from "./Box";
+import Circle from "./Circle";
 
 var Engine = Matter.Engine,
   Render = Matter.Render,
@@ -151,7 +152,9 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
 
   function initPhysicalDomObjects() {
     for (const physicalDomObject of physicalDomObjects) {
-      if (physicalDomObject.children.length === 0) {
+      if (physicalDomObject.domElement.classList.contains("circle")) {
+        physicalDomObject.init(Circle);
+      } else if (physicalDomObject.children.length === 0) {
         physicalDomObject.init(Box);
       } else {
         physicalDomObject.init(BoxComposite);
