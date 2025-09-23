@@ -4,6 +4,7 @@ import PhysicalDomObject from "./PhysicalDomObject";
 import BoxComposite from "./BoxComposite";
 import Box from "./Box";
 import Circle from "./Circle";
+import Triangle from "./Triangle";
 
 var Engine = Matter.Engine,
   Render = Matter.Render,
@@ -154,6 +155,8 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     for (const physicalDomObject of physicalDomObjects) {
       if (physicalDomObject.domElement.classList.contains("circle")) {
         physicalDomObject.init(Circle);
+      } else if (physicalDomObject.domElement.classList.contains("triangle")) {
+        physicalDomObject.init(Triangle);
       } else if (physicalDomObject.children.length === 0) {
         physicalDomObject.init(Box);
       } else {

@@ -18,6 +18,7 @@ export default class PhysicalDomObject {
     this.originalInverseInertia = null;
     this.originalStatic = domElement.classList.contains("static");
     this.originalSticky = domElement.classList.contains("sticky");
+    this.originalRotation = domElement.classList.contains("rotation");
   }
   init(physicalBodyClass) {
     PhysicalDomObject.domElementIdCounter += 1;
@@ -63,8 +64,10 @@ export default class PhysicalDomObject {
       this.originalInverseInertia =
         this.physicalBody.bodyData.body.inverseInertia;
 
-      this.physicalBody.bodyData.body.inertia = Infinity;
-      this.physicalBody.bodyData.body.inverseInertia = 0;
+      if (!this.originalRotation) {
+        this.physicalBody.bodyData.body.inertia = Infinity;
+        this.physicalBody.bodyData.body.inverseInertia = 0;
+      }
 
       const constraint = Constraint.create({
         bodyB: this.physicalBody.bodyData.body,
@@ -73,7 +76,7 @@ export default class PhysicalDomObject {
           y: this.initialPos.y,
         },
         length: 1,
-        stiffness: 0.02,
+        stiffness: this.originalRotation ? 1 : 0.02,
         damping: 1,
         angularStiffness: 1,
         render: {
