@@ -18,7 +18,7 @@ const WordSeparate = ({
       className={`flex w-full h-fit flex-wrap justify-center items-center gap-${wordGap}`}
     >
       {text.split(" ").map((word, index) => (
-        <Tag className={className}>
+        <Tag className={className + "h-fit"}>
           {word}
           {index < text.split(" ").length - 1 && " "}
         </Tag>

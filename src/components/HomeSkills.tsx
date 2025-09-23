@@ -9,7 +9,7 @@ const HomeSkills = () => {
             <div className="w-full h-fit flex flex-col justify-start items-center">
               <WordSeparate
                 text="My Skills"
-                className="physical text-2xl font-bold text-primary mb-4"
+                className="physical text-2xl font-bold  mb-4"
                 htmlTag="h2"
               />
             </div>
@@ -66,6 +66,12 @@ const HomeSkills = () => {
                 src="./src/assets/LogoJava.svg"
                 className="physical circle nonconstrained w-fit h-15 user-select-none select-none"
                 alt="Python Logo"
+                draggable={false}
+              />
+              <img
+                src="./src/assets/LogoTs.svg"
+                className="physical  nonconstrained w-fit h-15 user-select-none select-none"
+                alt="TypeScript Logo"
                 draggable={false}
               />
             </div>

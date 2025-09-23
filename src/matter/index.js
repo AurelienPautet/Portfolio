@@ -165,29 +165,6 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   loadPhysicalDomFromHtml(body);
   initPhysicalDomObjects();
   console.log(physicalDomObjects);
-
-  // create box composites with unique IDs
-  /*   var boxA = new PhysicalDomObject(
-    test,
-    { angle: 0, restitution: 1 },
-    BoxComposite
-  );
-
-  var boxB = new PhysicalDomObject(
-    test2,
-    { angle: 0, restitution: 1 },
-    BoxComposite,
-    boxA
-  );
-
-  var boxC = new PhysicalDomObject(
-    test3,
-    { angle: 0, restitution: 1 },
-    Box,
-    boxB
-  ); */
-
-  // add all of the bodies to the world
   console.log(mouseConstraint);
 
   mouseConstraint.collisionFilter.mask =
