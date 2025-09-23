@@ -279,10 +279,6 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     const deltaTime = (currentTimestamp - lastTimestamp) / 1000; // seconds
     const velocityY = deltaTime > 0 ? deltaY / deltaTime : 0;
     for (const physicalDomObject of physicalDomObjects) {
-      console.log(
-        physicalDomObject.physicalBody,
-        physicalDomObject.physicalBody.bodyData.body
-      );
       if (
         physicalDomObject.physicalBody &&
         physicalDomObject.physicalBody.bodyData.body
