@@ -30,7 +30,6 @@ export default class PhysicalDomObject {
     this.initialPos = { x: x, y: y };
     this.initialSize = { width: width, height: height };
     if (physicalBodyClass) {
-      console.log(physicalBodyClass);
       this.physicalBody = new physicalBodyClass(
         x,
         y,
@@ -40,14 +39,14 @@ export default class PhysicalDomObject {
         { isSticky: this.originalSticky },
         PhysicalDomObject.domElementIdCounter
       );
-      Composite.add(window.engine.world, [this.physicalBody.bodyData.body]);
+      Composite.add(window.engine.world, this.physicalBody.bodyData.body);
       this.addConstraint();
     }
   }
-  addConstraint() {
-    console.log(this.physicalBody);
-    console.log(this.initialPos.x);
 
+  addChainTo(PhysicalDomObject) {}
+
+  addConstraint() {
     if (this.originalStatic) {
       this.physicalBody.bodyData.body.isStatic = true;
     }
@@ -86,7 +85,6 @@ export default class PhysicalDomObject {
       Composite.add(window.engine.world, [constraint]);
       this.constraint = constraint;
     }
-    console.log("Constraint added");
   }
 
   removeConstraint() {

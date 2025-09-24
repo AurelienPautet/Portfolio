@@ -5,7 +5,7 @@ const HomeSkills = () => {
     <>
       <div className="flex w-full ">
         <div className="flex justify-center items-center w-full mt-12">
-          <div className="physical static h-full w-fit p-20 bg-base-100 border-2 border-primary">
+          <div className=" static h-full w-fit p-20 bg-base-100 border-2 border-primary">
             <div className="w-full h-fit flex flex-col justify-start items-center">
               <WordSeparate
                 text="My Skills"
