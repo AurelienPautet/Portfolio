@@ -35,8 +35,6 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   }
   var bodySize = body.getBoundingClientRect();
 
-  console.log(bodySize);
-
   let test = document.getElementsByClassName("physical");
 
   if (test.length === 0) {
@@ -175,7 +173,6 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     for (const physicalDomObject of physicalDomObjects) {
       if (physicalDomObject.domElement.classList.contains("chain-container")) {
         for (let i = 0; i < physicalDomObject.childrens.length - 1; i++) {
-          console.log("chain", i);
           physicalDomObject.childrens[i].chainedTo =
             physicalDomObject.childrens[i + 1];
           physicalDomObject.childrens[i].addChainTo();

@@ -51,7 +51,6 @@ export default class PhysicalDomObject {
     if (!this.chainedTo) {
       return;
     }
-    console.log(this, " is Adding chain to ", this.chainedTo);
     this.setInertiaToInfinity();
     if (this.chainedTo.bodyData?.body.inverseInertia !== 0) {
       this.chainedTo.setInertiaToInfinity();

@@ -60,8 +60,6 @@ export default class BoxComposite extends MatterObject {
       }
     );
 
-    console.log(this.category);
-
     var compoundBodyB = Body.create({
       parts: [topWall, bottomWall, leftWall, rightWall],
       collisionFilter: {
@@ -70,8 +68,6 @@ export default class BoxComposite extends MatterObject {
       },
       label: `BoxComposite-${this.boxId}`,
     });
-
-    console.log("Composite box body", compoundBodyB);
 
     return {
       body: compoundBodyB,
