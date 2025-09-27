@@ -1,24 +1,45 @@
+import Matter from "matter-js";
+
+function isTouchingMatterObject(clientX, clientY) {
+  if (!window.engine || !window.engine.world) return false;
+  clientX += window.scrollX;
+  clientY += window.scrollY;
+  const bodies = window.engine.world.bodies;
+  for (let i = 0; i < bodies.length; i++) {
+    const body = bodies[i];
+    if (body.isStatic) continue;
+    if (Matter.Query && Matter.Query.point) {
+      const result = Matter.Query.point([body], { x: clientX, y: clientY });
+      if (result.length > 0) return true;
+    } else {
+      const bounds = body.bounds;
+      if (
+        clientX >= bounds.min.x &&
+        clientX <= bounds.max.x &&
+        clientY >= bounds.min.y &&
+        clientY <= bounds.max.y
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 document.addEventListener(
   "DOMContentLoaded",
   function initializeSyntheticEvents() {
     const interactiveDiv = document.getElementById("root");
     if (!interactiveDiv) {
-      console.error("Interactive div not found");
       setTimeout(initializeSyntheticEvents, 100);
       return;
     }
 
     function createSyntheticCanvasEvent(originalEvent, eventType) {
-      if (!window.render || !window.render.canvas) {
-        console.warn("Render canvas not available yet");
-        return;
-      }
-
+      if (!window.render || !window.render.canvas) return;
       const canvas = window.render.canvas;
       const canvasRect = canvas.getBoundingClientRect();
-
       let clientX, clientY;
-
       if (
         originalEvent.clientX !== undefined &&
         originalEvent.clientY !== undefined
@@ -35,12 +56,9 @@ document.addEventListener(
         clientX = 0;
         clientY = 0;
       }
-
       const canvasX = clientX - canvasRect.left;
       const canvasY = clientY - canvasRect.top;
-
       let syntheticEvent;
-
       if (eventType.startsWith("pointer") || eventType.startsWith("touch")) {
         const mappedEventType = eventType.replace("touch", "pointer");
         syntheticEvent = new PointerEvent(mappedEventType, {
@@ -80,14 +98,12 @@ document.addEventListener(
           relatedTarget: null,
         });
       }
-
       const originalPointerEvents = canvas.style.pointerEvents;
       canvas.style.pointerEvents = "auto";
-      const eventDispatched = canvas.dispatchEvent(syntheticEvent);
+      canvas.dispatchEvent(syntheticEvent);
       canvas.style.pointerEvents = originalPointerEvents;
     }
 
-    // Mouse events
     interactiveDiv.addEventListener("mousemove", function (event) {
       createSyntheticCanvasEvent(event, "mousemove");
     });
@@ -105,7 +121,8 @@ document.addEventListener(
       function (event) {
         for (let i = 0; i < event.changedTouches.length; i++) {
           const touch = event.changedTouches[i];
-
+          if (isTouchingMatterObject(touch.clientX, touch.clientY))
+            event.preventDefault();
           createSyntheticCanvasEvent(touch, "pointerdown");
           createSyntheticCanvasEvent(touch, "mousedown");
         }
@@ -116,9 +133,10 @@ document.addEventListener(
     interactiveDiv.addEventListener(
       "touchmove",
       function (event) {
-        event.preventDefault();
         for (let i = 0; i < event.changedTouches.length; i++) {
           const touch = event.changedTouches[i];
+          if (isTouchingMatterObject(touch.clientX, touch.clientY))
+            event.preventDefault();
           createSyntheticCanvasEvent(touch, "pointermove");
           createSyntheticCanvasEvent(touch, "mousemove");
         }
@@ -131,6 +149,8 @@ document.addEventListener(
       function (event) {
         for (let i = 0; i < event.changedTouches.length; i++) {
           const touch = event.changedTouches[i];
+          if (isTouchingMatterObject(touch.clientX, touch.clientY))
+            event.preventDefault();
           createSyntheticCanvasEvent(touch, "pointerup");
           createSyntheticCanvasEvent(touch, "mouseup");
         }
@@ -157,7 +177,5 @@ document.addEventListener(
     interactiveDiv.addEventListener("wheel", function (event) {
       createSyntheticCanvasEvent(event, "wheel");
     });
-
-    console.log("Synthetic event listeners initialized");
   }
 );
