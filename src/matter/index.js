@@ -322,7 +322,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
         physicalDomObject.physicalBody &&
         physicalDomObject.physicalBody.bodyData.body
       ) {
-        const forceMagnitude = 0.00005 * velocityY;
+        const forceMagnitude = 0 * -0.00005 * velocityY;
         Matter.Body.applyForce(
           physicalDomObject.physicalBody.bodyData.body,
           physicalDomObject.physicalBody.bodyData.body.position,

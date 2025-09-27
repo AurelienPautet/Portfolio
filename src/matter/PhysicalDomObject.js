@@ -64,7 +64,7 @@ export default class PhysicalDomObject {
       bodyA: this.chainedTo.physicalBody.bodyData.body,
       pointA: { x: 0, y: 0 },
       pointB: { x: 0, y: 0 },
-      stiffness: 0.2,
+      stiffness: 0.9,
       length: chainLength,
       render: { visible: true },
     });
@@ -84,7 +84,9 @@ export default class PhysicalDomObject {
 
   addConstraint() {
     if (this.originalStatic) {
-      this.physicalBody.bodyData.body.isStatic = true;
+      setTimeout(() => {
+        this.physicalBody.bodyData.body.isStatic = true;
+      }, 1000);
     }
 
     if (this.domElement.classList.contains("nonconstrained")) {
@@ -115,7 +117,7 @@ export default class PhysicalDomObject {
         pointA: constraintPointA,
         bodyA: constraintObject,
         length: 1,
-        stiffness: this.originalRotation ? 1 : 0.02,
+        stiffness: this.originalRotation ? 1 : 0.2,
         damping: 1,
         angularStiffness: 1,
         render: {

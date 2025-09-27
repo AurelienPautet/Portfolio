@@ -1,3 +1,5 @@
+import ThemeController from "./ThemeController.tsx";
+
 const Navbar = () => {
   return (
     <div className="navbar sticky z-50 top-0 bg-base-100 w-full flex items-center  shadow-sm">
@@ -13,6 +15,7 @@ const Navbar = () => {
         <button className="physical sticky btn btn-primary btn-outline btn-sm">
           Projects
         </button>
+        <ThemeController />
       </div>
     </div>
   );
