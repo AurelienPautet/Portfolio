@@ -56,8 +56,6 @@ document.addEventListener(
         clientX = 0;
         clientY = 0;
       }
-      const canvasX = clientX - canvasRect.left;
-      const canvasY = clientY - canvasRect.top;
       let syntheticEvent;
       if (eventType.startsWith("pointer") || eventType.startsWith("touch")) {
         const mappedEventType = eventType.replace("touch", "pointer");
