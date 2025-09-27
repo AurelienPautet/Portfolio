@@ -225,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   window.engine.velocityIterations = 10;
   window.engine.positionIterations = 8;
   window.engine.constraintIterations = 2;
-  window.engine.enableSleeping = false;
+  window.engine.enableSleeping = true;
   Runner.run(runner, window.engine);
   Render.run(render);
 

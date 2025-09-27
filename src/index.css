@@ -7,6 +7,14 @@
   --font-display: "Oswald", sans-serif;
 }
 
+.physical:hover {
+  cursor: grab;
+}
+
+.static:hover {
+  cursor: default;
+}
+
 /* add the code bellow */
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */

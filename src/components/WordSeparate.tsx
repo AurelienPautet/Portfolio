@@ -6,6 +6,7 @@ interface WordSeparateProps {
   wordGap?: number;
   className?: string;
   parentClassName?: string;
+  parentWidth?: string;
 }
 
 const WordSeparate = ({
@@ -14,10 +15,11 @@ const WordSeparate = ({
   wordGap = 2,
   className = "",
   parentClassName = "",
+  parentWidth = "w-full",
 }: WordSeparateProps) => {
   return (
     <div
-      className={`flex w-full h-fit flex-wrap justify-center items-center gap-${wordGap} ${parentClassName}`}
+      className={`flex ${parentWidth}  h-fit flex-wrap justify-center items-center gap-${wordGap} ${parentClassName}`}
     >
       {text.split(" ").map((word, index) => (
         <Tag key={word + index} className={className + "h-fit"}>

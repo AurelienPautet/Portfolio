@@ -5,7 +5,7 @@ const HomeSkills = () => {
     <>
       <div className="flex w-full ">
         <div className="flex justify-center items-center w-full mt-12">
-          <div className="physical static h-full w-fit p-20 bg-base-100 border-2 border-primary">
+          <div className="physical static h-full w-fit p-20 bg-base-100 border-2 border-primary rounded-md">
             <div className="w-full h-fit flex flex-col justify-start items-center">
               <WordSeparate
                 text="My Skills"
@@ -15,67 +15,67 @@ const HomeSkills = () => {
             </div>
             <div className="grid grid-cols-3 gap-1">
               <img
-                src="./src/assets/LogoReact.svg"
+                src="/logos/LogoReact.svg"
                 className="physical circle nonconstrained w-20 h-20 user-select-none select-none"
                 alt="React Logo"
                 draggable={false}
               />
               <img
-                src="./src/assets/LogoHtml.svg"
+                src="/logos/LogoHtml.svg"
                 className="physical nonconstrained w-fit h-20 user-select-none select-none"
                 alt="HTML Logo"
                 draggable={false}
               />
               <img
-                src="./src/assets/LogoCss.svg"
+                src="/logos/LogoCss.svg"
                 className="physical nonconstrained w-fit h-20 user-select-none select-none"
                 alt="CSS Logo"
                 draggable={false}
               />
               <img
-                src="./src/assets/LogoJs.svg"
+                src="/logos/LogoJs.svg"
                 className="physical nonconstrained w-fit h-20 user-select-none select-none"
                 alt="JavaScript Logo"
                 draggable={false}
               />
               <img
-                src="./src/assets/LogoTailwind.svg"
+                src="/logos/LogoTailwind.svg"
                 className="physical circle nonconstrained w-15 h-10 user-select-none select-none"
                 alt="Tailwind CSS Logo"
                 draggable={false}
               />
               <img
-                src="./src/assets/LogoPostgres.svg"
+                src="/logos/LogoPostgres.svg"
                 className="physical nonconstrained w-fit h-20 user-select-none select-none"
                 alt="PostgreSQL Logo"
                 draggable={false}
               />
               <img
-                src="./src/assets/LogoNode.svg"
+                src="/logos/LogoNode.svg"
                 className="physical nonconstrained w-fit h-10 user-select-none select-none"
                 alt="Node.js Logo"
                 draggable={false}
               />
               <img
-                src="./src/assets/LogoGit.svg"
+                src="/logos/LogoGit.svg"
                 className="physical circle nonconstrained w-fit h-15 user-select-none select-none"
                 alt="Git Logo"
                 draggable={false}
               />
               <img
-                src="./src/assets/LogoPython.svg"
+                src="/logos/LogoPython.svg"
                 className="physical circle nonconstrained w-fit h-15 user-select-none select-none"
                 alt="Python Logo"
                 draggable={false}
               />
               <img
-                src="./src/assets/LogoJava.svg"
+                src="/logos/LogoJava.svg"
                 className="physical circle nonconstrained w-fit h-15 user-select-none select-none"
                 alt="Python Logo"
                 draggable={false}
               />
               <img
-                src="./src/assets/LogoTs.svg"
+                src="/logos/LogoTs.svg"
                 className="physical  nonconstrained w-fit h-15 user-select-none select-none"
                 alt="TypeScript Logo"
                 draggable={false}
