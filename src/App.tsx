@@ -12,7 +12,7 @@ function App() {
       <HomeSkills />
       <HomeScale />
       <HomeStudies />
-      <div className=" w-full flex justify-center bg-base-500"></div>
+      <div className="mt-20 w-full flex justify-center bg-base-500"></div>
     </>
   );
 }

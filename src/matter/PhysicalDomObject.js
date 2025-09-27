@@ -40,8 +40,10 @@ export default class PhysicalDomObject {
         { isSticky: this.originalSticky },
         PhysicalDomObject.domElementIdCounter
       );
-      Composite.add(window.engine.world, this.physicalBody.bodyData.body);
-      this.addConstraint();
+      if (!this.domElement.classList.contains("chain-container")) {
+        Composite.add(window.engine.world, this.physicalBody.bodyData.body);
+        this.addConstraint();
+      }
     }
   }
 
@@ -50,6 +52,10 @@ export default class PhysicalDomObject {
       return;
     }
     console.log(this, " is Adding chain to ", this.chainedTo);
+    this.setInertiaToInfinity();
+    if (this.chainedTo.bodyData?.body.inverseInertia !== 0) {
+      this.chainedTo.setInertiaToInfinity();
+    }
     const chainLength = Math.abs(
       this.initialPos.y - this.chainedTo.initialPos.y
     );
@@ -58,11 +64,22 @@ export default class PhysicalDomObject {
       bodyA: this.chainedTo.physicalBody.bodyData.body,
       pointA: { x: 0, y: 0 },
       pointB: { x: 0, y: 0 },
-      stiffness: 0.1,
+      stiffness: 0.2,
       length: chainLength,
       render: { visible: true },
     });
     Composite.add(window.engine.world, chain);
+  }
+
+  setInertiaToInfinity() {
+    this.originalInertia = this.physicalBody.bodyData.body.inertia;
+    this.originalInverseInertia =
+      this.physicalBody.bodyData.body.inverseInertia;
+
+    if (!this.originalRotation) {
+      this.physicalBody.bodyData.body.inertia = Infinity;
+      this.physicalBody.bodyData.body.inverseInertia = 0;
+    }
   }
 
   addConstraint() {
@@ -78,21 +95,25 @@ export default class PhysicalDomObject {
       if (this.constraint) {
         return;
       }
-      this.originalInertia = this.physicalBody.bodyData.body.inertia;
-      this.originalInverseInertia =
-        this.physicalBody.bodyData.body.inverseInertia;
 
-      if (!this.originalRotation) {
-        this.physicalBody.bodyData.body.inertia = Infinity;
-        this.physicalBody.bodyData.body.inverseInertia = 0;
+      this.setInertiaToInfinity();
+
+      parent = this.parent;
+      if (parent?.domElement.classList.contains("chain-container")) {
+        parent = null;
       }
+      const constraintObject = parent
+        ? parent.physicalBody.bodyData.body
+        : null;
 
+      const constraintPointA = {
+        x: this.initialPos.x - (parent?.initialPos.x || 0),
+        y: this.initialPos.y - (parent?.initialPos.y || 0),
+      };
       const constraint = Constraint.create({
         bodyB: this.physicalBody.bodyData.body,
-        pointA: {
-          x: this.initialPos.x,
-          y: this.initialPos.y,
-        },
+        pointA: constraintPointA,
+        bodyA: constraintObject,
         length: 1,
         stiffness: this.originalRotation ? 1 : 0.02,
         damping: 1,
@@ -101,9 +122,9 @@ export default class PhysicalDomObject {
           visible: true,
         },
       });
-      if (!this.domElement.classList.contains("chain-container")) {
-        Composite.add(window.engine.world, [constraint]);
-      }
+
+      Composite.add(window.engine.world, [constraint]);
+
       this.constraint = constraint;
     }
   }

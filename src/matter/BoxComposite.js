@@ -12,10 +12,11 @@ export default class BoxComposite extends MatterObject {
     boxId = 1
   ) {
     super(x, y, width, height, options, customOptions, boxId);
-    this.bodyData = this.createBoxComposite();
+    this.wallThickness = 10;
+    this.bodyData = this.createBox();
   }
 
-  createBoxComposite() {
+  createBox() {
     this.options.mass = this.options.mass || 1;
     const wallsOptions = {
       ...this.options,
@@ -67,6 +68,7 @@ export default class BoxComposite extends MatterObject {
         category: this.category,
         mask: this.mask,
       },
+      label: `BoxComposite-${this.boxId}`,
     });
 
     console.log("Composite box body", compoundBodyB);

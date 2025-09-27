@@ -128,6 +128,23 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     });
 
   let physicalDomObjects = [];
+
+  async function waitForImages() {
+    const images = document.querySelectorAll("img.physical");
+    const imagePromises = Array.from(images).map((img) => {
+      return new Promise((resolve) => {
+        if (img.complete && img.naturalHeight !== 0) {
+          resolve();
+        } else {
+          img.addEventListener("load", resolve);
+          img.addEventListener("error", resolve); // Resolve even on error to prevent hanging
+        }
+      });
+    });
+
+    await Promise.all(imagePromises);
+  }
+
   function loadPhysicalDomFromHtml(
     startingElement,
     parentPhysicalDomObject = null,
@@ -181,9 +198,11 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     }
   }
 
-  loadPhysicalDomFromHtml(body);
-  initPhysicalDomObjects();
-  createChains();
+  waitForImages().then(() => {
+    loadPhysicalDomFromHtml(body);
+    initPhysicalDomObjects();
+    createChains();
+  });
 
   mouseConstraint.collisionFilter.mask =
     window.defaultCategory | window.stickyCategory | window.wallCategory;
