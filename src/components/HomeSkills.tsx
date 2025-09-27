@@ -57,6 +57,12 @@ const HomeSkills = () => {
                 draggable={false}
               />
               <img
+                src="./src/assets/LogoGit.svg"
+                className="physical circle nonconstrained w-fit h-15 user-select-none select-none"
+                alt="Git Logo"
+                draggable={false}
+              />
+              <img
                 src="./src/assets/LogoPython.svg"
                 className="physical circle nonconstrained w-fit h-15 user-select-none select-none"
                 alt="Python Logo"
