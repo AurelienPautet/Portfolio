@@ -133,8 +133,7 @@ document.addEventListener(
       function (event) {
         for (let i = 0; i < event.changedTouches.length; i++) {
           const touch = event.changedTouches[i];
-          if (isTouchingMatterObject(touch.clientX, touch.clientY))
-            event.preventDefault();
+
           createSyntheticCanvasEvent(touch, "pointermove");
           createSyntheticCanvasEvent(touch, "mousemove");
         }
@@ -147,8 +146,7 @@ document.addEventListener(
       function (event) {
         for (let i = 0; i < event.changedTouches.length; i++) {
           const touch = event.changedTouches[i];
-          if (isTouchingMatterObject(touch.clientX, touch.clientY))
-            event.preventDefault();
+
           createSyntheticCanvasEvent(touch, "pointerup");
           createSyntheticCanvasEvent(touch, "mouseup");
         }
