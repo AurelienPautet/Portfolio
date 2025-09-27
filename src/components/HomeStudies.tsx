@@ -8,10 +8,10 @@ const HomeStudies = () => {
         text="My Studies"
         className="physical text-2xl font-bold mb-4"
       />
-      <div className="w-full flex-col justify-center items-center flex gap-4">
-        <div className="physical chain bg-base-300 w-1/3 h-52"></div>
-        <div className="physical chain bg-base-300 w-1/3 h-52"></div>
-        <div className="physical chain bg-base-300 w-1/3 h-52"></div>
+      <div className="chain-container  w-full flex-col justify-center items-center flex gap-4">
+        <div className="physical chain  bg-base-300 w-1/3 h-52"></div>
+        <div className="physical chain nonconstrained bg-base-300 w-1/3 h-52"></div>
+        <div className="physical chain nonconstrained bg-base-300 w-1/3 h-52"></div>
       </div>
     </>
   );

@@ -12,13 +12,14 @@ export default class PhysicalDomObject {
     this.localAngle = 0;
     this.physicalBody = null;
     this.parent = parent;
-    this.children = [];
+    this.childrens = [];
     this.constraint = null;
     this.originalInertia = null;
     this.originalInverseInertia = null;
     this.originalStatic = domElement.classList.contains("static");
     this.originalSticky = domElement.classList.contains("sticky");
     this.originalRotation = domElement.classList.contains("rotation");
+    this.chainedTo = null;
   }
   init(physicalBodyClass) {
     PhysicalDomObject.domElementIdCounter += 1;
@@ -44,7 +45,25 @@ export default class PhysicalDomObject {
     }
   }
 
-  addChainTo(PhysicalDomObject) {}
+  addChainTo() {
+    if (!this.chainedTo) {
+      return;
+    }
+    console.log(this, " is Adding chain to ", this.chainedTo);
+    const chainLength = Math.abs(
+      this.initialPos.y - this.chainedTo.initialPos.y
+    );
+    const chain = Constraint.create({
+      bodyB: this.physicalBody.bodyData.body,
+      bodyA: this.chainedTo.physicalBody.bodyData.body,
+      pointA: { x: 0, y: 0 },
+      pointB: { x: 0, y: 0 },
+      stiffness: 0.1,
+      length: chainLength,
+      render: { visible: true },
+    });
+    Composite.add(window.engine.world, chain);
+  }
 
   addConstraint() {
     if (this.originalStatic) {
@@ -82,7 +101,9 @@ export default class PhysicalDomObject {
           visible: true,
         },
       });
-      Composite.add(window.engine.world, [constraint]);
+      if (!this.domElement.classList.contains("chain-container")) {
+        Composite.add(window.engine.world, [constraint]);
+      }
       this.constraint = constraint;
     }
   }

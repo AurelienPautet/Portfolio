@@ -133,13 +133,16 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     parentPhysicalDomObject = null,
     physicalDomObject = null
   ) {
-    if (startingElement.classList.contains("physical")) {
+    if (
+      startingElement.classList.contains("physical") ||
+      startingElement.classList.contains("chain-container")
+    ) {
       physicalDomObject = new PhysicalDomObject(
         startingElement,
         { angle: 0, restitution: 1 },
         parentPhysicalDomObject
       );
-      parentPhysicalDomObject?.children.push(physicalDomObject);
+      parentPhysicalDomObject?.childrens.push(physicalDomObject);
       physicalDomObjects.push(physicalDomObject);
     }
     for (let i = 0; i < startingElement.children.length; i++) {
@@ -151,13 +154,26 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     }
   }
 
+  function createChains() {
+    for (const physicalDomObject of physicalDomObjects) {
+      if (physicalDomObject.domElement.classList.contains("chain-container")) {
+        for (let i = 0; i < physicalDomObject.childrens.length - 1; i++) {
+          console.log("chain", i);
+          physicalDomObject.childrens[i].chainedTo =
+            physicalDomObject.childrens[i + 1];
+          physicalDomObject.childrens[i].addChainTo();
+        }
+      }
+    }
+  }
+
   function initPhysicalDomObjects() {
     for (const physicalDomObject of physicalDomObjects) {
       if (physicalDomObject.domElement.classList.contains("circle")) {
         physicalDomObject.init(Circle);
       } else if (physicalDomObject.domElement.classList.contains("triangle")) {
         physicalDomObject.init(Triangle);
-      } else if (physicalDomObject.children.length === 0) {
+      } else if (physicalDomObject.childrens.length === 0) {
         physicalDomObject.init(Box);
       } else {
         physicalDomObject.init(BoxComposite);
@@ -167,14 +183,12 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
 
   loadPhysicalDomFromHtml(body);
   initPhysicalDomObjects();
-  console.log(physicalDomObjects);
-  console.log(mouseConstraint);
+  createChains();
 
   mouseConstraint.collisionFilter.mask =
     window.defaultCategory | window.stickyCategory | window.wallCategory;
   mouseConstraint.collisionFilter.category =
     window.defaultCategory | window.stickyCategory | window.wallCategory;
-  console.log(mouseConstraint);
 
   Composite.add(window.engine.world, [
     ground,
@@ -220,7 +234,10 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
       i++;
       const matrix = new DOMMatrix()
         .translate(parent.localPos.x, parent.localPos.y)
-        .rotate((parent.localAngle * 180) / Math.PI);
+        .rotateFromVector(
+          Math.cos(parent.localAngle),
+          Math.sin(parent.localAngle)
+        );
       parentChain.push({ matrix });
       parent = parent.parent;
     }
