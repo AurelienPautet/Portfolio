@@ -1,5 +1,5 @@
 import { Composite, Constraint } from "matter-js";
-
+import Matter from "matter-js";
 export default class PhysicalDomObject {
   static domElementIdCounter = 0;
 
@@ -153,4 +153,6 @@ export default class PhysicalDomObject {
       this.constraint.pointA.y = this.initialPos.y + window.scrollY;
     }
   }
+
+  makeStaticWhenAtRest() {}
 }

@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     ) {
       physicalDomObject = new PhysicalDomObject(
         startingElement,
-        { angle: 0, restitution: 1 },
+        { angle: 0, restitution: 0.5 },
         parentPhysicalDomObject
       );
       parentPhysicalDomObject?.childrens.push(physicalDomObject);
@@ -215,12 +215,11 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   ]);
   var runner = Runner.create({
     delta: 1000 / 120,
-    isFixed: true,
   });
 
   window.engine.timing.timeScale = 1;
-  window.engine.velocityIterations = 10;
-  window.engine.positionIterations = 8;
+  window.engine.velocityIterations = 8;
+  window.engine.positionIterations = 5;
   window.engine.constraintIterations = 2;
   window.engine.enableSleeping = true;
   Runner.run(runner, window.engine);
@@ -336,6 +335,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     for (const physicalDomObject of physicalDomObjects) {
       physicalDomObject.updateConstraint();
       setAbsoluteTransform(physicalDomObject);
+      physicalDomObject.makeStaticWhenAtRest();
     }
 
     requestAnimationFrame(uiLoop);

@@ -19,6 +19,7 @@ interface ProjectCardProps {
   description: string;
   imgUrl?: string;
   visitUrl?: string;
+  gitHubUrl?: string;
   skills: Skill[];
 }
 const ProjectCard = ({
@@ -28,6 +29,7 @@ const ProjectCard = ({
   description,
   imgUrl,
   visitUrl = "",
+  gitHubUrl = "",
   skills = [],
 }: ProjectCardProps) => {
   return (
@@ -46,7 +48,7 @@ const ProjectCard = ({
           wordGap={1}
         />
         <div className="   w-full flex items-center justify-center gap-2">
-          {skills.map((skill, index) => (
+          {skills.map((skill) => (
             <img
               key={skill}
               src={`/logos/Logo${skill}.svg`}
@@ -56,15 +58,20 @@ const ProjectCard = ({
             />
           ))}
         </div>
-        <WordSeparate
-          text={description}
-          parentClassName="card-description"
-          className="physical h-fit"
-          wordGap={1}
-        />
+        <span className="physical mx-auto text-sm italic ">{date}</span>
+        <span className="physical text-sm ">{description}</span>
 
-        {visitUrl != "" && (
-          <div className="card-actions justify-end">
+        <div className="card-actions justify-end">
+          {gitHubUrl != "" && (
+            <a href={gitHubUrl} target="_blank" className="w-10 physical">
+              <img
+                src="/logos/LogoGithub.svg"
+                alt="Visit Github"
+                className="fill-accent"
+              />
+            </a>
+          )}
+          {visitUrl != "" && (
             <a
               href={visitUrl}
               target="_blank"
@@ -72,8 +79,8 @@ const ProjectCard = ({
             >
               Visit
             </a>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

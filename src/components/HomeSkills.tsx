@@ -5,7 +5,7 @@ const HomeSkills = () => {
     <>
       <div className="flex w-full ">
         <div className="flex justify-center items-center w-full mt-12">
-          <div className="physical static h-full w-fit p-20 bg-base-100 border-2 border-primary rounded-md">
+          <div className="physical static h-full w-fit p-10 bg-base-100 border-2 border-primary rounded-md">
             <div className="w-full h-fit flex flex-col justify-start items-center">
               <WordSeparate
                 text="My Skills"
@@ -13,7 +13,7 @@ const HomeSkills = () => {
                 htmlTag="h2"
               />
             </div>
-            <div className="grid grid-cols-3 gap-1">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-1">
               <img
                 src="/logos/LogoReact.svg"
                 className="physical circle nonconstrained w-20 h-20 user-select-none select-none"

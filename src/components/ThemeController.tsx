@@ -1,6 +1,6 @@
 const ThemeController = () => {
   return (
-    <label className="physical sticky swap swap-rotate">
+    <label className=" sticky swap swap-rotate">
       <input type="checkbox" className="theme-controller" value="dark" />
       <svg
         className="swap-off h-10 w-10 fill-primary"
