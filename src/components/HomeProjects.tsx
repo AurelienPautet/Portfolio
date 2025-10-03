@@ -9,7 +9,7 @@ const HomeProjects = () => {
         className="physical text-4xl font-bold mb-4"
         parentClassName="w-full flex justify-center mt-20"
       />
-      <div className=" mt-10 w-full flex-col justify-center items-center flex gap-12">
+      <div className=" mt-10 w-full flex-col justify-center items-center flex gap-14">
         <ProjectCard
           className=""
           title="WiiGameBien"

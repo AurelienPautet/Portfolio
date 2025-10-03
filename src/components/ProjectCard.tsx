@@ -39,7 +39,7 @@ const ProjectCard = ({
 }: ProjectCardProps) => {
   return (
     <div
-      className={`card card-border items-center lg:card-side border-primary rounded-lg  bg-base-100 w-2/3 h-fit ${className}`}
+      className={`card card-border items-center lg:card-side border-primary shadow-[0px_0px_45px_5px_rgba(0,0,255,0.3)] rounded-lg  bg-base-100 w-2/3 h-fit ${className}`}
     >
       <figure className="rounded-lg m-4 physical  w-fit h-48 lg:w-1/3  flex items-center justify-center bg-base-200">
         <img

@@ -5,7 +5,10 @@ const HomeSkills = () => {
     <>
       <div className="flex w-screen ">
         <div className="flex justify-center items-center w-full mt-12">
-          <div className="physical static h-full w-fit p-10 bg-base-100 border-2 border-primary rounded-md">
+          <div
+            className="physical static h-full w-fit p-10 bg-base-100 shadow-[0px_0px_45px_10px_rgba(0,0,255,0.3)]
+ border-2 border-primary rounded-md"
+          >
             <div className="w-full h-fit flex flex-col justify-start items-center">
               <WordSeparate
                 text="My Skills"
