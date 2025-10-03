@@ -1,4 +1,3 @@
-import { use } from "react";
 import { FaArrowDown } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
