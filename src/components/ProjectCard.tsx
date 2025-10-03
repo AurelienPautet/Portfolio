@@ -83,7 +83,12 @@ const ProjectCard = ({
 
         <div className="card-actions justify-end">
           {gitHubUrl != "" && (
-            <a href={gitHubUrl} target="_blank" className="w-10 physical">
+            <a
+              href={gitHubUrl}
+              target="_blank"
+              className="w-10 physical"
+              draggable={false}
+            >
               <FaGithub className="w-full h-full" />
             </a>
           )}
@@ -92,6 +97,7 @@ const ProjectCard = ({
               href={visitUrl}
               target="_blank"
               className="physical btn btn-primary"
+              draggable={false}
             >
               Visit
             </a>
