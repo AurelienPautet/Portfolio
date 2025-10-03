@@ -335,7 +335,6 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
     for (const physicalDomObject of physicalDomObjects) {
       physicalDomObject.updateConstraint();
       setAbsoluteTransform(physicalDomObject);
-      physicalDomObject.makeStaticWhenAtRest();
     }
 
     requestAnimationFrame(uiLoop);
