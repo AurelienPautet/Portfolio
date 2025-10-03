@@ -17,9 +17,10 @@ export const SocialButton = ({
       className={`flex items-center gap-2 ${className}`}
       target="_blank"
       rel="noopener noreferrer"
+      draggable="false"
     >
-      <Icon className="w-6 h-6" />
-      {label}
+      <Icon className="physical w-6 h-6" />
+      <p className="physical">{label}</p>
     </a>
   );
 };
