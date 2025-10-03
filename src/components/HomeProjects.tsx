@@ -9,7 +9,7 @@ const HomeProjects = () => {
         className="physical text-2xl font-bold mb-4"
         parentClassName="w-full flex justify-center mt-20"
       />
-      <div className=" chain-container mt-10 w-full flex-col justify-center items-center flex gap-12">
+      <div className=" mt-10 w-full flex-col justify-center items-center flex gap-12">
         <ProjectCard
           className=""
           title="WiiGameBien"
@@ -21,7 +21,7 @@ const HomeProjects = () => {
           skills={["Html", "Css", "Js"]}
         />
         <ProjectCard
-          className="nonconstrained"
+          className=""
           title="Grammar Corrector"
           date="2025"
           description="A little Java application that can correct any selected text in any application (shortcut Ctr+Alt+C), using the gemini API from Google."
@@ -30,7 +30,7 @@ const HomeProjects = () => {
           skills={["Java"]}
         />
         <ProjectCard
-          className="nonconstrained"
+          className=" "
           title="Fourchettas"
           date="2025"
           description="A full stack web application used in my engineering school to host foods events where students can order meals made by our cooking club."
@@ -40,7 +40,7 @@ const HomeProjects = () => {
           skills={["Tailwind", "React", "Node", "Postgres"]}
         />
         <ProjectCard
-          className="nonconstrained"
+          className=" "
           title="Transat integration of Fourchettas"
           date="2025"
           description="Integration of the Fourchettas ordering page into the student made Transat mobile app."
@@ -48,6 +48,15 @@ const HomeProjects = () => {
           visitUrl="https://fourchettas-client.vercel.app"
           gitHubUrl="https://github.com/PlugImt/transat-app"
           skills={["React", "Tailwind", "Git"]}
+        />
+        <ProjectCard
+          className=" "
+          title="YouTube Downloader"
+          date="2021"
+          description="A simple GUI to download YouTube videos from its url."
+          imgUrl="/projectThumbnails/YoutubeDownloader.png"
+          visitUrl="https://aurelien.pautet.net/software/"
+          skills={["Python"]}
         />
       </div>
     </>

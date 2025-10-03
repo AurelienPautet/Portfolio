@@ -18,7 +18,7 @@ var Engine = Matter.Engine,
 var render = null;
 var body = null;
 
-var canvasOpacity = 0;
+var canvasOpacity = 1;
 window.defaultCategory = 0x0001;
 window.wallCategory = 0x0004;
 window.stickyCategory = 0x0002;
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
   window.scrollTo(0, 0);
   if (!body) {
     console.log("Elements not found, retrying...");
-    setTimeout(initializePhysics, 100);
+    setTimeout(initializePhysics, 1000);
     return;
   }
   var bodySize = body.getBoundingClientRect();

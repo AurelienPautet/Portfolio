@@ -9,12 +9,6 @@ const Navbar = () => {
         </h1>
       </div>
       <div className="flex gap-2 mx-5 ml-auto items-center">
-        <button className=" sticky btn btn-primary btn-outline btn-sm">
-          Home
-        </button>
-        <button className=" sticky btn btn-primary btn-outline btn-sm">
-          Projects
-        </button>
         <ThemeController />
       </div>
     </div>

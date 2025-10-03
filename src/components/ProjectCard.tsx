@@ -1,3 +1,6 @@
+import { FaGithub } from "react-icons/fa";
+import { IoSchool } from "react-icons/io5";
+
 import WordSeparate from "./WordSeparate";
 type Skill =
   | "Html"
@@ -20,6 +23,7 @@ interface ProjectCardProps {
   imgUrl?: string;
   visitUrl?: string;
   gitHubUrl?: string;
+  isScolar?: boolean;
   skills: Skill[];
 }
 const ProjectCard = ({
@@ -30,23 +34,34 @@ const ProjectCard = ({
   imgUrl,
   visitUrl = "",
   gitHubUrl = "",
+  isScolar = false,
   skills = [],
 }: ProjectCardProps) => {
   return (
     <div
-      className={`physical chain card card-border border-primary rounded-lg lg:card-side bg-base-100 w-2/3 h-fit lg:h-80 ${className}`}
+      className={`card card-border items-center border-primary rounded-lg  bg-base-100 w-2/3 h-fit ${className}`}
     >
-      <figure className="flex-shrink-0 rounded-lg m-4 physical ">
+      <figure className="flex-shrink-0  rounded-lg m-4 physical ">
         <img src={imgUrl} alt={title + " image"} draggable={false} />
       </figure>
 
-      <div className="card-body">
-        <WordSeparate
-          text={title}
-          parentClassName="card-title"
-          className="physical h-fit"
-          wordGap={1}
-        />
+      <div className="card-body items-center">
+        <div className="relative w-fit">
+          <WordSeparate
+            text={title}
+            parentClassName="card-title"
+            className="physical h-fit"
+            wordGap={1}
+          />
+          {isScolar && (
+            <span
+              className="absolute -top-2 right-0 tooltip tooltip-bottom"
+              title="This project was done in a school context"
+            >
+              <IoSchool className="w-6 h-6 text-primary absolute" />
+            </span>
+          )}
+        </div>
         <div className="   w-full flex items-center justify-center gap-2">
           {skills.map((skill) => (
             <img
@@ -64,11 +79,7 @@ const ProjectCard = ({
         <div className="card-actions justify-end">
           {gitHubUrl != "" && (
             <a href={gitHubUrl} target="_blank" className="w-10 physical">
-              <img
-                src="/logos/LogoGithub.svg"
-                alt="Visit Github"
-                className="fill-accent"
-              />
+              <FaGithub className="w-full h-full" />
             </a>
           )}
           {visitUrl != "" && (
