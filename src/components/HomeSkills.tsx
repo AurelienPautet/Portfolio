@@ -3,13 +3,13 @@ import WordSeparate from "./WordSeparate";
 const HomeSkills = () => {
   return (
     <>
-      <div className="flex w-full ">
+      <div className="flex w-screen ">
         <div className="flex justify-center items-center w-full mt-12">
           <div className="physical static h-full w-fit p-10 bg-base-100 border-2 border-primary rounded-md">
             <div className="w-full h-fit flex flex-col justify-start items-center">
               <WordSeparate
                 text="My Skills"
-                className="physical text-2xl font-bold  mb-4"
+                className="physical text-4xl font-bold  mb-4"
                 htmlTag="h2"
               />
             </div>

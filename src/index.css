@@ -27,3 +27,16 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
+@keyframes gradient-scroll {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.animate-gradient-scroll {
+  animation: gradient-scroll 10s linear infinite;
+}

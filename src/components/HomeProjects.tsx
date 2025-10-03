@@ -6,7 +6,7 @@ const HomeProjects = () => {
       <WordSeparate
         htmlTag="h2"
         text="My Projects"
-        className="physical text-2xl font-bold mb-4"
+        className="physical text-4xl font-bold mb-4"
         parentClassName="w-full flex justify-center mt-20"
       />
       <div className=" mt-10 w-full flex-col justify-center items-center flex gap-12">

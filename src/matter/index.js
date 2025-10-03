@@ -18,7 +18,7 @@ var Engine = Matter.Engine,
 var render = null;
 var body = null;
 
-var canvasOpacity = 1;
+var canvasOpacity = 0;
 window.defaultCategory = 0x0001;
 window.wallCategory = 0x0004;
 window.stickyCategory = 0x0002;
@@ -318,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function initializePhysics() {
         physicalDomObject.physicalBody &&
         physicalDomObject.physicalBody.bodyData.body
       ) {
-        const forceMagnitude = 0 * -0.00005 * velocityY;
+        const forceMagnitude = 1 * -0.00005 * velocityY;
         Matter.Body.applyForce(
           physicalDomObject.physicalBody.bodyData.body,
           physicalDomObject.physicalBody.bodyData.body.position,
