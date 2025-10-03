@@ -1,7 +1,46 @@
+import React, { useEffect, useState } from "react";
+
 const ThemeController = () => {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const initialDark = mq.matches;
+    setIsDark(initialDark);
+    document.documentElement.setAttribute(
+      "data-theme",
+      initialDark ? "dark" : "light"
+    );
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsDark(e.matches);
+      document.documentElement.setAttribute(
+        "data-theme",
+        e.matches ? "dark" : "light"
+      );
+    };
+    mq.addEventListener("change", handleChange);
+    return () => mq.removeEventListener("change", handleChange);
+  }, []);
+
+  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    setIsDark(checked);
+    document.documentElement.setAttribute(
+      "data-theme",
+      checked ? "dark" : "light"
+    );
+  };
+
   return (
-    <label className=" sticky swap swap-rotate">
-      <input type="checkbox" className="theme-controller" value="dark" />
+    <label className="sticky swap swap-rotate">
+      <input
+        type="checkbox"
+        className="theme-controller"
+        value="dark"
+        checked={isDark}
+        onChange={handleToggle}
+      />
       <svg
         className="swap-off h-10 w-10 fill-primary"
         xmlns="http://www.w3.org/2000/svg"
@@ -19,4 +58,5 @@ const ThemeController = () => {
     </label>
   );
 };
+
 export default ThemeController;
