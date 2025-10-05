@@ -12,6 +12,16 @@ const HomeProjects = () => {
       <div className=" mt-10 w-full flex-col justify-center items-center flex gap-14">
         <ProjectCard
           className=""
+          title="La Fine Equipe"
+          date="2025 - Now"
+          description="A full stack mono repo web application for my brother's univ association to manage their events, post articles and more."
+          imgUrl="/projectThumbnails/LaFineEquipe.png"
+          visitUrl="https://la-fine-equipe.vercel.app"
+          gitHubUrl="https://github.com/AurelienPautet/La-Fine-Equipe"
+          skills={["React", "Tailwind", "Node", "Postgres", "Ts"]}
+        />
+        <ProjectCard
+          className=""
           title="WiiGameBien"
           date="2024 - Now"
           description="A Javascript and html canvas recreation of the Wii Plays tank game, with a custom engine. Features include multiplayer, level editor, player skins and more."
