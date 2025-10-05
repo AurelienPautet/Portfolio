@@ -55,8 +55,9 @@ export default class PhysicalDomObject {
     if (this.chainedTo.bodyData?.body.inverseInertia !== 0) {
       this.chainedTo.setInertiaToInfinity();
     }
-    const chainLength = Math.abs(
-      this.initialPos.y - this.chainedTo.initialPos.y
+    const chainLength = Math.sqrt(
+      (this.initialPos.x - this.chainedTo.initialPos.x) ** 2 +
+        (this.initialPos.y - this.chainedTo.initialPos.y) ** 2
     );
     const chain = Constraint.create({
       bodyB: this.physicalBody.bodyData.body,

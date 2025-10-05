@@ -1,3 +1,4 @@
+import { PhysicsControlButton } from "./PhysicsControlButton.tsx";
 import ThemeController from "./ThemeController.tsx";
 
 const Navbar = () => {
@@ -12,6 +13,8 @@ const Navbar = () => {
         </h1>
       </div>
       <div className="flex gap-2 mx-5 ml-auto items-center">
+        <PhysicsControlButton className="fixedz-50" />
+
         <ThemeController />
       </div>
     </div>

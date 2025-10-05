@@ -1,7 +1,10 @@
 import Matter from "matter-js";
 import { COLLISION_CATEGORIES, PHYSICS_CONFIG } from "./config";
 import { createBoundaries } from "./boundaries";
-import { createMouseInteraction } from "./mouseInteraction";
+import {
+  createMouseInteraction,
+  applyMagneticAttraction,
+} from "./mouseInteraction";
 import {
   waitForImages,
   loadPhysicalDomFromHtml,
@@ -9,7 +12,11 @@ import {
   initPhysicalDomObjects,
 } from "./domLoader";
 import { setAbsoluteTransform } from "./transformManager";
-import { setupKeyboardControls, setupScrollPhysics } from "./eventHandlers";
+import {
+  onReload,
+  setupKeyboardControls,
+  setupScrollPhysics,
+} from "./eventHandlers";
 
 const { Engine, Render, Runner, Composite } = Matter;
 
@@ -47,6 +54,7 @@ function initializePhysics() {
 
   const bodySize = body.getBoundingClientRect();
   const test = document.getElementsByClassName("physical");
+  const root = document.getElementById("root");
 
   if (test.length === 0) {
     console.log("Physical elements not found, retrying...");
@@ -69,25 +77,19 @@ function initializePhysics() {
 
   window.render = render;
   configureCanvasStyle(render.canvas, 0);
-
-  const { ground, ceiling, leftWall, rightWall } = createBoundaries(bodySize);
-  const mouseConstraint = createMouseInteraction(render, window.engine);
-
-  const physicalDomObjects = [];
+  let physicalDomObjects = [];
+  window.physicalDomObjects = physicalDomObjects;
 
   waitForImages().then(() => {
-    loadPhysicalDomFromHtml(body, physicalDomObjects);
-    initPhysicalDomObjects(physicalDomObjects);
-    createChains(physicalDomObjects);
+    window.scrollTo(0, 0);
+    loadPhysics(root, physicalDomObjects, bodySize);
   });
 
-  Composite.add(window.engine.world, [
-    ground,
-    ceiling,
-    leftWall,
-    rightWall,
-    mouseConstraint,
-  ]);
+  setTimeout(() => {
+    onReload(() => {
+      loadPhysics(body, physicalDomObjects, bodySize);
+    });
+  }, 2000);
 
   const runner = Runner.create({
     delta: PHYSICS_CONFIG.runnerDelta,
@@ -101,6 +103,7 @@ function initializePhysics() {
   setupScrollPhysics(physicalDomObjects);
 
   function uiLoop() {
+    applyMagneticAttraction(physicalDomObjects);
     for (const physicalDomObject of physicalDomObjects) {
       physicalDomObject.updateConstraint();
       setAbsoluteTransform(physicalDomObject);
@@ -108,6 +111,26 @@ function initializePhysics() {
     requestAnimationFrame(uiLoop);
   }
   uiLoop();
+}
+
+function loadPhysics(body, physicalDomObjects, bodySize) {
+  console.log("Reloading physics...");
+  physicalDomObjects.length = 0;
+  Matter.Composite.clear(window.engine.world, false);
+  scrollTo(0, 0);
+
+  let { ground, ceiling, leftWall, rightWall } = createBoundaries(bodySize);
+  let mouseConstraint = createMouseInteraction(render, window.engine);
+  loadPhysicalDomFromHtml(body, physicalDomObjects);
+  initPhysicalDomObjects(physicalDomObjects);
+  createChains(physicalDomObjects);
+  Composite.add(window.engine.world, [
+    ground,
+    ceiling,
+    leftWall,
+    rightWall,
+    mouseConstraint,
+  ]);
 }
 
 document.addEventListener("DOMContentLoaded", initializePhysics);

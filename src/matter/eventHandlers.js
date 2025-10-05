@@ -27,6 +27,26 @@ export function setupKeyboardControls(physicalDomObjects, render) {
   });
 }
 
+export function onReload(functionName) {
+  let resizeTimeout;
+  let lastWidth = window.innerWidth;
+
+  window.addEventListener("resize", function () {
+    // Only trigger if width actually changed (ignore mobile address bar show/hide)
+    const currentWidth = window.innerWidth;
+    if (currentWidth === lastWidth) {
+      return;
+    }
+    lastWidth = currentWidth;
+
+    // Debounce the resize event
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      functionName();
+    }, 250);
+  });
+}
+
 export function setupScrollPhysics(physicalDomObjects) {
   let lastScrollY = window.scrollY;
   let lastTimestamp = performance.now();
