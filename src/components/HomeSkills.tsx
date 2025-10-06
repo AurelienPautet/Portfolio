@@ -25,19 +25,19 @@ const HomeSkills = () => {
               />
               <img
                 src="/logos/LogoHtml.svg"
-                className="physical nonconstrained w-fit h-20 user-select-none select-none"
+                className="physical nonconstrained w-16 h-20 user-select-none select-none"
                 alt="HTML Logo"
                 draggable={false}
               />
               <img
                 src="/logos/LogoCss.svg"
-                className="physical nonconstrained w-fit h-20 user-select-none select-none"
+                className="physical nonconstrained w-16 h-20 user-select-none select-none"
                 alt="CSS Logo"
                 draggable={false}
               />
               <img
                 src="/logos/LogoJs.svg"
-                className="physical nonconstrained w-fit h-20 user-select-none select-none"
+                className="physical nonconstrained w-16 h-20 user-select-none select-none"
                 alt="JavaScript Logo"
                 draggable={false}
               />
@@ -49,7 +49,7 @@ const HomeSkills = () => {
               />
               <img
                 src="/logos/LogoPostgres.svg"
-                className="physical nonconstrained w-fit h-20 user-select-none select-none"
+                className="physical nonconstrained w-16 h-20 user-select-none select-none"
                 alt="PostgreSQL Logo"
                 draggable={false}
               />
@@ -61,25 +61,25 @@ const HomeSkills = () => {
               />
               <img
                 src="/logos/LogoGit.svg"
-                className="physical circle nonconstrained w-fit h-15 user-select-none select-none"
+                className="physical circle nonconstrained w-15 h-15 user-select-none select-none"
                 alt="Git Logo"
                 draggable={false}
               />
               <img
                 src="/logos/LogoPython.svg"
-                className="physical circle nonconstrained w-fit h-15 user-select-none select-none"
+                className="physical circle nonconstrained w-15 h-15 user-select-none select-none"
                 alt="Python Logo"
                 draggable={false}
               />
               <img
                 src="/logos/LogoJava.svg"
-                className="physical circle nonconstrained w-fit h-15 user-select-none select-none"
+                className="physical circle nonconstrained w-15 h-15 user-select-none select-none"
                 alt="Python Logo"
                 draggable={false}
               />
               <img
                 src="/logos/LogoTs.svg"
-                className="physical  nonconstrained w-fit h-15 user-select-none select-none"
+                className="physical  nonconstrained w-15 h-15 user-select-none select-none"
                 alt="TypeScript Logo"
                 draggable={false}
               />

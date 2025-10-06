@@ -1,5 +1,6 @@
 import { FaGithub } from "react-icons/fa";
 import { IoSchool } from "react-icons/io5";
+import { MdBuild } from "react-icons/md";
 
 import WordSeparate from "./WordSeparate";
 type Skill =
@@ -24,6 +25,7 @@ interface ProjectCardProps {
   visitUrl?: string;
   gitHubUrl?: string;
   isScolar?: boolean;
+  isNotFinished?: boolean;
   skills: Skill[];
 }
 const ProjectCard = ({
@@ -35,6 +37,7 @@ const ProjectCard = ({
   visitUrl = "",
   gitHubUrl = "",
   isScolar = false,
+  isNotFinished = false,
   skills = [],
 }: ProjectCardProps) => {
   return (
@@ -63,7 +66,15 @@ const ProjectCard = ({
               className="absolute -top-2 right-0 tooltip tooltip-bottom"
               title="This project was done in a school context"
             >
-              <IoSchool className="w-6 h-6 text-primary absolute" />
+              <IoSchool className="physical w-6 h-6 text-primary absolute" />
+            </span>
+          )}
+          {isNotFinished && (
+            <span
+              className="absolute -top-2 right-0 tooltip tooltip-bottom"
+              title="This project is not finished"
+            >
+              <MdBuild className="physical w-6 h-6 text-primary absolute" />
             </span>
           )}
         </div>

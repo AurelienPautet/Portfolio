@@ -5,7 +5,6 @@ import HomeProjects from "./components/HomeProjects";
 import HomeSocial from "./components/HomeSocial";
 import { MoreBelow } from "./components/MoreBelow";
 import MagneticEffect from "./components/MagneticEffect";
-import PhysicsControlButton from "./components/PhysicsControlButton";
 
 function App() {
   return (

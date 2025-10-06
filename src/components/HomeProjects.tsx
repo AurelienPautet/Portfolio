@@ -19,6 +19,7 @@ const HomeProjects = () => {
           visitUrl="https://la-fine-equipe.vercel.app"
           gitHubUrl="https://github.com/AurelienPautet/La-Fine-Equipe"
           skills={["React", "Tailwind", "Node", "Postgres", "Ts"]}
+          isNotFinished={true}
         />
         <ProjectCard
           className=""
@@ -30,15 +31,7 @@ const HomeProjects = () => {
           gitHubUrl="https://github.com/AurelienPautet/WiiGameBien"
           skills={["Html", "Css", "Js"]}
         />
-        <ProjectCard
-          className=""
-          title="Grammar Corrector"
-          date="2025"
-          description="A little Java application that can correct any selected text in any application (shortcut Ctr+Alt+C), using the gemini API from Google."
-          imgUrl="/projectThumbnails/GrammarCorrector.png"
-          gitHubUrl="https://github.com/AurelienPautet/AICorrector"
-          skills={["Java"]}
-        />
+
         <ProjectCard
           className=" "
           title="Fourchettas"
@@ -58,6 +51,16 @@ const HomeProjects = () => {
           visitUrl="https://fourchettas-client.vercel.app"
           gitHubUrl="https://github.com/PlugImt/transat-app"
           skills={["React", "Tailwind", "Git"]}
+          isNotFinished={true}
+        />
+        <ProjectCard
+          className=""
+          title="Grammar Corrector"
+          date="2025"
+          description="A little Java application that can correct any selected text in any application (shortcut Ctr+Alt+C), using the gemini API from Google."
+          imgUrl="/projectThumbnails/GrammarCorrector.png"
+          gitHubUrl="https://github.com/AurelienPautet/AICorrector"
+          skills={["Java"]}
         />
         <ProjectCard
           className=" "
