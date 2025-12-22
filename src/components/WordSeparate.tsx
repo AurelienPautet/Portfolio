@@ -19,12 +19,12 @@ const WordSeparate = ({
 }: WordSeparateProps) => {
   return (
     <div
-      className={`flex ${parentWidth}  h-fit flex-wrap justify-center items-center gap-${wordGap} ${parentClassName}`}
+      className={`flex ${parentWidth} h-fit flex-wrap justify-center items-center ${parentClassName}`}
+      style={{ gap: `${wordGap * 0.5}rem` }}
     >
       {text.split(" ").map((word, index) => (
-        <Tag key={word + index} className={className + "h-fit"}>
+        <Tag key={word + index} className={className + " h-fit"}>
           {word}
-          {index < text.split(" ").length - 1 && " "}
         </Tag>
       ))}
     </div>

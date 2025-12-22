@@ -8,7 +8,7 @@ export default class MatterObject {
     height,
     options = {},
     customOptions = {},
-    boxId = 1
+    boxId = 1,
   ) {
     this.x = x;
     this.y = y;

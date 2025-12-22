@@ -68,7 +68,7 @@ export function setupScrollPhysics(physicalDomObjects) {
         Matter.Body.applyForce(
           physicalDomObject.physicalBody.bodyData.body,
           physicalDomObject.physicalBody.bodyData.body.position,
-          { x: 0, y: forceMagnitude }
+          { x: 0, y: forceMagnitude },
         );
       }
     }

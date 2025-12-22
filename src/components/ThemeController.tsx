@@ -9,14 +9,14 @@ const ThemeController = () => {
     setIsDark(initialDark);
     document.documentElement.setAttribute(
       "data-theme",
-      initialDark ? "dark" : "light"
+      initialDark ? "dark" : "light",
     );
 
     const handleChange = (e: MediaQueryListEvent) => {
       setIsDark(e.matches);
       document.documentElement.setAttribute(
         "data-theme",
-        e.matches ? "dark" : "light"
+        e.matches ? "dark" : "light",
       );
     };
     mq.addEventListener("change", handleChange);
@@ -28,7 +28,7 @@ const ThemeController = () => {
     setIsDark(checked);
     document.documentElement.setAttribute(
       "data-theme",
-      checked ? "dark" : "light"
+      checked ? "dark" : "light",
     );
   };
 

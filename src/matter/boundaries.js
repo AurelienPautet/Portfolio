@@ -12,9 +12,11 @@ export function createBoundaries(bodySize) {
     {
       isStatic: true,
       restitution: WALL_CONFIG.restitution,
-      render: { fillStyle: "blue" },
+      render: {
+        visible: false,
+      },
       collisionFilter: { category: COLLISION_CATEGORIES.wall },
-    }
+    },
   );
 
   const ceiling = Bodies.rectangle(
@@ -24,9 +26,11 @@ export function createBoundaries(bodySize) {
     WALL_CONFIG.thickness,
     {
       isStatic: true,
-      render: { fillStyle: "gray" },
+      render: {
+        visible: false,
+      },
       collisionFilter: { category: COLLISION_CATEGORIES.wall },
-    }
+    },
   );
 
   const leftWall = Bodies.rectangle(
@@ -36,9 +40,11 @@ export function createBoundaries(bodySize) {
     Math.floor(bodySize.height) * 2,
     {
       isStatic: true,
-      render: { fillStyle: "gray" },
+      render: {
+        visible: false,
+      },
       collisionFilter: { category: COLLISION_CATEGORIES.wall },
-    }
+    },
   );
 
   const rightWall = Bodies.rectangle(
@@ -48,9 +54,11 @@ export function createBoundaries(bodySize) {
     Math.floor(bodySize.height) * 2,
     {
       isStatic: true,
-      render: { fillStyle: "gray" },
+      render: {
+        visible: false,
+      },
       collisionFilter: { category: COLLISION_CATEGORIES.wall },
-    }
+    },
   );
 
   return { ground, ceiling, leftWall, rightWall };

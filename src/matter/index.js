@@ -23,12 +23,64 @@ const { Engine, Render, Runner, Composite } = Matter;
 window.defaultCategory = COLLISION_CATEGORIES.default;
 window.wallCategory = COLLISION_CATEGORIES.wall;
 window.stickyCategory = COLLISION_CATEGORIES.sticky;
+window.debugMode = false;
+
+function toggleDebugMode() {
+  window.debugMode = !window.debugMode;
+
+  if (window.render) {
+    window.render.options.background = "transparent";
+  }
+
+  if (window.physicalDomObjects) {
+    window.physicalDomObjects.forEach((obj) => {
+      if (obj.physicalBody?.bodyData?.body) {
+        obj.physicalBody.bodyData.body.render.visible = window.debugMode;
+        if (window.debugMode) {
+          obj.physicalBody.bodyData.body.render.fillStyle = "transparent";
+          obj.physicalBody.bodyData.body.render.strokeStyle = "#ffffff";
+          obj.physicalBody.bodyData.body.render.lineWidth = 1;
+        }
+      }
+      if (obj.constraint) {
+        obj.constraint.render.visible = window.debugMode;
+        if (window.debugMode) {
+          obj.constraint.render.strokeStyle = "#ffffff";
+          obj.constraint.render.lineWidth = 1;
+        }
+      }
+    });
+  }
+
+  const world = window.engine?.world;
+  if (world) {
+    world.constraints.forEach((constraint) => {
+      constraint.render.visible = window.debugMode || constraint.label === "Mouse Constraint";
+      if (window.debugMode && constraint.label !== "Mouse Constraint") {
+        constraint.render.strokeStyle = "#ffffff";
+        constraint.render.lineWidth = 1;
+      }
+    });
+
+    world.bodies.forEach((body) => {
+      if (!body.isStatic) return;
+      body.render.visible = window.debugMode;
+      if (window.debugMode) {
+        body.render.fillStyle = "transparent";
+        body.render.strokeStyle = "#ffffff";
+        body.render.lineWidth = 1;
+      }
+    });
+  }
+
+  console.log(`Debug mode: ${window.debugMode ? "ON" : "OFF"}`);
+}
 
 function configureCanvasStyle(canvas, opacity) {
   canvas.style.position = "absolute";
   canvas.style.top = "0";
   canvas.style.left = "0";
-  canvas.style.zIndex = "1000";
+  canvas.style.zIndex = "0";
   canvas.style.pointerEvents = "none";
   canvas.style.opacity = opacity;
   canvas.style.overflow = "hidden";
@@ -71,12 +123,13 @@ function initializePhysics() {
       width: bodySize.width,
       height: bodySize.height,
       wireframes: false,
+      showConstraints: true,
       background: "transparent",
     },
   });
 
   window.render = render;
-  configureCanvasStyle(render.canvas, 0);
+  configureCanvasStyle(render.canvas, 1);
   let physicalDomObjects = [];
   window.physicalDomObjects = physicalDomObjects;
 
@@ -101,6 +154,12 @@ function initializePhysics() {
 
   setupKeyboardControls(physicalDomObjects, render);
   setupScrollPhysics(physicalDomObjects);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Shift") {
+      toggleDebugMode();
+    }
+  });
 
   function uiLoop() {
     applyMagneticAttraction(physicalDomObjects);

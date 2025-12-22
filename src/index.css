@@ -1,34 +1,131 @@
 @import "tailwindcss";
-@plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
-}
 
 @theme {
-  --font-display: "Oswald", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --color-blueprint-bg: #3b6fd6;
+  --color-blueprint-grid: #334155;
+  --color-blueprint-line: #ffffff;
+  --color-blueprint-primary: #38bdf8;
+}
+
+/* Global Styles */
+body {
+  background-color: var(--color-blueprint-bg);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.blueprint-element {
+  background-color: transparent;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  position: relative;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.blueprint-box {
+  background-color: transparent;
+  border: 1px solid #ffffff;
+  position: relative;
+}
+
+
+.blueprint-box::before,
+.blueprint-box::after,
+.blueprint-element::before,
+.blueprint-element::after,
+.corner-marker {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: var(--color-blueprint-primary);
+  border-style: solid;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Top-Left Corner */
+.blueprint-box::before,
+.blueprint-element::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+/* Bottom-Right Corner */
+.blueprint-box::after,
+.blueprint-element::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+.physical {
+  z-index: 10;
+  position: relative;
+}
+
+
+.physical:hover::before,
+.physical:hover::after {
+  content: "";
+  position: absolute;
+  border-color: var(--color-blueprint-primary);
+  border-style: solid;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  opacity: 1;
+  width: 8px;
+  height: 8px;
+}
+
+.physical:hover::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+.physical:hover::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
 }
 
 .physical:hover {
   cursor: grab;
 }
 
+
+img.physical:hover,
+svg.physical:hover {
+  outline: 2px solid var(--color-blueprint-primary);
+  outline-offset: -4px;
+}
+
+.physical:active {
+  cursor: grabbing;
+}
+
 .static:hover {
   cursor: default;
 }
 
-.physical {
-  z-index: 10;
-}
-
-/* add the code bellow */
 @layer utilities {
-  /* Hide scrollbar for Chrome, Safari and Opera */
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
-  /* Hide scrollbar for IE, Edge and Firefox */
+
   .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 

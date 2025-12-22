@@ -78,7 +78,7 @@ function transformSimple(physicalDomObject, x, y, angle, cache) {
       physicalDomObject.domElement,
       roundedX,
       roundedY,
-      roundedAngle
+      roundedAngle,
     );
   }
 }
@@ -181,7 +181,7 @@ function transformComplex(physicalDomObject, x, y, angle, cache, parent) {
     matrix.cumulativeC,
     matrix.cumulativeD,
     matrix.cumulativeE,
-    matrix.cumulativeF
+    matrix.cumulativeF,
   );
 
   if (!inverse) return;
@@ -201,7 +201,7 @@ function transformComplex(physicalDomObject, x, y, angle, cache, parent) {
   const roundedY = roundValue(finalY, TRANSFORM_CONFIG.positionRounding);
   const roundedAngle = roundValue(
     matrix.angleCorrection,
-    TRANSFORM_CONFIG.angleRounding
+    TRANSFORM_CONFIG.angleRounding,
   );
 
   if (
@@ -216,7 +216,7 @@ function transformComplex(physicalDomObject, x, y, angle, cache, parent) {
       physicalDomObject.domElement,
       roundedX,
       roundedY,
-      roundedAngle
+      roundedAngle,
     );
   }
 }

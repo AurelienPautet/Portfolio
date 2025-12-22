@@ -9,7 +9,7 @@ export default class BoxComposite extends MatterObject {
     height,
     options = {},
     customOptions = {},
-    boxId = 1
+    boxId = 1,
   ) {
     super(x, y, width, height, options, customOptions, boxId);
     this.wallThickness = 10;
@@ -20,7 +20,11 @@ export default class BoxComposite extends MatterObject {
     this.options.mass = this.options.mass || 1;
     const wallsOptions = {
       ...this.options,
-      render: { fillStyle: "red" },
+      render: {
+        fillStyle: "transparent",
+        strokeStyle: "#ffffff",
+        lineWidth: 1,
+      },
     };
 
     const topWall = Bodies.rectangle(
@@ -30,7 +34,7 @@ export default class BoxComposite extends MatterObject {
       this.wallThickness,
       {
         ...wallsOptions,
-      }
+      },
     );
     const bottomWall = Bodies.rectangle(
       this.x,
@@ -39,7 +43,7 @@ export default class BoxComposite extends MatterObject {
       this.wallThickness,
       {
         ...wallsOptions,
-      }
+      },
     );
     const leftWall = Bodies.rectangle(
       this.x - this.width / 2,
@@ -48,7 +52,7 @@ export default class BoxComposite extends MatterObject {
       this.height,
       {
         ...wallsOptions,
-      }
+      },
     );
     const rightWall = Bodies.rectangle(
       this.x + this.width / 2,
@@ -57,7 +61,7 @@ export default class BoxComposite extends MatterObject {
       this.height,
       {
         ...wallsOptions,
-      }
+      },
     );
 
     var compoundBodyB = Body.create({

@@ -24,7 +24,7 @@ export function loadPhysicalDomFromHtml(
   startingElement,
   physicalDomObjects,
   parentPhysicalDomObject = null,
-  physicalDomObject = null
+  physicalDomObject = null,
 ) {
   if (
     startingElement.classList.contains("physical") ||
@@ -33,7 +33,7 @@ export function loadPhysicalDomFromHtml(
     physicalDomObject = new PhysicalDomObject(
       startingElement,
       { angle: 0, restitution: 0.5 },
-      parentPhysicalDomObject
+      parentPhysicalDomObject,
     );
     parentPhysicalDomObject?.childrens.push(physicalDomObject);
     physicalDomObjects.push(physicalDomObject);
@@ -43,7 +43,7 @@ export function loadPhysicalDomFromHtml(
       startingElement.children[i],
       physicalDomObjects,
       physicalDomObject,
-      physicalDomObject
+      physicalDomObject,
     );
   }
 }

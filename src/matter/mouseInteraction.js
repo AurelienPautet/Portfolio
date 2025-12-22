@@ -17,6 +17,8 @@ export function createMouseInteraction(render, engine) {
       damping: 0.1,
       render: {
         visible: true,
+        strokeStyle: "#38bdf8",
+        lineWidth: 1,
       },
     },
   });

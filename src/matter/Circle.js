@@ -9,7 +9,7 @@ export default class Circle extends MatterObject {
     height,
     options = {},
     customOptions = {},
-    boxId = 1
+    boxId = 1,
   ) {
     super(x, y, width, height, options, customOptions, boxId);
     this.bodyData = this.createBox();
@@ -22,7 +22,7 @@ export default class Circle extends MatterObject {
         render: {
           wireframes: true,
           fillStyle: "transparent",
-          strokeStyle: "red",
+          strokeStyle: "#ffffff",
           lineWidth: 1,
         },
         collisionFilter: {

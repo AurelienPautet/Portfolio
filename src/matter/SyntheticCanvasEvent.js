@@ -124,7 +124,7 @@ document.addEventListener(
           createSyntheticCanvasEvent(touch, "mousedown");
         }
       },
-      { passive: false }
+      { passive: false },
     );
 
     interactiveDiv.addEventListener(
@@ -139,7 +139,7 @@ document.addEventListener(
           createSyntheticCanvasEvent(touch, "mousemove");
         }
       },
-      { passive: false }
+      { passive: false },
     );
 
     interactiveDiv.addEventListener(
@@ -152,7 +152,7 @@ document.addEventListener(
           createSyntheticCanvasEvent(touch, "mouseup");
         }
       },
-      { passive: false }
+      { passive: false },
     );
 
     interactiveDiv.addEventListener("pointerdown", function (event) {
@@ -174,5 +174,5 @@ document.addEventListener(
     interactiveDiv.addEventListener("wheel", function (event) {
       createSyntheticCanvasEvent(event, "wheel");
     });
-  }
+  },
 );

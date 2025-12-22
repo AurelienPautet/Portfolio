@@ -33,14 +33,14 @@ export const PhysicsControlButton = ({
   return (
     <button
       onClick={handleToggleConstraints}
-      className={`px-4 py-2 btn btn-ghost duration-300 ${
-        !isConstrained ? "btn-dash" : ""
+      className={`px-4 py-2 border border-[var(--color-blueprint-line)] text-[var(--color-blueprint-line)] font-mono uppercase text-sm hover:bg-[var(--color-blueprint-primary)] hover:text-black transition-colors ${
+        !isConstrained ? "bg-[rgba(56,189,248,0.1)]" : "bg-transparent"
       } ${className}`}
     >
       {isConstrained ? (
-        <FaLockOpen className="inline w-5 h-5 mr-2" />
+        <FaLockOpen className="inline w-4 h-4 mr-2" />
       ) : (
-        <FaLock className="inline w-5 h-5 mr-2" />
+        <FaLock className="inline w-4 h-4 mr-2" />
       )}
 
       {isConstrained ? "Release Objects" : "Lock Objects"}
