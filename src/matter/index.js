@@ -98,7 +98,6 @@ function configureEngine(engine) {
 
 function initializePhysics() {
   const body = document.body;
-  window.scrollTo(0, 0);
 
   if (!body) {
     console.log("Elements not found, retrying...");
@@ -136,7 +135,6 @@ function initializePhysics() {
   window.physicalDomObjects = physicalDomObjects;
 
   waitForImages().then(() => {
-    window.scrollTo(0, 0);
     loadPhysics(root, physicalDomObjects, bodySize);
   });
 
@@ -178,7 +176,6 @@ function loadPhysics(body, physicalDomObjects, bodySize) {
   console.log("Reloading physics...");
   physicalDomObjects.length = 0;
   Matter.Composite.clear(window.engine.world, false);
-  scrollTo(0, 0);
 
   let { ground, ceiling, leftWall, rightWall } = createBoundaries(bodySize);
   let mouseConstraint = createMouseInteraction(render, window.engine);

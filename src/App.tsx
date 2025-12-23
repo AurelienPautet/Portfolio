@@ -9,7 +9,17 @@ import MagneticEffect from "./components/MagneticEffect";
 import HomeHireMe from "./components/HomeHireMe";
 import HomeGameChamboule from "./components/HomeGameChamboule";
 
+import { useEffect } from "react";
+
 function App() {
+  useEffect(() => {
+    const scrollPosition = sessionStorage.getItem("scrollPosition");
+    if (scrollPosition) {
+      window.scrollTo(0, parseInt(scrollPosition));
+      sessionStorage.removeItem("scrollPosition");
+    }
+  }, []);
+
   return (
     <>
       <MagneticEffect />

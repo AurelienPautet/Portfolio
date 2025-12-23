@@ -53,7 +53,13 @@ const HomeHireMe = () => {
         )}
         {active && (
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => {
+              sessionStorage.setItem(
+                "scrollPosition",
+                window.scrollY.toString()
+              );
+              window.location.reload();
+            }}
             className="mt-8 pointer-events-auto px-6 py-2 border border-white/70 hover:bg-white/10 text-white font-mono text-sm transition-colors uppercase tracking-widest"
           >
             [ Reset System ]

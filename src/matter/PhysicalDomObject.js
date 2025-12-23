@@ -26,8 +26,8 @@ export default class PhysicalDomObject {
     const rect = this.domElement.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
-    const x = rect.left + width / 2;
-    const y = rect.top + height / 2;
+    const x = rect.left + window.scrollX + width / 2;
+    const y = rect.top + window.scrollY + height / 2;
     this.initialPos = { x: x, y: y };
     this.initialSize = { width: width, height: height };
     if (physicalBodyClass) {
