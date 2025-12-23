@@ -21,6 +21,6 @@ export const WALL_CONFIG = {
 
 export const TRANSFORM_CONFIG = {
   positionRounding: 2,
-  angleRounding: 100,
+  angleRounding: 10000,
   maxParentDepth: 32,
 };

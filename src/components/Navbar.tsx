@@ -9,9 +9,9 @@ const Navbar = () => {
           Aurélien
         </h1>
       </div>
-      <div className="flex gap-2 mx-5 ml-auto items-center">
+      {/*       <div className="flex gap-2 mx-5 ml-auto items-center">
         <PhysicsControlButton className="" />
-      </div>
+      </div> */}
     </div>
   );
 };

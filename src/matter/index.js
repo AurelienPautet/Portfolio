@@ -17,6 +17,7 @@ import {
   setupKeyboardControls,
   setupScrollPhysics,
 } from "./eventHandlers";
+import { changeGravity, changeTimeScale } from "./dynamicSettings";
 
 const { Engine, Render, Runner, Composite } = Matter;
 
@@ -55,7 +56,8 @@ function toggleDebugMode() {
   const world = window.engine?.world;
   if (world) {
     world.constraints.forEach((constraint) => {
-      constraint.render.visible = window.debugMode || constraint.label === "Mouse Constraint";
+      constraint.render.visible =
+        window.debugMode || constraint.label === "Mouse Constraint";
       if (window.debugMode && constraint.label !== "Mouse Constraint") {
         constraint.render.strokeStyle = "#ffffff";
         constraint.render.lineWidth = 1;

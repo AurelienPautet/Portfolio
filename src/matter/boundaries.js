@@ -16,12 +16,12 @@ export function createBoundaries(bodySize) {
         visible: false,
       },
       collisionFilter: { category: COLLISION_CATEGORIES.wall },
-    },
+    }
   );
 
   const ceiling = Bodies.rectangle(
     Math.floor(bodySize.width / 2),
-    -WALL_CONFIG.offset,
+    -(WALL_CONFIG.offset - 74),
     Math.floor(bodySize.width) * 2,
     WALL_CONFIG.thickness,
     {
@@ -30,7 +30,7 @@ export function createBoundaries(bodySize) {
         visible: false,
       },
       collisionFilter: { category: COLLISION_CATEGORIES.wall },
-    },
+    }
   );
 
   const leftWall = Bodies.rectangle(
@@ -44,7 +44,7 @@ export function createBoundaries(bodySize) {
         visible: false,
       },
       collisionFilter: { category: COLLISION_CATEGORIES.wall },
-    },
+    }
   );
 
   const rightWall = Bodies.rectangle(
@@ -58,7 +58,7 @@ export function createBoundaries(bodySize) {
         visible: false,
       },
       collisionFilter: { category: COLLISION_CATEGORIES.wall },
-    },
+    }
   );
 
   return { ground, ceiling, leftWall, rightWall };

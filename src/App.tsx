@@ -5,6 +5,10 @@ import HomeProjects from "./components/HomeProjects";
 import HomeSocial from "./components/HomeSocial";
 import { MoreBelow } from "./components/MoreBelow";
 import MagneticEffect from "./components/MagneticEffect";
+import HomeSettings from "./components/HomeSettings";
+import HomeHireMe from "./components/HomeHireMe";
+import HomeGameChamboule from "./components/HomeGameChamboule";
+import HomeScale from "./components/HomeScale";
 
 function App() {
   return (
@@ -19,6 +23,8 @@ function App() {
       <HomeSkills />
       <HomeProjects />
       <div className="mt-20 w-full flex justify-center bg-base-500"></div>
+      <HomeHireMe />
+      <HomeGameChamboule />
       <MoreBelow />
     </>
   );
