@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'BlueprintFont';
-  src: url('/fonts/Bluprintdemo-YOMv.otf') format('opentype');
+  font-family: "BlueprintFont";
+  src: url("/fonts/Bluprintdemo-YOMv.otf") format("opentype");
   font-weight: 800;
   font-style: normal;
   font-size: 24px;
@@ -17,15 +17,16 @@
   --color-blueprint-primary: #38bdf8;
 }
 
-/* Global Styles */
 body {
   position: relative;
   background-color: var(--color-blueprint-bg);
   color: #ffffff;
   font-family: var(--font-mono);
   overflow-x: hidden;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.15) 1px,
+      transparent 1px
+    ),
     linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
   background-size: 40px 40px;
 }
@@ -37,11 +38,23 @@ body::after {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.20) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.20) 1px, transparent 1px);
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.2) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
   background-size: 200px 200px;
   pointer-events: none;
+}
+
+.bg-dashed {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.2) 10px,
+    rgba(255, 255, 255, 0.2) 12px
+  );
 }
 
 .blueprint-element {
@@ -57,7 +70,6 @@ body::after {
   border: 1px solid #ffffff;
   position: relative;
 }
-
 
 .blueprint-box::before,
 .blueprint-box::after,
@@ -75,7 +87,6 @@ body::after {
   opacity: 0;
 }
 
-/* Top-Left Corner */
 .blueprint-box::before,
 .blueprint-element::before {
   top: -1px;
@@ -83,7 +94,6 @@ body::after {
   border-width: 2px 0 0 2px;
 }
 
-/* Bottom-Right Corner */
 .blueprint-box::after,
 .blueprint-element::after {
   bottom: -1px;
@@ -91,11 +101,50 @@ body::after {
   border-width: 0 2px 2px 0;
 }
 
+.blueprint-measurement {
+  position: relative;
+}
+
+.blueprint-measurement::before {
+  content: "240px";
+  position: absolute;
+  left: -30px;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  border-left: 1px solid rgb(255, 255, 255);
+  border-top: 1px solid rgb(255, 255, 255);
+  border-bottom: 1px solid rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.blueprint-measurement::after {
+  content: "100%";
+  position: absolute;
+  top: -30px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  border-top: 1px solid rgb(255, 255, 255);
+  border-left: 1px solid rgb(255, 255, 255);
+  border-right: 1px solid rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .physical {
   z-index: 10;
   position: relative;
 }
-
 
 .physical:hover::before,
 .physical:hover::after {
@@ -126,7 +175,6 @@ body::after {
   cursor: grab;
 }
 
-
 img.physical:hover,
 svg.physical:hover {
   outline: 2px solid var(--color-blueprint-primary);
@@ -142,7 +190,6 @@ svg.physical:hover {
 }
 
 @layer utilities {
-
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
