@@ -15,6 +15,7 @@ function App() {
         <HomeTitle />
         <HomeSocial />
       </div>
+
       <HomeSkills />
       <HomeProjects />
       <div className="mt-20 w-full flex justify-center bg-base-500"></div>
