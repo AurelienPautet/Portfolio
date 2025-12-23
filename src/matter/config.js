@@ -9,7 +9,7 @@ export const PHYSICS_CONFIG = {
   velocityIterations: 8,
   positionIterations: 5,
   constraintIterations: 2,
-  enableSleeping: true,
+  enableSleeping: false,
   runnerDelta: 1000 / 120,
 };
 

@@ -38,7 +38,7 @@ export default class PhysicalDomObject {
         height,
         this.options,
         { isSticky: this.originalSticky },
-        PhysicalDomObject.domElementIdCounter,
+        PhysicalDomObject.domElementIdCounter
       );
       this.physicalBody.bodyData.body.render.visible = false;
       if (!this.domElement.classList.contains("chain-container")) {
@@ -58,7 +58,7 @@ export default class PhysicalDomObject {
     }
     const chainLength = Math.sqrt(
       (this.initialPos.x - this.chainedTo.initialPos.x) ** 2 +
-        (this.initialPos.y - this.chainedTo.initialPos.y) ** 2,
+        (this.initialPos.y - this.chainedTo.initialPos.y) ** 2
     );
     const chain = Constraint.create({
       bodyB: this.physicalBody.bodyData.body,
@@ -87,9 +87,7 @@ export default class PhysicalDomObject {
 
   addConstraint() {
     if (this.originalStatic) {
-      setTimeout(() => {
-        this.physicalBody.bodyData.body.isStatic = true;
-      }, 1000);
+      this.physicalBody.bodyData.body.isStatic = true;
     }
 
     if (this.domElement.classList.contains("nonconstrained")) {
