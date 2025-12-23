@@ -80,7 +80,7 @@ function configureCanvasStyle(canvas, opacity) {
   canvas.style.position = "absolute";
   canvas.style.top = "0";
   canvas.style.left = "0";
-  canvas.style.zIndex = "0";
+  canvas.style.zIndex = "9999";
   canvas.style.pointerEvents = "none";
   canvas.style.opacity = opacity;
   canvas.style.overflow = "hidden";

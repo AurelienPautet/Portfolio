@@ -1,7 +1,16 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'BlueprintFont';
+  src: url('/fonts/Bluprintdemo-YOMv.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-size: 24px;
+}
+
 @theme {
   --font-mono: "JetBrains Mono", monospace;
+  --font-blueprint: "BlueprintFont", sans-serif;
   --color-blueprint-bg: #3b6fd6;
   --color-blueprint-grid: #334155;
   --color-blueprint-line: #ffffff;
