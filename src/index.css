@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./backgrounds.css";
 
 @font-face {
   font-family: "BlueprintFont";
@@ -38,6 +39,7 @@ body::after {
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: -1;
   background-image: linear-gradient(
       rgba(255, 255, 255, 0.2) 1px,
       transparent 1px
@@ -47,18 +49,7 @@ body::after {
   pointer-events: none;
 }
 
-.bg-dashed {
-  background-image: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    rgba(255, 255, 255, 0.2) 10px,
-    rgba(255, 255, 255, 0.2) 12px
-  );
-}
-
 .blueprint-element {
-  background-color: transparent;
   color: #ffffff;
   font-family: var(--font-mono);
   position: relative;
@@ -66,7 +57,6 @@ body::after {
 }
 
 .blueprint-box {
-  background-color: transparent;
   border: 1px solid #ffffff;
   position: relative;
 }

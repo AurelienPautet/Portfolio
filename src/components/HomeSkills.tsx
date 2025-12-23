@@ -8,7 +8,7 @@ const HomeSkills = () => {
           <div className="blueprint-measurement">
             <div
               className="physical blueprint-box blueprint-element static h-full w-fit p-10 
-    rounded-none shadow-none"
+    rounded-none shadow-none bg-dotted bg-blueprint-bg"
             >
               <div className="w-full h-fit flex flex-col justify-start items-center">
                 <WordSeparate

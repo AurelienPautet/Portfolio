@@ -45,7 +45,7 @@ export const MagneticEffect = () => {
         isActive ? "opacity-100" : "opacity-0"
       }`}
       style={{
-        background: `radial-gradient(circle at ${mousePos.x}px ${mousePos.y}px, rgba(59, 130, 246, 0.15) 0%, transparent 80%)`,
+        background: `radial-gradient(circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.15) 0%, transparent 50%)`,
       }}
     />
   );

@@ -10,7 +10,7 @@ const Navbar = () => {
         </h1>
       </div>
       <div className="flex gap-2 mx-5 ml-auto items-center">
-        <PhysicsControlButton className="fixedz-50" />
+        <PhysicsControlButton className="" />
       </div>
     </div>
   );

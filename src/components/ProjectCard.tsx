@@ -42,7 +42,7 @@ const ProjectCard = ({
 }: ProjectCardProps) => {
   return (
     <div
-      className={`flex flex-col lg:flex-row items-center blueprint-box p-6 rounded-none w-2/3 h-fit gap-6 ${className}`}
+      className={`flex flex-col lg:flex-row items-center bg-dashed-lines bg-blueprint-bg blueprint-element blueprint-box p-6 rounded-none w-2/3 h-fit gap-6 ${className}`}
     >
       <figure className="m-0  w-fit h-48 lg:w-1/3 flex items-center justify-center p-2">
         <img
@@ -63,7 +63,7 @@ const ProjectCard = ({
           />
           {isScolar && (
             <span
-              className="absolute -top-4 -right-8"
+              className="absolute -top-4 right-0 md:-right-8"
               title="This project was done in a school context"
             >
               <IoSchool className="physical blueprint-element p-1 w-8 h-8 text-white" />
@@ -71,7 +71,7 @@ const ProjectCard = ({
           )}
           {isNotFinished && (
             <span
-              className="absolute -top-4 -right-8"
+              className="absolute -top-4 right-0 md:-right-8"
               title="This project is not finished"
             >
               <MdBuild className="physical blueprint-element p-1 w-8 h-8 text-white" />
