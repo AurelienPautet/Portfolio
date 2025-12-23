@@ -4,7 +4,7 @@ import { useState } from "react";
 const HomeScale = () => {
   const [gravity, setGravity] = useState(1);
 
-  const handleGravityChange = (e) => {
+  const handleGravityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     if (!isNaN(value)) {
       setGravity(value);

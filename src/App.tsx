@@ -5,10 +5,9 @@ import HomeProjects from "./components/HomeProjects";
 import HomeSocial from "./components/HomeSocial";
 import { MoreBelow } from "./components/MoreBelow";
 import MagneticEffect from "./components/MagneticEffect";
-import HomeSettings from "./components/HomeSettings";
+
 import HomeHireMe from "./components/HomeHireMe";
 import HomeGameChamboule from "./components/HomeGameChamboule";
-import HomeScale from "./components/HomeScale";
 
 function App() {
   return (

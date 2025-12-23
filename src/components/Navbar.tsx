@@ -1,4 +1,4 @@
-import { PhysicsControlButton } from "./PhysicsControlButton.tsx";
+// import { PhysicsControlButton } from "./PhysicsControlButton.tsx";
 // import ThemeController from "./ThemeController.tsx";
 
 const Navbar = () => {
