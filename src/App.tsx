@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 import HomeTitle from "./components/HomeTitle";
 import HomeSkills from "./components/HomeSkills";
 import HomeProjects from "./components/HomeProjects";
+import HomeEducation from "./components/HomeEducation";
 import HomeSocial from "./components/HomeSocial";
 import { MoreBelow } from "./components/MoreBelow";
 import MagneticEffect from "./components/MagneticEffect";
@@ -30,6 +31,8 @@ function App() {
       </div>
 
       <HomeSkills />
+      <HomeEducation />
+
       <HomeProjects />
       <div className="mt-20 w-full flex justify-center bg-base-500"></div>
       <HomeHireMe />
