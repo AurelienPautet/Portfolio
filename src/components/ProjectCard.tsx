@@ -1,6 +1,7 @@
 import { FaGithub } from "react-icons/fa";
 import { IoSchool } from "react-icons/io5";
 import { MdBuild } from "react-icons/md";
+import { IoSparkles } from "react-icons/io5";
 
 import WordSeparate from "./WordSeparate";
 type Skill =
@@ -14,7 +15,8 @@ type Skill =
   | "Tailwind"
   | "Git"
   | "Python"
-  | "Java";
+  | "Java"
+  | "Swift";
 
 interface ProjectCardProps {
   className?: string;
@@ -26,6 +28,7 @@ interface ProjectCardProps {
   gitHubUrl?: string;
   isScolar?: boolean;
   isNotFinished?: boolean;
+  isVibeCoded?: boolean;
   skills: Skill[];
 }
 const ProjectCard = ({
@@ -38,6 +41,7 @@ const ProjectCard = ({
   gitHubUrl = "",
   isScolar = false,
   isNotFinished = false,
+  isVibeCoded = false,
   skills = [],
 }: ProjectCardProps) => {
   return (
@@ -75,6 +79,14 @@ const ProjectCard = ({
               data-tip="This project is not finished"
             >
               <MdBuild className="physical blueprint-element p-1 w-8 h-8 text-white" />
+            </div>
+          )}
+          {isVibeCoded && (
+            <div
+              className="tooltip absolute -top-4 right-0 md:-right-8"
+              data-tip="This project was Vibe Coded"
+            >
+              <IoSparkles className="physical blueprint-element p-1 w-8 h-8 text-white" />
             </div>
           )}
         </div>

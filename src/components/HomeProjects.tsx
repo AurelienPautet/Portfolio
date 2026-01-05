@@ -12,8 +12,19 @@ const HomeProjects = () => {
       <div className=" mt-10 w-full flex-col justify-center items-center flex gap-14">
         <ProjectCard
           className=""
+          title="Text Founrdry"
+          date="2025"
+          description="My first vibe coded app using Antigravity. Text Foundry is a native macOs application that allows users to quickly apply prompts to selected text in any application using shortcuts. It supports custom prompts, history and more. It's the swift port of my Grammar Corrector Java application."
+          imgUrl="/projectThumbnails/TextFoundry.png"
+          visitUrl="https://aurelien.pautet.net/TextFoundry/"
+          gitHubUrl="https://github.com/AurelienPautet/TextFoundry"
+          skills={["Swift"]}
+          isVibeCoded={true}
+        />
+        <ProjectCard
+          className=""
           title="La Fine Equipe"
-          date="2025 - Now"
+          date="2025"
           description="A full stack mono repo web application for my brother's univ association to manage their events, post articles and more. It includes a custom chatbot with a RAG system to answer questions about the association."
           imgUrl="/projectThumbnails/LaFineEquipe.png"
           visitUrl="https://la-fine-equipe.vercel.app"
