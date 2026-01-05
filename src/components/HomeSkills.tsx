@@ -84,6 +84,12 @@ const HomeSkills = () => {
                   alt="TypeScript Logo"
                   draggable={false}
                 />
+                <img
+                  src="/logos/LogoOcaml.svg"
+                  className="physical circle blueprint-element rounded-full nonconstrained w-15 h-15 user-select-none select-none p-2"
+                  alt="Ocaml Logo"
+                  draggable={false}
+                />
               </div>
             </div>
           </div>
