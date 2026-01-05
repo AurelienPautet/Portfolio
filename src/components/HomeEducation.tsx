@@ -3,7 +3,7 @@ import EducationCard from "./EducationCard";
 
 const HomeEducation = () => {
   return (
-    <>
+    <div id="education">
       <WordSeparate
         htmlTag="h2"
         text="My Education"
@@ -47,7 +47,7 @@ const HomeEducation = () => {
           highlights={["Mathematics", "Physics", "Computer Science"]}
         />
       </div>
-    </>
+    </div>
   );
 };
 

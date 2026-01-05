@@ -25,7 +25,10 @@ function App() {
     <>
       <MagneticEffect />
       <Navbar />
-      <div className="flex items-center flex-col min-h-screen md:min-h-fit">
+      <div
+        id="home"
+        className="flex items-center flex-col min-h-screen md:min-h-fit"
+      >
         <HomeTitle />
         <HomeSocial />
       </div>

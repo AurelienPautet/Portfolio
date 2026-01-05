@@ -2,7 +2,7 @@ import WordSeparate from "./WordSeparate";
 
 const HomeSkills = () => {
   return (
-    <>
+    <div id="skills">
       <div className="flex w-screen mt-0 md:mt-12">
         <div className="flex justify-center items-center w-full mt-12">
           <div className="blueprint-measurement">
@@ -95,7 +95,7 @@ const HomeSkills = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

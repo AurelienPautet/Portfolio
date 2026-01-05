@@ -27,7 +27,10 @@ const HomeHireMe = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full py-20 relative mb-30">
+    <div
+      id="hire-me"
+      className="flex flex-col items-center justify-center w-full py-20 relative mb-30"
+    >
       <div className="absolute inset-0  opacity-30 pointer-events-none"></div>
 
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none z-0">

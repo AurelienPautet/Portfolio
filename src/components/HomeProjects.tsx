@@ -2,7 +2,7 @@ import WordSeparate from "./WordSeparate";
 import ProjectCard from "./ProjectCard";
 const HomeProjects = () => {
   return (
-    <>
+    <div id="projects">
       <WordSeparate
         htmlTag="h2"
         text="My Projects"
@@ -90,7 +90,7 @@ const HomeProjects = () => {
           skills={["Css", "Html", "Js"]}
         />
       </div>
-    </>
+    </div>
   );
 };
 
