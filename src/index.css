@@ -202,3 +202,34 @@ svg.physical:hover {
 .animate-gradient-scroll {
   animation: gradient-scroll 10s linear infinite;
 }
+
+/* Tooltip CSS */
+.tooltip {
+  display: inline-block;
+}
+
+.tooltip::before {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem 1rem;
+  background-color: var(--color-blueprint-bg);
+  color: white;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s;
+  pointer-events: none;
+  z-index: 50;
+  border: 1px solid white;
+  margin-bottom: 0.5rem;
+}
+
+.tooltip:hover::before {
+  opacity: 1;
+  visibility: visible;
+}

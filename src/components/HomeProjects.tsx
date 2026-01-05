@@ -19,7 +19,6 @@ const HomeProjects = () => {
           visitUrl="https://la-fine-equipe.vercel.app"
           gitHubUrl="https://github.com/AurelienPautet/La-Fine-Equipe"
           skills={["React", "Tailwind", "Node", "Postgres", "Ts"]}
-          isNotFinished={true}
         />
         <ProjectCard
           className=""
@@ -30,6 +29,7 @@ const HomeProjects = () => {
           visitUrl="https://wiitank.pautet.net"
           gitHubUrl="https://github.com/AurelienPautet/WiiGameBien"
           skills={["Html", "Css", "Js"]}
+          isNotFinished={true}
         />
         <ProjectCard
           className=" "
@@ -39,7 +39,6 @@ const HomeProjects = () => {
           imgUrl="/projectThumbnails/TransatFourchettas.png"
           gitHubUrl="https://github.com/PlugImt/transat-app"
           skills={["React", "Tailwind", "Git"]}
-          isNotFinished={true}
         />
         <ProjectCard
           className=" "

@@ -62,20 +62,20 @@ const ProjectCard = ({
             wordGap={1}
           />
           {isScolar && (
-            <span
-              className="absolute -top-4 right-0 md:-right-8"
-              title="This project was done in a school context"
+            <div
+              className="tooltip absolute -top-4 right-0 md:-right-8"
+              data-tip="This project was done in a school context"
             >
               <IoSchool className="physical blueprint-element p-1 w-8 h-8 text-white" />
-            </span>
+            </div>
           )}
           {isNotFinished && (
-            <span
-              className="absolute -top-4 right-0 md:-right-8"
-              title="This project is not finished"
+            <div
+              className="tooltip absolute -top-4 right-0 md:-right-8"
+              data-tip="This project is not finished"
             >
               <MdBuild className="physical blueprint-element p-1 w-8 h-8 text-white" />
-            </span>
+            </div>
           )}
         </div>
         <div className="w-full flex items-center justify-center gap-2 flex-wrap">
