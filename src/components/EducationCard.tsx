@@ -30,7 +30,7 @@ const EducationCard = ({
       className={`relative flex flex-col  lg:flex-row items-center bg-dotted bg-blueprint-bg blueprint-element blueprint-box p-6 rounded-none w-2/3 max-w-4xl h-fit gap-6 ${className}`}
     >
       <div className="absolute -left-10 top-1/2  hidden lg:block">
-        <div className="w-4 h-4 rounded-full border-2 border-white bg-blueprint-bg" />
+        <div className="w-4 h-4 physical circle rounded-full border-2 border-white bg-blueprint-bg" />
       </div>
 
       <div className="flex flex-col lg:flex-row items-center w-full gap-6">
