@@ -19,7 +19,27 @@ import {
 } from "./eventHandlers";
 import { changeGravity, changeTimeScale } from "./dynamicSettings";
 
-const { Engine, Render, Runner, Composite } = Matter;
+const { Engine, Render, Runner, Composite, Body } = Matter;
+
+function clampVelocities(engine) {
+  const maxVelocity = PHYSICS_CONFIG.maxVelocity;
+  const bodies = Composite.allBodies(engine.world);
+
+  for (const body of bodies) {
+    if (body.isStatic) continue;
+
+    const velocity = body.velocity;
+    const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+
+    if (speed > maxVelocity) {
+      const scale = maxVelocity / speed;
+      Body.setVelocity(body, {
+        x: velocity.x * scale,
+        y: velocity.y * scale,
+      });
+    }
+  }
+}
 
 window.defaultCategory = COLLISION_CATEGORIES.default;
 window.wallCategory = COLLISION_CATEGORIES.wall;
@@ -149,6 +169,12 @@ function initializePhysics() {
   });
 
   configureEngine(window.engine);
+
+  // Add velocity limiting before each update
+  Matter.Events.on(window.engine, "beforeUpdate", function () {
+    clampVelocities(window.engine);
+  });
+
   Runner.run(runner, window.engine);
   Render.run(render);
 
@@ -167,6 +193,7 @@ function initializePhysics() {
       physicalDomObject.updateConstraint();
       setAbsoluteTransform(physicalDomObject);
     }
+
     requestAnimationFrame(uiLoop);
   }
   uiLoop();
@@ -182,6 +209,9 @@ function loadPhysics(body, physicalDomObjects, bodySize) {
   loadPhysicalDomFromHtml(body, physicalDomObjects);
   initPhysicalDomObjects(physicalDomObjects);
   createChains(physicalDomObjects);
+
+  // One-time containment check 5 seconds after initialization
+
   Composite.add(window.engine.world, [
     ground,
     ceiling,
@@ -189,6 +219,23 @@ function loadPhysics(body, physicalDomObjects, bodySize) {
     rightWall,
     mouseConstraint,
   ]);
+}
+
+setTimeout(() => {
+  containAllChildren(physicalDomObjects);
+}, 5000);
+
+// Contain all children within their parent BoxComposite bounds
+function containAllChildren(physicalDomObjects) {
+  for (const obj of physicalDomObjects) {
+    if (obj.physicalBody?.containChildren) {
+      obj.physicalBody.containChildren();
+    }
+    // Also check individual objects
+    if (obj.constrainToParentBounds) {
+      obj.constrainToParentBounds();
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", initializePhysics);

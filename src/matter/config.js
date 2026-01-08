@@ -6,11 +6,12 @@ export const COLLISION_CATEGORIES = {
 
 export const PHYSICS_CONFIG = {
   timeScale: 1,
-  velocityIterations: 8,
-  positionIterations: 5,
-  constraintIterations: 2,
+  velocityIterations: 12,
+  positionIterations: 10,
+  constraintIterations: 4,
   enableSleeping: false,
   runnerDelta: 1000 / 120,
+  maxVelocity: 25,
 };
 
 export const WALL_CONFIG = {

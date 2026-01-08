@@ -1,4 +1,4 @@
-import { Composite, Constraint } from "matter-js";
+import { Composite, Constraint, Body } from "matter-js";
 import Matter from "matter-js";
 export default class PhysicalDomObject {
   static domElementIdCounter = 0;
@@ -44,7 +44,59 @@ export default class PhysicalDomObject {
       if (!this.domElement.classList.contains("chain-container")) {
         Composite.add(window.engine.world, this.physicalBody.bodyData.body);
         this.addConstraint();
+
+        // Register with parent BoxComposite for containment if nonconstrained
+        if (
+          this.domElement.classList.contains("nonconstrained") &&
+          this.parent?.physicalBody
+        ) {
+          if (
+            typeof this.parent.physicalBody.registerChildBody === "function"
+          ) {
+            this.parent.physicalBody.registerChildBody(
+              this.physicalBody.bodyData.body
+            );
+            // Immediately constrain to parent bounds
+            this.constrainToParentBounds();
+          }
+        }
       }
+    }
+  }
+
+  // Constrain this object to stay within parent BoxComposite bounds
+  constrainToParentBounds() {
+    if (!this.parent?.physicalBody?.getInnerBounds) return;
+
+    const bounds = this.parent.physicalBody.getInnerBounds();
+    const body = this.physicalBody.bodyData.body;
+    const bodyBounds = body.bounds;
+    const bodyHalfWidth = (bodyBounds.max.x - bodyBounds.min.x) / 2;
+    const bodyHalfHeight = (bodyBounds.max.y - bodyBounds.min.y) / 2;
+
+    let newX = body.position.x;
+    let newY = body.position.y;
+    let needsCorrection = false;
+
+    if (body.position.x - bodyHalfWidth < bounds.minX) {
+      newX = bounds.minX + bodyHalfWidth + 5;
+      needsCorrection = true;
+    } else if (body.position.x + bodyHalfWidth > bounds.maxX) {
+      newX = bounds.maxX - bodyHalfWidth - 5;
+      needsCorrection = true;
+    }
+
+    if (body.position.y - bodyHalfHeight < bounds.minY) {
+      newY = bounds.minY + bodyHalfHeight + 5;
+      needsCorrection = true;
+    } else if (body.position.y + bodyHalfHeight > bounds.maxY) {
+      newY = bounds.maxY - bodyHalfHeight - 5;
+      needsCorrection = true;
+    }
+
+    if (needsCorrection) {
+      Body.setPosition(body, { x: newX, y: newY });
+      Body.setVelocity(body, { x: 0, y: 0 });
     }
   }
 
