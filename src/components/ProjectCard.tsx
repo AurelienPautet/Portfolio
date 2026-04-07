@@ -16,7 +16,8 @@ type Skill =
   | "Git"
   | "Python"
   | "Java"
-  | "Swift";
+  | "Swift"
+  | "Rust";
 
 interface ProjectCardProps {
   className?: string;

@@ -12,7 +12,16 @@ const HomeProjects = () => {
       <div className=" mt-10 w-full flex-col justify-center items-center flex gap-14">
         <ProjectCard
           className=""
-          title="Text Founrdry"
+          title="RustTracer"
+          date="2026"
+          description="A CPU ray tracer written in Rust, following the ray tracing in one weekend book. It features a custom scene, multiple materials, BVH acceleration structure and more."
+          imgUrl="/projectThumbnails/RustTracer.jpeg"
+          gitHubUrl="https://github.com/AurelienPautet/RustTracer"
+          skills={["Rust"]}
+        />
+        <ProjectCard
+          className=""
+          title="Text Foundry"
           date="2025"
           description="My first vibe coded app using Antigravity. Text Foundry is a native macOs application that allows users to quickly apply prompts to selected text in any application using shortcuts. It supports custom prompts, history and more. It's the swift port of my Grammar Corrector Java application."
           imgUrl="/projectThumbnails/TextFoundry.png"
