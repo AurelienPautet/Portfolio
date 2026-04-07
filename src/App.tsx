@@ -34,9 +34,8 @@ function App() {
       </div>
 
       <HomeSkills />
-      <HomeEducation />
-
       <HomeProjects />
+      <HomeEducation />
       <div className="mt-20 w-full flex justify-center bg-base-500"></div>
       <HomeHireMe />
       <HomeGameChamboule />

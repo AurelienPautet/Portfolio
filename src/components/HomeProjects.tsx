@@ -12,6 +12,15 @@ const HomeProjects = () => {
       <div className=" mt-10 w-full flex-col justify-center items-center flex gap-14">
         <ProjectCard
           className=""
+          title="MindCap"
+          date="2026"
+          description="A privacy-first Chrome extension built with React and TypeScript that uses AI to categorize pages in real time and block distractions. It includes deep focus intentions, custom categories with daily limits, local-first inference (LM Studio or BYOK), and usage stats with backup/restore."
+          imgUrl="/projectThumbnails/MindCap.png"
+          visitUrl="https://aurelien.pautet.net/MindCap/"
+          skills={["React", "Ts"]}
+        />
+        <ProjectCard
+          className=""
           title="RustTracer"
           date="2026"
           description="A CPU ray tracer written in Rust, following the ray tracing in one weekend book. It features a custom scene, multiple materials, BVH acceleration structure and more."
