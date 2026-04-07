@@ -64,7 +64,7 @@ function toggleDebugMode() {
 
   if (window.render) {
     window.render.options.background = "transparent";
-    window.render.options.showConstraints = window.debugMode;
+    window.render.options.showConstraints = true;
   }
 
   if (window.physicalDomObjects) {
@@ -158,7 +158,7 @@ function initializePhysics() {
       width: bodySize.width,
       height: bodySize.height,
       wireframes: false,
-      showConstraints: false,
+      showConstraints: true,
       background: "transparent",
       pixelRatio: 1,
     },

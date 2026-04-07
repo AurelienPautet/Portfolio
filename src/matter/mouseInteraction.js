@@ -41,7 +41,7 @@ export function createMouseInteraction(render, engine) {
       angularStiffness: 0.15,
       damping: 0.2,
       render: {
-        visible: false,
+        visible: true,
         strokeStyle: "#ffffff",
         lineWidth: 2,
       },
