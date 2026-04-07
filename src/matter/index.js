@@ -21,22 +21,35 @@ import { changeGravity, changeTimeScale } from "./dynamicSettings";
 
 const { Engine, Render, Runner, Composite, Body } = Matter;
 
+let containChildrenTimeoutId = null;
+
 function clampVelocities(engine) {
   const maxVelocity = PHYSICS_CONFIG.maxVelocity;
+  const maxVelocitySq = maxVelocity * maxVelocity;
+  const maxAngularVelocity = PHYSICS_CONFIG.maxAngularVelocity;
   const bodies = Composite.allBodies(engine.world);
 
   for (const body of bodies) {
-    if (body.isStatic) continue;
+    if (body.isStatic || body.isSleeping) continue;
 
     const velocity = body.velocity;
-    const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+    const speedSq = velocity.x * velocity.x + velocity.y * velocity.y;
 
-    if (speed > maxVelocity) {
+    if (speedSq > maxVelocitySq) {
+      const speed = Math.sqrt(speedSq);
       const scale = maxVelocity / speed;
       Body.setVelocity(body, {
         x: velocity.x * scale,
         y: velocity.y * scale,
       });
+    }
+
+    const angularVelocity = body.angularVelocity;
+    if (Math.abs(angularVelocity) > maxAngularVelocity) {
+      Body.setAngularVelocity(
+        body,
+        Math.sign(angularVelocity) * maxAngularVelocity,
+      );
     }
   }
 }
@@ -51,6 +64,7 @@ function toggleDebugMode() {
 
   if (window.render) {
     window.render.options.background = "transparent";
+    window.render.options.showConstraints = window.debugMode;
   }
 
   if (window.physicalDomObjects) {
@@ -144,8 +158,9 @@ function initializePhysics() {
       width: bodySize.width,
       height: bodySize.height,
       wireframes: false,
-      showConstraints: true,
+      showConstraints: false,
       background: "transparent",
+      pixelRatio: 1,
     },
   });
 
@@ -166,6 +181,8 @@ function initializePhysics() {
 
   const runner = Runner.create({
     delta: PHYSICS_CONFIG.runnerDelta,
+    maxFrameTime: PHYSICS_CONFIG.runnerMaxFrameTime,
+    maxUpdates: PHYSICS_CONFIG.runnerMaxUpdates,
   });
 
   configureEngine(window.engine);
@@ -203,14 +220,13 @@ function loadPhysics(body, physicalDomObjects, bodySize) {
   console.log("Reloading physics...");
   physicalDomObjects.length = 0;
   Matter.Composite.clear(window.engine.world, false);
+  Matter.Engine.clear(window.engine);
 
   let { ground, ceiling, leftWall, rightWall } = createBoundaries(bodySize);
-  let mouseConstraint = createMouseInteraction(render, window.engine);
+  let mouseConstraint = createMouseInteraction(window.render, window.engine);
   loadPhysicalDomFromHtml(body, physicalDomObjects);
   initPhysicalDomObjects(physicalDomObjects);
   createChains(physicalDomObjects);
-
-  // One-time containment check 5 seconds after initialization
 
   Composite.add(window.engine.world, [
     ground,
@@ -219,11 +235,15 @@ function loadPhysics(body, physicalDomObjects, bodySize) {
     rightWall,
     mouseConstraint,
   ]);
-}
 
-setTimeout(() => {
-  containAllChildren(physicalDomObjects);
-}, 5000);
+  if (containChildrenTimeoutId) {
+    clearTimeout(containChildrenTimeoutId);
+  }
+
+  containChildrenTimeoutId = setTimeout(() => {
+    containAllChildren(physicalDomObjects);
+  }, 1500);
+}
 
 // Contain all children within their parent BoxComposite bounds
 function containAllChildren(physicalDomObjects) {

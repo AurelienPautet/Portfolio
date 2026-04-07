@@ -6,18 +6,27 @@ export const COLLISION_CATEGORIES = {
 
 export const PHYSICS_CONFIG = {
   timeScale: 1,
-  velocityIterations: 12,
-  positionIterations: 10,
-  constraintIterations: 4,
-  enableSleeping: false,
-  runnerDelta: 1000 / 120,
-  maxVelocity: 25,
+  velocityIterations: 10,
+  positionIterations: 8,
+  constraintIterations: 3,
+  enableSleeping: true,
+  runnerDelta: 1000 / 60,
+  runnerMaxFrameTime: 1000 / 45,
+  runnerMaxUpdates: 2,
+  maxVelocity: 18,
+  maxAngularVelocity: 0.35,
 };
 
 export const WALL_CONFIG = {
   offset: 248,
   thickness: 500,
-  restitution: 0.5,
+  restitution: 0.15,
+};
+
+export const MAGNET_CONFIG = {
+  minDistance: 5,
+  maxDistance: 500,
+  baseForce: 0.015,
 };
 
 export const TRANSFORM_CONFIG = {

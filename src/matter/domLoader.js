@@ -4,6 +4,15 @@ import Box from "./Box";
 import Circle from "./Circle";
 import Triangle from "./Triangle";
 
+const DEFAULT_BODY_OPTIONS = {
+  angle: 0,
+  restitution: 0.2,
+  friction: 0.35,
+  frictionAir: 0.02,
+  frictionStatic: 0.5,
+  sleepThreshold: 40,
+};
+
 export async function waitForImages() {
   const images = document.querySelectorAll("img.physical");
   const imagePromises = Array.from(images).map((img) => {
@@ -32,7 +41,7 @@ export function loadPhysicalDomFromHtml(
   ) {
     physicalDomObject = new PhysicalDomObject(
       startingElement,
-      { angle: 0, restitution: 0.5 },
+      { ...DEFAULT_BODY_OPTIONS },
       parentPhysicalDomObject,
     );
     parentPhysicalDomObject?.childrens.push(physicalDomObject);
