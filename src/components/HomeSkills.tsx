@@ -98,7 +98,7 @@ const HomeSkills = () => {
                 />
                 <img
                   src="/logos/LogoLangGraph.svg"
-                  className="physical circle blueprint-element rounded-full nonconstrained w-15 h-15 user-select-none select-none p-2"
+                  className="physical pill blueprint-element rounded-full nonconstrained w-20 h-12 object-contain user-select-none select-none p-2"
                   alt="LangGraph Logo"
                   draggable={false}
                 />
