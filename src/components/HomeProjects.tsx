@@ -15,7 +15,7 @@ const HomeProjects = () => {
           title="StayLuma"
           date="2026"
           description="An AI photo enhancement web app for short-term rental hosts on Airbnb and Booking. Hosts upload their listing photos and get them back brighter, truer and booking-ready in two minutes, with an AI-generated summary of every change made. Built with a React frontend and a FastAPI backend orchestrated with LangGraph, using Gemini for image enhancement and Claude for the review generation."
-          imgUrl="/projectThumbnails/StayLuma.png"
+          imgUrl="/projectThumbnails/StayLuma.svg"
           visitUrl="https://stayluma.net/"
           gitHubUrl="https://github.com/AurelienPautet/stayluma"
           skills={["React", "Ts", "Python", "Postgres", "LangGraph"]}
