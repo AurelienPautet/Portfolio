@@ -18,7 +18,7 @@ const HomeProjects = () => {
           imgUrl="/projectThumbnails/StayLuma.png"
           visitUrl="https://stayluma.net/"
           gitHubUrl="https://github.com/AurelienPautet/stayluma"
-          skills={["React", "Ts", "Python", "Postgres"]}
+          skills={["React", "Ts", "Python", "Postgres", "LangGraph"]}
         />
         <ProjectCard
           className=""
