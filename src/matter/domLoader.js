@@ -3,6 +3,7 @@ import BoxComposite from "./BoxComposite";
 import Box from "./Box";
 import Circle from "./Circle";
 import Triangle from "./Triangle";
+import Pill from "./Pill";
 
 const DEFAULT_BODY_OPTIONS = {
   angle: 0,
@@ -73,6 +74,8 @@ export function initPhysicalDomObjects(physicalDomObjects) {
   for (const physicalDomObject of physicalDomObjects) {
     if (physicalDomObject.domElement.classList.contains("circle")) {
       physicalDomObject.init(Circle);
+    } else if (physicalDomObject.domElement.classList.contains("pill")) {
+      physicalDomObject.init(Pill);
     } else if (physicalDomObject.domElement.classList.contains("triangle")) {
       physicalDomObject.init(Triangle);
     } else if (physicalDomObject.childrens.length === 0) {

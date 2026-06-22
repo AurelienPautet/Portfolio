@@ -96,6 +96,12 @@ const HomeSkills = () => {
                   alt="Rust Logo"
                   draggable={false}
                 />
+                <img
+                  src="/logos/LogoLangGraph.svg"
+                  className="physical pill blueprint-element rounded-full nonconstrained w-20 h-12 object-contain user-select-none select-none p-2"
+                  alt="LangGraph Logo"
+                  draggable={false}
+                />
               </div>
             </div>
           </div>

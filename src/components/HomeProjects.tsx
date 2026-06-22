@@ -12,6 +12,16 @@ const HomeProjects = () => {
       <div className=" mt-10 w-full flex-col justify-center items-center flex gap-14">
         <ProjectCard
           className=""
+          title="StayLuma"
+          date="2026"
+          description="An AI photo enhancement web app for short-term rental hosts on Airbnb and Booking. Hosts upload their listing photos and get them back brighter, truer and booking-ready in two minutes, with an AI-generated summary of every change made. Built with a React frontend and a FastAPI backend orchestrated with LangGraph, using Gemini for image enhancement and Claude for the review generation."
+          imgUrl="/projectThumbnails/StayLuma.png"
+          visitUrl="https://stayluma.net/"
+          gitHubUrl="https://github.com/AurelienPautet/stayluma"
+          skills={["React", "Ts", "Python", "Postgres", "LangGraph"]}
+        />
+        <ProjectCard
+          className=""
           title="MindCap"
           date="2026"
           description="A privacy-first Chrome extension built with React and TypeScript that uses AI to categorize pages in real time and block distractions. It includes deep focus intentions, custom categories with daily limits, local-first inference (LM Studio or BYOK), and usage stats with backup/restore."
