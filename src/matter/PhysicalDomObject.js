@@ -1,5 +1,6 @@
 import { Composite, Constraint, Body } from "matter-js";
 import Matter from "matter-js";
+import { getTextInkRect } from "./textBounds";
 export default class PhysicalDomObject {
   static domElementIdCounter = 0;
 
@@ -24,10 +25,29 @@ export default class PhysicalDomObject {
   init(physicalBodyClass) {
     PhysicalDomObject.domElementIdCounter += 1;
     const rect = this.domElement.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const x = rect.left + window.scrollX + width / 2;
-    const y = rect.top + window.scrollY + height / 2;
+    const inkRect = this.domElement.dataset.physicsBounds === "text"
+      ? getTextInkRect(this.domElement)
+      : null;
+    const bounds = inkRect || rect;
+    const width = bounds.width;
+    const height = bounds.height;
+    const x = bounds.left + window.scrollX + width / 2;
+    const y = bounds.top + window.scrollY + height / 2;
+    if (inkRect) {
+      // Rotate the DOM around the same center as its body when it is released.
+      this.domElement.style.transformOrigin =
+        `${bounds.left - rect.left + width / 2}px ${bounds.top - rect.top + height / 2}px`;
+      // Let hover decorations use the same ink box without resizing the element.
+      const offsets = {
+        left: bounds.left - rect.left,
+        top: bounds.top - rect.top,
+        right: rect.left + rect.width - bounds.left - width,
+        bottom: rect.top + rect.height - bounds.top - height,
+      };
+      for (const [edge, offset] of Object.entries(offsets)) {
+        this.domElement.style.setProperty(`--physics-ink-${edge}`, `${offset}px`);
+      }
+    }
     this.initialPos = { x: x, y: y };
     this.initialSize = { width: width, height: height };
     if (physicalBodyClass) {

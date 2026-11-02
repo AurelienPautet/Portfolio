@@ -161,6 +161,16 @@ body::after {
   border-width: 0 2px 2px 0;
 }
 
+.physical[data-physics-bounds="text"]:hover::before {
+  top: calc(var(--physics-ink-top, 0px) - 1px);
+  left: calc(var(--physics-ink-left, 0px) - 1px);
+}
+
+.physical[data-physics-bounds="text"]:hover::after {
+  bottom: calc(var(--physics-ink-bottom, 0px) - 1px);
+  right: calc(var(--physics-ink-right, 0px) - 1px);
+}
+
 .physical:hover {
   cursor: grab;
 }

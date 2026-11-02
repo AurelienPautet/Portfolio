@@ -169,7 +169,10 @@ function initializePhysics() {
   let physicalDomObjects = [];
   window.physicalDomObjects = physicalDomObjects;
 
-  waitForImages().then(() => {
+  // Wait for the custom fonts too: body sizes are read from the DOM, and the
+  // fallback font makes text elements much wider than their final rendering
+  // (this made the draggable hitbox of the title way too large).
+  Promise.all([waitForImages(), document.fonts.ready]).then(() => {
     loadPhysics(root, physicalDomObjects, bodySize);
   });
 
