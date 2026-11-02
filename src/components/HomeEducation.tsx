@@ -13,6 +13,21 @@ const HomeEducation = () => {
 
       <div className="relative mt-10 w-full flex flex-col justify-center items-center gap-14">
         <EducationCard
+          institution="Georgia Institute of Technology"
+          degree="Master of Science in Computer Science - ML & AI"
+          date="Sept 2026 - Dec 2027"
+          location="Atlanta, USA"
+          description="Double degree between IMT Atlantique and Georgia Tech, one of the leading research universities in the United States. Specialization in machine learning and artificial intelligence, with graduate coursework in deep learning, NLP, and large-scale ML systems."
+          logoUrl="/logos/education/GeorgiaTech.png"
+          websiteUrl="https://www.gatech.edu"
+          highlights={[
+            "Machine Learning",
+            "Deep Learning",
+            "Artificial Intelligence",
+          ]}
+        />
+
+        <EducationCard
           institution="Ingeniering School, IMT Atlantique"
           degree="Engineering Diploma"
           date="2024 - 2027"
