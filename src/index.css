@@ -96,7 +96,8 @@ body::after {
 }
 
 .blueprint-measurement::before {
-  content: "240px";
+  /* Real height of the measured element, set from HomeSkills (data-height) */
+  content: attr(data-height);
   position: absolute;
   left: -30px;
   top: 0;
@@ -115,7 +116,8 @@ body::after {
 }
 
 .blueprint-measurement::after {
-  content: "100%";
+  /* Real width of the measured element, set from HomeSkills (data-width) */
+  content: attr(data-width);
   position: absolute;
   top: -30px;
   left: 0;

@@ -1,11 +1,44 @@
+import { useLayoutEffect, useRef, useState } from "react";
 import WordSeparate from "./WordSeparate";
 
 const HomeSkills = () => {
+  const measurementRef = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+
+  useLayoutEffect(() => {
+    const element = measurementRef.current;
+    if (!element) return;
+
+    const updateSize = () => {
+      const rect = element.getBoundingClientRect();
+      setSize({
+        width: Math.round(rect.width),
+        height: Math.round(rect.height),
+      });
+    };
+
+    updateSize();
+
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(element);
+    window.addEventListener("resize", updateSize);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateSize);
+    };
+  }, []);
+
   return (
     <div id="skills">
       <div className="flex w-screen mt-0 md:mt-12">
         <div className="flex justify-center items-center w-full mt-12">
-          <div className="blueprint-measurement">
+          <div
+            ref={measurementRef}
+            className="blueprint-measurement"
+            data-width={`${size.width}px`}
+            data-height={`${size.height}px`}
+          >
             <div
               className="physical blueprint-box blueprint-element static h-full w-fit p-10 
     rounded-none shadow-none bg-dotted bg-blueprint-bg"
