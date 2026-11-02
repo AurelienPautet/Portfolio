@@ -75,6 +75,12 @@ const Navbar = () => {
             Projects
           </button>
           <button
+            onClick={() => scrollToSection("experience")}
+            className="text-white font-semibold hover:text-gray-200 transition-colors px-3 py-2 rounded bg-blueprint-bg"
+          >
+            Experience
+          </button>
+          <button
             onClick={() => scrollToSection("hire-me")}
             className="text-white font-semibold hover:text-gray-200 transition-colors px-3 py-2 rounded bg-blueprint-bg"
           >
@@ -137,6 +143,12 @@ const Navbar = () => {
               className="text-white font-semibold hover:text-gray-200 transition-colors px-3 py-2 rounded lg:bg-blueprint-bg text-left"
             >
               Projects
+            </button>
+            <button
+              onClick={() => scrollToSection("experience")}
+              className="text-white font-semibold hover:text-gray-200 transition-colors px-3 py-2 rounded lg:bg-blueprint-bg text-left"
+            >
+              Experience
             </button>
             <button
               onClick={() => scrollToSection("hire-me")}
