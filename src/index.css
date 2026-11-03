@@ -3,10 +3,10 @@
 
 @font-face {
   font-family: "BlueprintFont";
-  src: url("/fonts/Bluprintdemo-YOMv.otf") format("opentype");
+  src: url("/fonts/Bluprintdemo-YOMv.woff2") format("woff2");
   font-weight: 800;
   font-style: normal;
-  font-size: 24px;
+  font-display: swap;
 }
 
 @theme {

@@ -86,38 +86,7 @@ export default class PhysicalDomObject {
 
   // Constrain this object to stay within parent BoxComposite bounds
   constrainToParentBounds() {
-    if (!this.parent?.physicalBody?.getInnerBounds) return;
-
-    const bounds = this.parent.physicalBody.getInnerBounds();
-    const body = this.physicalBody.bodyData.body;
-    const bodyBounds = body.bounds;
-    const bodyHalfWidth = (bodyBounds.max.x - bodyBounds.min.x) / 2;
-    const bodyHalfHeight = (bodyBounds.max.y - bodyBounds.min.y) / 2;
-
-    let newX = body.position.x;
-    let newY = body.position.y;
-    let needsCorrection = false;
-
-    if (body.position.x - bodyHalfWidth < bounds.minX) {
-      newX = bounds.minX + bodyHalfWidth + 5;
-      needsCorrection = true;
-    } else if (body.position.x + bodyHalfWidth > bounds.maxX) {
-      newX = bounds.maxX - bodyHalfWidth - 5;
-      needsCorrection = true;
-    }
-
-    if (body.position.y - bodyHalfHeight < bounds.minY) {
-      newY = bounds.minY + bodyHalfHeight + 5;
-      needsCorrection = true;
-    } else if (body.position.y + bodyHalfHeight > bounds.maxY) {
-      newY = bounds.maxY - bodyHalfHeight - 5;
-      needsCorrection = true;
-    }
-
-    if (needsCorrection) {
-      Body.setPosition(body, { x: newX, y: newY });
-      Body.setVelocity(body, { x: 0, y: 0 });
-    }
+    this.parent?.physicalBody?.containChild?.(this.physicalBody.bodyData.body);
   }
 
   addChainTo() {
@@ -159,7 +128,9 @@ export default class PhysicalDomObject {
 
   addConstraint() {
     if (this.originalStatic) {
-      this.physicalBody.bodyData.body.isStatic = true;
+      Body.setStatic(this.physicalBody.bodyData.body, true);
+      // A static body already has a fixed pose; a spring to the world is redundant.
+      return;
     }
 
     if (this.domElement.classList.contains("nonconstrained")) {
@@ -173,7 +144,7 @@ export default class PhysicalDomObject {
 
       this.setInertiaToInfinity();
 
-      parent = this.parent;
+      let parent = this.parent;
       if (parent?.domElement.classList.contains("chain-container")) {
         parent = null;
       }
@@ -205,7 +176,7 @@ export default class PhysicalDomObject {
   }
 
   removeConstraint() {
-    this.physicalBody.bodyData.body.isStatic = false;
+    Body.setStatic(this.physicalBody.bodyData.body, false);
     this.physicalBody.bodyData.body.collisionFilter.category =
       window.defaultCategory;
     this.physicalBody.bodyData.body.collisionFilter.mask =

@@ -1,13 +1,11 @@
 import { TRANSFORM_CONFIG } from "./config";
 
-const parentDataPool = new Array(TRANSFORM_CONFIG.maxParentDepth);
-for (let i = 0; i < TRANSFORM_CONFIG.maxParentDepth; i++) {
-  parentDataPool[i] = { x: 0, y: 0, cos: 0, sin: 0 };
-}
-
 const supportsIndividualTransforms = CSS.supports("translate", "0px");
 const pendingDOMUpdates = [];
 let isFlushScheduled = false;
+
+// Incremented once per UI frame (see beginFrame). Used to key per-frame caches.
+let frameId = 0;
 
 function flushDOMUpdates() {
   isFlushScheduled = false;
@@ -45,9 +43,57 @@ function initializeTransformCache(physicalDomObject) {
       y: -999999,
       angle: -999999,
     };
-    physicalDomObject.domElement.style.willChange = "transform";
+    // Fresh object (or fresh rebuild): reset the will-change hint baseline.
+    physicalDomObject.domElement.style.willChange = "auto";
+    physicalDomObject._willChangeOn = false;
   }
   return physicalDomObject._transformCache;
+}
+
+// will-change is a memory hint: keep it only while an object is actually moving.
+function setWillChange(physicalDomObject, on) {
+  if (on) {
+    if (physicalDomObject._willChangeOn) return;
+    physicalDomObject._willChangeOn = true;
+    physicalDomObject.domElement.style.willChange = "transform";
+  } else {
+    if (!physicalDomObject._willChangeOn) return;
+    physicalDomObject._willChangeOn = false;
+    physicalDomObject.domElement.style.willChange = "auto";
+  }
+}
+
+// An object is "settled" when it and its whole ancestor chain are static or
+// sleeping. Sticky objects are excluded: their DOM transform follows the scroll
+// offset, so they must keep recomputing.
+function isSettled(physicalDomObject) {
+  let current = physicalDomObject;
+  while (current) {
+    if (current.originalSticky) return false;
+    const body = current.physicalBody?.bodyData?.body;
+    if (!body) return false;
+    if (!body.isStatic && !body.isSleeping) return false;
+    current = current.parent;
+  }
+  // A sleeping/static body can still be repositioned explicitly (containment,
+  // resize or a parent correction). Sleeping flags alone cannot invalidate it.
+  const poses = physicalDomObject._restPoses ||= [];
+  let changed = false;
+  let depth = 0;
+  for (current = physicalDomObject; current; current = current.parent) {
+    const body = current.physicalBody.bodyData.body;
+    const previous = poses[depth];
+    if (!previous || previous.body !== body || previous.x !== body.position.x ||
+      previous.y !== body.position.y || previous.angle !== body.angle) {
+      changed = true;
+      poses[depth] = { body, x: body.position.x, y: body.position.y, angle: body.angle };
+    }
+    depth++;
+  }
+  if (poses.length !== depth) changed = true;
+  poses.length = depth;
+  physicalDomObject._restPoseChanged = changed;
+  return true;
 }
 
 function roundValue(value, precision) {
@@ -83,77 +129,55 @@ function transformSimple(physicalDomObject, x, y, angle, cache) {
   }
 }
 
-function buildParentMatrix(parent, initialPos, angle) {
-  let correctionX = -initialPos.x;
-  let correctionY = -initialPos.y;
-  let angleCorrection = angle;
-  let cumulativeA = 1,
-    cumulativeB = 0,
-    cumulativeC = 0,
-    cumulativeD = 1;
-  let cumulativeE = 0,
-    cumulativeF = 0;
-  let parentCount = 0;
-  let currentParent = parent;
-  let isFirstParent = true;
-
-  while (
-    currentParent !== null &&
-    parentCount < TRANSFORM_CONFIG.maxParentDepth
-  ) {
-    if (isFirstParent) {
-      const parentInitial = currentParent.initialPos;
-      correctionX += parentInitial.x;
-      correctionY += parentInitial.y;
-      angleCorrection -= currentParent.physicalBody.getAngle();
-      isFirstParent = false;
-    }
-
-    const localPos = currentParent.localPos;
-    const localAngle = currentParent.localAngle;
-    const data = parentDataPool[parentCount];
-    data.x = localPos.x;
-    data.y = localPos.y;
-    data.cos = Math.cos(localAngle);
-    data.sin = Math.sin(localAngle);
-
-    parentCount++;
-    currentParent = currentParent.parent;
+// Cumulative transform of an ancestor chain (direct parent up to the root),
+// composed in the same order as the original buildParentMatrix. Cached per
+// frame on the chain head so sibling children share one computation.
+function getChainState(chainHead) {
+  if (chainHead._chainFrame === frameId && chainHead._chainState) {
+    return chainHead._chainState;
   }
 
-  for (let i = parentCount - 1; i >= 0; i--) {
-    const p = parentDataPool[i];
-    const pCos = p.cos,
-      pSin = p.sin,
-      px = p.x,
-      py = p.y;
-
-    const newA = pCos * cumulativeA - pSin * cumulativeB;
-    const newB = pSin * cumulativeA + pCos * cumulativeB;
-    const newC = pCos * cumulativeC - pSin * cumulativeD;
-    const newD = pSin * cumulativeC + pCos * cumulativeD;
-    const newE = pCos * cumulativeE - pSin * cumulativeF + px;
-    const newF = pSin * cumulativeE + pCos * cumulativeF + py;
-
-    cumulativeA = newA;
-    cumulativeB = newB;
-    cumulativeC = newC;
-    cumulativeD = newD;
-    cumulativeE = newE;
-    cumulativeF = newF;
+  const chain = [];
+  let current = chainHead;
+  while (current !== null && chain.length < TRANSFORM_CONFIG.maxParentDepth) {
+    chain.push(current);
+    current = current.parent;
   }
 
-  return {
-    correctionX,
-    correctionY,
-    angleCorrection,
-    cumulativeA,
-    cumulativeB,
-    cumulativeC,
-    cumulativeD,
-    cumulativeE,
-    cumulativeF,
-  };
+  let A = 1,
+    B = 0,
+    C = 0,
+    D = 1,
+    E = 0,
+    F = 0;
+
+  for (let i = chain.length - 1; i >= 0; i--) {
+    const localPos = chain[i].localPos;
+    const localAngle = chain[i].localAngle;
+    const pCos = Math.cos(localAngle);
+    const pSin = Math.sin(localAngle);
+    const px = localPos.x;
+    const py = localPos.y;
+
+    const nA = pCos * A - pSin * B;
+    const nB = pSin * A + pCos * B;
+    const nC = pCos * C - pSin * D;
+    const nD = pSin * C + pCos * D;
+    const nE = pCos * E - pSin * F + px;
+    const nF = pSin * E + pCos * F + py;
+
+    A = nA;
+    B = nB;
+    C = nC;
+    D = nD;
+    E = nE;
+    F = nF;
+  }
+
+  const state = { A, B, C, D, E, F };
+  chainHead._chainFrame = frameId;
+  chainHead._chainState = state;
+  return state;
 }
 
 function invertMatrix(a, b, c, d, e, f) {
@@ -172,18 +196,10 @@ function invertMatrix(a, b, c, d, e, f) {
 }
 
 function transformComplex(physicalDomObject, x, y, angle, cache, parent) {
-  const matrix = buildParentMatrix(parent, physicalDomObject.initialPos, angle);
-  const cumulativeRotation = Math.atan2(matrix.cumulativeB, matrix.cumulativeA);
+  const chain = getChainState(parent);
+  const cumulativeRotation = Math.atan2(chain.B, chain.A);
 
-  const inverse = invertMatrix(
-    matrix.cumulativeA,
-    matrix.cumulativeB,
-    matrix.cumulativeC,
-    matrix.cumulativeD,
-    matrix.cumulativeE,
-    matrix.cumulativeF,
-  );
-
+  const inverse = invertMatrix(chain.A, chain.B, chain.C, chain.D, chain.E, chain.F);
   if (!inverse) return;
 
   const localX = inverse.invA * x + inverse.invC * y + inverse.invE;
@@ -195,14 +211,15 @@ function transformComplex(physicalDomObject, x, y, angle, cache, parent) {
   localPos.y = localY;
   physicalDomObject.localAngle = localAngle;
 
-  const finalX = localX + matrix.correctionX;
-  const finalY = localY + matrix.correctionY;
+  const correctionX = -physicalDomObject.initialPos.x + parent.initialPos.x;
+  const correctionY = -physicalDomObject.initialPos.y + parent.initialPos.y;
+  const angleCorrection = angle - parent.physicalBody.getAngle();
+
+  const finalX = localX + correctionX;
+  const finalY = localY + correctionY;
   const roundedX = roundValue(finalX, TRANSFORM_CONFIG.positionRounding);
   const roundedY = roundValue(finalY, TRANSFORM_CONFIG.positionRounding);
-  const roundedAngle = roundValue(
-    matrix.angleCorrection,
-    TRANSFORM_CONFIG.angleRounding,
-  );
+  const roundedAngle = roundValue(angleCorrection, TRANSFORM_CONFIG.angleRounding);
 
   if (
     cache.x !== roundedX ||
@@ -221,14 +238,35 @@ function transformComplex(physicalDomObject, x, y, angle, cache, parent) {
   }
 }
 
+/** Call once per UI frame before transforming objects. */
+export function beginFrame() {
+  frameId++;
+}
+
 export function setAbsoluteTransform(physicalDomObject) {
   const physicalBody = physicalDomObject.physicalBody;
+  if (!physicalBody || !physicalBody.bodyData?.body) return;
+
+  const cache = initializeTransformCache(physicalDomObject);
+
+  // Skip at-rest objects once their resting transform has been drawn, keeping
+  // will-change off while they sleep.
+  if (isSettled(physicalDomObject)) {
+    if (physicalDomObject._settled && !physicalDomObject._restPoseChanged) {
+      return;
+    }
+    physicalDomObject._settled = true;
+    setWillChange(physicalDomObject, false);
+  } else {
+    physicalDomObject._settled = false;
+    setWillChange(physicalDomObject, true);
+  }
+
   const center = physicalBody.getCenter();
   const x = center.x;
   const y = center.y;
   const angle = physicalBody.getAngle();
 
-  const cache = initializeTransformCache(physicalDomObject);
   const parent = physicalDomObject.parent;
 
   if (!parent) {

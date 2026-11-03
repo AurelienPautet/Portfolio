@@ -13,22 +13,6 @@ const DEFAULT_BODY_OPTIONS = {
   sleepThreshold: 40,
 };
 
-export async function waitForImages() {
-  const images = document.querySelectorAll("img.physical");
-  const imagePromises = Array.from(images).map((img) => {
-    return new Promise((resolve) => {
-      if (img.complete && img.naturalHeight !== 0) {
-        resolve();
-      } else {
-        img.addEventListener("load", resolve);
-        img.addEventListener("error", resolve);
-      }
-    });
-  });
-
-  await Promise.all(imagePromises);
-}
-
 export function loadPhysicalDomFromHtml(
   startingElement,
   physicalDomObjects,
@@ -39,13 +23,19 @@ export function loadPhysicalDomFromHtml(
     startingElement.classList.contains("physical") ||
     startingElement.classList.contains("chain-container")
   ) {
-    physicalDomObject = new PhysicalDomObject(
-      startingElement,
-      { ...DEFAULT_BODY_OPTIONS },
-      parentPhysicalDomObject,
-    );
-    parentPhysicalDomObject?.childrens.push(physicalDomObject);
-    physicalDomObjects.push(physicalDomObject);
+    const { width, height } = startingElement.getBoundingClientRect();
+    // Hidden responsive decorations and empty text spans have zero area. Matter
+    // gives them zero mass/invalid inertia, which poisons later solver updates.
+    // A width-change rebuild will pick them up when they become visible again.
+    if (Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0) {
+      physicalDomObject = new PhysicalDomObject(
+        startingElement,
+        { ...DEFAULT_BODY_OPTIONS },
+        parentPhysicalDomObject,
+      );
+      parentPhysicalDomObject?.childrens.push(physicalDomObject);
+      physicalDomObjects.push(physicalDomObject);
+    }
   }
   for (let i = 0; i < startingElement.children.length; i++) {
     loadPhysicalDomFromHtml(

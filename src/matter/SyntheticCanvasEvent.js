@@ -38,20 +38,21 @@ document.addEventListener(
     function createSyntheticCanvasEvent(originalEvent, eventType) {
       if (!window.render || !window.render.canvas) return;
       const canvas = window.render.canvas;
-      const canvasRect = canvas.getBoundingClientRect();
+      // Client coordinates (viewport-relative) are relayed unchanged; Matter's
+      // Mouse adds a scroll offset to map them into world coordinates.
       let clientX, clientY;
       if (
         originalEvent.clientX !== undefined &&
         originalEvent.clientY !== undefined
       ) {
-        clientX = originalEvent.clientX + window.scrollX;
-        clientY = originalEvent.clientY + window.scrollY;
+        clientX = originalEvent.clientX;
+        clientY = originalEvent.clientY;
       } else if (
         originalEvent.pageX !== undefined &&
         originalEvent.pageY !== undefined
       ) {
-        clientX = originalEvent.pageX + window.scrollX;
-        clientY = originalEvent.pageY + window.scrollY;
+        clientX = originalEvent.pageX - window.scrollX;
+        clientY = originalEvent.pageY - window.scrollY;
       } else {
         clientX = 0;
         clientY = 0;
@@ -60,6 +61,7 @@ document.addEventListener(
       if (eventType.startsWith("pointer") || eventType.startsWith("touch")) {
         const mappedEventType = eventType.replace("touch", "pointer");
         syntheticEvent = new PointerEvent(mappedEventType, {
+          view: window,
           pointerId: originalEvent.pointerId || originalEvent.identifier || 1,
           bubbles: true,
           cancelable: true,
@@ -81,6 +83,9 @@ document.addEventListener(
         });
       } else {
         syntheticEvent = new MouseEvent(eventType, {
+          // Matter reads pageX/Y. Without a view, constructed events lose the
+          // window scroll offset even though clientX/Y are correct.
+          view: window,
           bubbles: true,
           cancelable: true,
           clientX: clientX,
@@ -96,10 +101,7 @@ document.addEventListener(
           relatedTarget: null,
         });
       }
-      const originalPointerEvents = canvas.style.pointerEvents;
-      canvas.style.pointerEvents = "auto";
       canvas.dispatchEvent(syntheticEvent);
-      canvas.style.pointerEvents = originalPointerEvents;
     }
 
     interactiveDiv.addEventListener("mousemove", function (event) {

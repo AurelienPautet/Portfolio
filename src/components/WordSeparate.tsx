@@ -22,7 +22,7 @@ const WordSeparate = ({
       className={`flex ${parentWidth} h-fit flex-wrap justify-center items-center ${parentClassName}`}
       style={{ gap: `${wordGap * 0.5}rem` }}
     >
-      {text.split(" ").map((word, index) => (
+      {text.trim().split(/\s+/).filter(Boolean).map((word, index) => (
         <Tag key={word + index} className={className + " h-fit"}>
           {word}
         </Tag>

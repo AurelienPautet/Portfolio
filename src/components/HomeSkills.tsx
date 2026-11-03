@@ -95,6 +95,8 @@ const HomeSkills = () => {
                 />
                 <img
                   src="/logos/LogoNode.svg"
+                  width={267}
+                  height={80}
                   className="physical blueprint-element nonconstrained w-fit h-10 user-select-none select-none p-2"
                   alt="Node.js Logo"
                   draggable={false}

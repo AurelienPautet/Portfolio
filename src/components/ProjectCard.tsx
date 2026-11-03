@@ -4,6 +4,11 @@ import { MdBuild } from "react-icons/md";
 import { IoSparkles } from "react-icons/io5";
 
 import WordSeparate from "./WordSeparate";
+import {
+  buildThumbnailSrcSet,
+  getImageDimensions,
+  THUMBNAIL_SIZES,
+} from "../imageDimensions";
 type Skill =
   | "Html"
   | "Css"
@@ -45,6 +50,7 @@ const ProjectCard = ({
   isVibeCoded = false,
   skills = [],
 }: ProjectCardProps) => {
+  const thumb = getImageDimensions(imgUrl);
   return (
     <div
       className={`flex flex-col lg:flex-row items-center bg-dashed-lines bg-blueprint-bg blueprint-element blueprint-box p-6 rounded-none w-2/3 h-fit gap-6 ${className}`}
@@ -54,6 +60,12 @@ const ProjectCard = ({
           src={imgUrl}
           alt={title + " image"}
           draggable={false}
+          width={thumb?.width}
+          height={thumb?.height}
+          srcSet={thumb && imgUrl ? buildThumbnailSrcSet(imgUrl, thumb.width) : undefined}
+          sizes={thumb && imgUrl ? THUMBNAIL_SIZES : undefined}
+          loading="lazy"
+          decoding="async"
           className="max-w-full max-h-full object-contain physical blueprint-element"
         />
       </figure>
