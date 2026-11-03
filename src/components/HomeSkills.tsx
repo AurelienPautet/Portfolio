@@ -89,7 +89,7 @@ const HomeSkills = () => {
                 />
                 <img
                   src="/logos/LogoMongo.svg"
-                  className="physical blueprint-element nonconstrained w-16 h-20 user-select-none select-none p-2"
+                  className="physical pill blueprint-element nonconstrained w-16 h-20 user-select-none select-none p-2"
                   alt="MongoDB Logo"
                   draggable={false}
                 />

@@ -57,7 +57,7 @@ const ExperienceCard = ({
                 loading="lazy"
                 decoding="async"
                 style={getImageRatioStyle(logo)}
-                className="physical-image physical blueprint-element"
+                className={`${logo?.shape === "circle" ? "circle " : ""}physical-image physical blueprint-element`}
               />
             </figure>
           )}

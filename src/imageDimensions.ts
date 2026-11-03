@@ -6,6 +6,8 @@ import type { CSSProperties } from "react";
 export interface ImageDimensions {
   width: number;
   height: number;
+  /** Non-rectangular physics collider hint (see matter/domLoader). */
+  shape?: "circle";
 }
 
 const PROJECT_THUMBNAILS: Record<string, ImageDimensions> = {
@@ -26,8 +28,8 @@ const LOGOS: Record<string, ImageDimensions> = {
   "/logos/education/IMT.svg": { width: 466, height: 287 },
   "/logos/education/Berthollet.png": { width: 212, height: 150 },
   "/logos/education/Cotiere.png": { width: 200, height: 200 },
-  "/logos/experience/Homerez.png": { width: 206, height: 190 },
-  "/logos/experience/Lyter.png": { width: 430, height: 430 },
+  "/logos/experience/Homerez.png": { width: 206, height: 190, shape: "circle" },
+  "/logos/experience/Lyter.png": { width: 430, height: 430, shape: "circle" },
 };
 
 export function getImageDimensions(src: string | undefined): ImageDimensions | null {
