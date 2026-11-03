@@ -183,6 +183,24 @@ svg.physical:hover {
   outline-offset: -4px;
 }
 
+/* Physical images reserve intrinsic `width`/`height` attributes, but max-* then
+   clamps the box to the figure's aspect ratio and object-contain letterboxes the
+   painted image inside a larger box — inflating the physics hitbox and hover
+   outline. Size the box from the figure instead: it fits while keeping the
+   image's own ratio, even before a lazy image has decoded. */
+.physical-image-container {
+  container-type: size;
+}
+
+.physical-image {
+  width: min(100cqw, calc(100cqh * var(--image-ratio)));
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: var(--image-ratio);
+  object-fit: contain;
+}
+
 .physical:active {
   cursor: grabbing;
 }

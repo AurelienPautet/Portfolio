@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 // Intrinsic dimensions for physical images, so their layout box (and therefore
 // the physics body geometry) is reserved before the image decodes. This lets the
 // physics engine initialize without waiting on distant/lazy images.
@@ -50,7 +52,21 @@ export function buildThumbnailSrcSet(src: string, width: number): string {
 
 /**
  * Approximate rendered width of a project thumbnail. Only affects which srcset
- * candidate the browser downloads — layout is fixed by the reserved dimensions
- * and `object-contain`.
+ * candidate the browser downloads — layout is fixed by the figure's size and the
+ * image's ratio (see `.physical-image` in index.css).
  */
 export const THUMBNAIL_SIZES = "(min-width: 1024px) 30vw, 60vw";
+
+/**
+ * Inline custom property read by `.physical-image`: sizes the layout box from
+ * the figure while keeping the image's intrinsic ratio, so the physics hitbox
+ * and hover outline match the painted image instead of its letterboxed box.
+ */
+export function getImageRatioStyle(
+  dimensions: ImageDimensions | null,
+): CSSProperties | undefined {
+  if (!dimensions) return undefined;
+  return {
+    "--image-ratio": dimensions.width / dimensions.height,
+  } as CSSProperties;
+}

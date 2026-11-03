@@ -7,6 +7,7 @@ import WordSeparate from "./WordSeparate";
 import {
   buildThumbnailSrcSet,
   getImageDimensions,
+  getImageRatioStyle,
   THUMBNAIL_SIZES,
 } from "../imageDimensions";
 type Skill =
@@ -55,7 +56,7 @@ const ProjectCard = ({
     <div
       className={`flex flex-col lg:flex-row items-center bg-dashed-lines bg-blueprint-bg blueprint-element blueprint-box p-6 rounded-none w-2/3 h-fit gap-6 ${className}`}
     >
-      <figure className="m-0  w-fit h-48 lg:w-1/3 flex items-center justify-center p-2">
+      <figure className="physical-image-container m-0 w-full h-48 lg:w-1/3 flex items-center justify-center p-2">
         <img
           src={imgUrl}
           alt={title + " image"}
@@ -66,7 +67,8 @@ const ProjectCard = ({
           sizes={thumb && imgUrl ? THUMBNAIL_SIZES : undefined}
           loading="lazy"
           decoding="async"
-          className="max-w-full max-h-full object-contain physical blueprint-element"
+          style={getImageRatioStyle(thumb)}
+          className="physical-image physical blueprint-element"
         />
       </figure>
 

@@ -1,7 +1,7 @@
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import WordSeparate from "./WordSeparate";
-import { getImageDimensions } from "../imageDimensions";
+import { getImageDimensions, getImageRatioStyle } from "../imageDimensions";
 
 interface EducationCardProps {
   className?: string;
@@ -45,7 +45,7 @@ const EducationCard = ({
 
         <div className="flex flex-col lg:flex-row items-center w-full gap-6">
           {logoUrl && (
-            <figure className="m-0 w-20 h-20 lg:w-28 lg:h-28 flex items-center justify-center p-2 shrink-0">
+            <figure className="physical-image-container m-0 w-20 h-20 lg:w-28 lg:h-28 flex items-center justify-center p-2 shrink-0">
               <img
                 src={logoUrl}
                 alt={institution + " logo"}
@@ -54,7 +54,8 @@ const EducationCard = ({
                 height={logo?.height}
                 loading="lazy"
                 decoding="async"
-                className="max-w-full max-h-full object-contain physical blueprint-element"
+                style={getImageRatioStyle(logo)}
+                className="physical-image physical blueprint-element"
               />
             </figure>
           )}
