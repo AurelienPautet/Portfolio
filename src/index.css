@@ -183,6 +183,16 @@ svg.physical:hover {
   outline-offset: -4px;
 }
 
+/* The hover outline follows border-radius: match the round/pill colliders so a
+   circular or capsule body is not framed by a rectangle. */
+img.physical.circle {
+  border-radius: 50%;
+}
+
+img.physical.pill {
+  border-radius: 9999px;
+}
+
 /* Physical images reserve intrinsic `width`/`height` attributes, but max-* then
    clamps the box to the figure's aspect ratio and object-contain letterboxes the
    painted image inside a larger box — inflating the physics hitbox and hover
