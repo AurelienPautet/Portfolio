@@ -1,5 +1,4 @@
 import {
-  COMPOSITE_WALL_THICKNESS,
   MAGNET_CONFIG,
   PHYSICS_CONFIG,
   SPRING_CONFIG,
@@ -7,6 +6,7 @@ import {
   toUnits,
 } from "./config";
 import { DragSpring } from "./springs";
+import { containerWallThickness } from "./body";
 
 const STEP_SAMPLES = 600;
 
@@ -63,8 +63,9 @@ export class Simulation {
   }
 
   addContainer(box, children) {
-    const halfWidth = Math.max(0, (box.width - COMPOSITE_WALL_THICKNESS) / 2) + 0.25;
-    const halfHeight = Math.max(0, (box.height - COMPOSITE_WALL_THICKNESS) / 2) + 0.25;
+    const wall = containerWallThickness(box.width, box.height);
+    const halfWidth = Math.max(0, (box.width - wall) / 2) + 0.25;
+    const halfHeight = Math.max(0, (box.height - wall) / 2) + 0.25;
     this.containers.push({ box, children, halfWidth, halfHeight });
   }
 

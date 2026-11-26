@@ -1,5 +1,6 @@
 import { changeGravity } from "../physics";
 import { useState } from "react";
+import PhysicalText from "./PhysicalText";
 
 const HomeHireMe = () => {
   const [active, setActive] = useState<string | null>(null);
@@ -70,9 +71,12 @@ const HomeHireMe = () => {
       </div>
 
       <div className="blueprint-box p-12 physical w-fit h-fit bg-dashed bg-blueprint-bg relative z-10 max-w-2xl mx-4">
-        <h2 className="physical text-3xl md:text-4xl font-bold text-center mb-12 blueprint-element">
-          Will you hire me?
-        </h2>
+        <PhysicalText
+          as="h2"
+          text="Will you hire me?"
+          className="text-3xl md:text-4xl font-bold text-center mb-12"
+          wordClassName="blueprint-element"
+        />
 
         <div className="flex flex-col md:flex-row gap-8 justify-center items-center">
           <button
@@ -112,9 +116,11 @@ const HomeHireMe = () => {
           </button>
         </div>
 
-        <div className="physical mt-8 text-center text-sm opacity-60 font-mono">
-          CAUTION: Decision may affect website integrity.
-        </div>
+        <PhysicalText
+          as="div"
+          text="CAUTION: Decision may affect website integrity."
+          className="mt-8 text-center text-sm opacity-60 font-mono"
+        />
       </div>
     </div>
   );

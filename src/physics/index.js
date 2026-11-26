@@ -1,7 +1,7 @@
 import { PHYSICS_CONFIG } from "./config";
 import { createBoundaries } from "./body";
 import { loadPhysicalDomFromHtml, initPhysicalDomObjects } from "./domLoader";
-import { clearTransforms, updateTransforms } from "./transformManager";
+import { clearTransforms, hasStaleTransforms, updateTransforms } from "./transformManager";
 import { Overlay } from "./overlay";
 import { createInput } from "./input";
 import { Simulation } from "./simulation";
@@ -130,8 +130,9 @@ function onKeyDown(e) {
 }
 
 function onScroll() {
-  // Sticky elements follow the viewport, and a drag target follows the page.
-  if (hasSticky || input?.isDragging()) wake();
+  // Sticky elements follow the viewport, a drag target follows the page, and
+  // elements that moved off-screen get their pose once scrolled into view.
+  if (hasSticky || input?.isDragging() || hasStaleTransforms()) wake();
 }
 
 let resizeTimeout = null;

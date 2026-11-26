@@ -58,6 +58,14 @@ function triangleOutline(side) {
 }
 
 /**
+ * Walls of a hollow container, never more than a quarter of its size so small
+ * elements (a bordered chip around a word) are not filled by their walls.
+ */
+export function containerWallThickness(width, height) {
+  return Math.min(COMPOSITE_WALL_THICKNESS, Math.min(width, height) / 4);
+}
+
+/**
  * Collider descriptions for one element. Returns [{ desc, outline }], sizes in px.
  */
 function buildParts(R, kind, width, height) {
@@ -85,7 +93,7 @@ function buildParts(R, kind, width, height) {
     }
     case "container": {
       // A hollow box: four walls on one rigid body, so children can sit inside.
-      const t = COMPOSITE_WALL_THICKNESS;
+      const t = containerWallThickness(width, height);
       const hw = width / 2;
       const hh = height / 2;
       return [

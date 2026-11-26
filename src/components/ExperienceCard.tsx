@@ -2,6 +2,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import WordSeparate from "./WordSeparate";
 import { getImageDimensions, getImageRatioStyle } from "../imageDimensions";
+import PhysicalText from "./PhysicalText";
 
 interface ExperienceCardProps {
   className?: string;
@@ -63,31 +64,34 @@ const ExperienceCard = ({
           )}
 
           <div className="flex flex-col items-center lg:items-start w-full gap-3">
-            <span className="physical px-2 py-1 text-base font-semibold font-mono text-white">
-              {company}
-            </span>
+            <PhysicalText
+              text={company}
+              className="px-2 py-1 text-base font-semibold font-mono text-white"
+            />
 
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm font-mono text-white opacity-80">
-              <span className="physical px-2 py-1 italic">{date}</span>
-              <span className="physical px-2 py-1 flex items-center gap-1">
-                <IoLocationSharp className="w-4 h-4" />
-                {location}
+              <PhysicalText text={date} className="px-2 py-1 italic" />
+              <span className="px-2 py-1 flex items-center gap-1">
+                <IoLocationSharp className="physical w-4 h-4" />
+                <PhysicalText text={location} />
               </span>
             </div>
 
-            <p className="physical p-2 text-sm font-mono text-center lg:text-left text-white">
-              {description}
-            </p>
+            <PhysicalText
+              as="p"
+              text={description}
+              className="p-2 text-sm font-mono text-center lg:text-left text-white"
+            />
 
             {achievements.length > 0 && (
               <ul className="flex flex-col gap-2 w-full">
                 {achievements.map((achievement, index) => (
                   <li
                     key={index}
-                    className="physical px-2 text-sm font-mono text-left text-white flex gap-2"
+                    className="px-2 text-sm font-mono text-left text-white flex gap-2"
                   >
-                    <span className="shrink-0">▹</span>
-                    <span>{achievement}</span>
+                    <span className="physical inline-block shrink-0 h-fit">▹</span>
+                    <PhysicalText text={achievement} />
                   </li>
                 ))}
               </ul>
@@ -100,7 +104,7 @@ const ExperienceCard = ({
                     key={index}
                     className="physical blueprint-element px-3 py-1 text-xs font-mono border border-white text-white"
                   >
-                    {item}
+                    <PhysicalText text={item} />
                   </li>
                 ))}
               </ul>

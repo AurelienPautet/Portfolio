@@ -4,6 +4,7 @@ import { MdBuild } from "react-icons/md";
 import { IoSparkles } from "react-icons/io5";
 
 import WordSeparate from "./WordSeparate";
+import PhysicalText from "./PhysicalText";
 import {
   buildThumbnailSrcSet,
   getImageDimensions,
@@ -117,12 +118,14 @@ const ProjectCard = ({
             />
           ))}
         </div>
-        <span className="physical px-2 py-1 mx-auto text-sm italic font-mono text-white">
-          {date}
-        </span>
-        <span className="physical p-2 text-sm font-mono text-center text-white">
-          {description}
-        </span>
+        <PhysicalText
+          text={date}
+          className="px-2 py-1 mx-auto text-sm italic font-mono text-white"
+        />
+        <PhysicalText
+          text={description}
+          className="p-2 text-sm font-mono text-center text-white"
+        />
 
         <div className="flex justify-end gap-4 w-full mt-2">
           {gitHubUrl != "" && (

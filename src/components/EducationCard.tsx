@@ -2,6 +2,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 import WordSeparate from "./WordSeparate";
 import { getImageDimensions, getImageRatioStyle } from "../imageDimensions";
+import PhysicalText from "./PhysicalText";
 
 interface EducationCardProps {
   className?: string;
@@ -62,22 +63,25 @@ const EducationCard = ({
 
           <div className="flex flex-col items-center lg:items-start w-full gap-3">
             <div className="flex flex-col items-center lg:items-start gap-1">
-              <span className="physical px-2 py-1 text-base font-semibold font-mono text-white">
-                {degree}
-              </span>
+              <PhysicalText
+                text={degree}
+                className="px-2 py-1 text-base font-semibold font-mono text-white"
+              />
             </div>
 
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm font-mono text-white opacity-80">
-              <span className="physical px-2 py-1 italic">{date}</span>
-              <span className="physical px-2 py-1 flex items-center gap-1">
-                <IoLocationSharp className="w-4 h-4" />
-                {location}
+              <PhysicalText text={date} className="px-2 py-1 italic" />
+              <span className="px-2 py-1 flex items-center gap-1">
+                <IoLocationSharp className="physical w-4 h-4" />
+                <PhysicalText text={location} />
               </span>
             </div>
 
-            <p className="physical p-2 text-sm font-mono text-center lg:text-left text-white">
-              {description}
-            </p>
+            <PhysicalText
+              as="p"
+              text={description}
+              className="p-2 text-sm font-mono text-center lg:text-left text-white"
+            />
 
             {highlights.length > 0 && (
               <ul className="flex flex-wrap gap-2 justify-center lg:justify-start">
@@ -86,7 +90,7 @@ const EducationCard = ({
                     key={index}
                     className="physical blueprint-element px-3 py-1 text-xs font-mono border border-white text-white"
                   >
-                    {highlight}
+                    <PhysicalText text={highlight} />
                   </li>
                 ))}
               </ul>

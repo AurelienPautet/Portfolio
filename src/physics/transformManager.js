@@ -7,11 +7,44 @@ import { TRANSFORM_CONFIG } from "./config";
 
 const round = (value, precision) => Math.round(value * precision) / precision;
 
+// Elements further than this outside the viewport are not written while they
+// move (after "NO", ~950 bodies fall at once, most of them off-screen). Their
+// pose is kept and written as soon as they come within range.
+const OFFSCREEN_MARGIN = 300;
+let staleCount = 0;
+
+function isNearViewport(object) {
+  const body = object.physicalBody;
+  if (body.isSticky) return true;
+  const reach = OFFSCREEN_MARGIN + Math.max(body.width, body.height);
+  const left = window.scrollX - reach;
+  const top = window.scrollY - reach;
+  return body.x > left && body.x < left + window.innerWidth + 2 * reach &&
+    body.y > top && body.y < top + window.innerHeight + 2 * reach;
+}
+
+function setStale(object, stale) {
+  if (object._stale === stale) return;
+  object._stale = stale;
+  staleCount += stale ? 1 : -1;
+}
+
+/** True while some element still shows an outdated pose (off-screen). */
+export function hasStaleTransforms() {
+  return staleCount > 0;
+}
+
 function writeTransform(object, x, y, angle) {
   const cache = object._transformCache;
   const rx = round(x, TRANSFORM_CONFIG.positionRounding);
   const ry = round(y, TRANSFORM_CONFIG.positionRounding);
   const ra = round(angle, TRANSFORM_CONFIG.angleRounding);
+  if (!isNearViewport(object)) {
+    object._pending = { x: rx, y: ry, angle: ra };
+    setStale(object, true);
+    return;
+  }
+  setStale(object, false);
   if (cache.x === rx && cache.y === ry && cache.angle === ra) return;
   cache.x = rx;
   cache.y = ry;
@@ -110,7 +143,22 @@ export function clearTransforms(physicalDomObjects) {
     object.domElement.style.transform = "";
     object.domElement.style.willChange = "auto";
     object._transformCache = null;
+    object._pending = null;
+    object._stale = false;
   }
+  staleCount = 0;
+}
+
+function flushIfNear(object) {
+  if (!object._stale || !isNearViewport(object)) return;
+  const { x, y, angle } = object._pending;
+  const cache = object._transformCache;
+  setStale(object, false);
+  cache.x = x;
+  cache.y = y;
+  cache.angle = angle;
+  object.domElement.style.transform =
+    angle === 0 ? `translate(${x}px,${y}px)` : `translate(${x}px,${y}px) rotate(${angle}rad)`;
 }
 
 /**
@@ -128,10 +176,12 @@ export function updateTransforms(physicalDomObjects, frame, scrolled) {
       object.localAngle = 0;
     }
     if (!needsUpdate(object, frame, scrolled)) {
+      // Scrolled into range since its last move: show its current pose.
+      if (scrolled && object._stale) flushIfNear(object);
       if (object._willChange && !isMoving(object)) setWillChange(object, false);
       continue;
     }
-    setWillChange(object, isMoving(object));
     updateObject(object);
+    setWillChange(object, !object._stale && isMoving(object));
   }
 }

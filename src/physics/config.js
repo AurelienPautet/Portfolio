@@ -70,7 +70,10 @@ export const WALL_CONFIG = {
   restitution: 0.15,
 };
 
-export const COMPOSITE_WALL_THICKNESS = 30;
+// Walls of hollow containers (cards, the skills box, chips), centred on the
+// element's border. Matter.js needed 30 px walls to stop fast bodies tunnelling;
+// Rapier's continuous collision detection keeps bodies in with thin ones.
+export const COMPOSITE_WALL_THICKNESS = 4;
 
 export const MAGNET_CONFIG = {
   minDistance: 5,

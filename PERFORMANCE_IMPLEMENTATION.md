@@ -215,3 +215,21 @@ Costs:
 
 `scripts/verify-perf.*` tested Matter.js internals and were removed;
 `scripts/verify-physics.mjs` checks the behaviour in a real browser instead.
+
+### Every word is a body (2026-11-26)
+
+Descriptions, bullet points, dates, places and chip labels now render through
+`PhysicalText` (one inline-block span per word), taking the page from 254 to 914
+bodies. Same benchmark, same machine:
+
+| | 254 bodies | 914 bodies |
+| --- | ---: | ---: |
+| Idle, phone: main thread busy | 2.7% | 3.1% |
+| Right after "NO", phone: main thread busy | 47% | 68% |
+| Physics step after "NO", phone | 0.9 ms | 4.1 ms |
+| Time until the "NO" pile is fully asleep | ~15 s | ~17.5 s |
+
+Idle stays free because held bodies sleep. While the pile falls, elements more
+than 300 px outside the viewport get no style writes; their pose is applied when
+they are scrolled into range. Container walls now scale with the container
+(`containerWallThickness`), so bordered chips can hold their words.
