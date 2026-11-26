@@ -115,7 +115,38 @@ const center = (box) => ({ x: box.x + box.width / 2, y: box.y + box.height / 2 }
   await context.close();
 }
 
-// 5. Touch: dragging a word with a finger moves it and does not scroll the page.
+// 5. "YES" then scroll up: nothing may stay drawn where its body no longer is
+//    (elements moving off-screen skip style writes and must catch up in view).
+{
+  const { page, context } = await open();
+  await waitAsleep(page, 10000);
+  await page.evaluate(() => document.getElementById("hire-me").scrollIntoView({ block: "center" }));
+  await page.waitForTimeout(300);
+  await page.locator("#hire-me button", { hasText: "YES" }).click();
+  const misplaced = () => page.evaluate(() => {
+    let count = 0;
+    for (const o of window.physicalDomObjects) {
+      const b = o.physicalBody;
+      if (!b || b.isSticky) continue;
+      const r = o.domElement.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      if (cx < 0 || cy < 0 || cx > innerWidth || cy > innerHeight) continue;
+      if (Math.hypot(cx - (b.x - scrollX), cy - (b.y - scrollY)) > 20) count++;
+    }
+    return count;
+  });
+  let worst = 0;
+  for (let i = 0; i < 10; i++) {
+    await page.mouse.wheel(0, -900);
+    await page.waitForTimeout(250);
+    worst = Math.max(worst, await misplaced());
+  }
+  check("no element drawn away from its body while scrolling after YES", worst === 0, `${worst} misplaced`);
+  await context.close();
+}
+
+// 6. Touch: dragging a word with a finger moves it and does not scroll the page.
 {
   const { page, context, errors } = await open({
     viewport: { width: 390, height: 844 },

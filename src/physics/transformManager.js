@@ -7,20 +7,33 @@ import { TRANSFORM_CONFIG } from "./config";
 
 const round = (value, precision) => Math.round(value * precision) / precision;
 
-// Elements further than this outside the viewport are not written while they
-// move (after "NO", ~950 bodies fall at once, most of them off-screen). Their
-// pose is kept and written as soon as they come within range.
+// While bodies fly around (after "NO" or "YES" ~900 move at once), an element
+// is only written when it can matter on screen: its body is near the viewport,
+// or it is still drawn near the viewport (so it has to move away), or an
+// ancestor was written this frame (its drawing moved with that ancestor).
+// Anything else keeps its latest pose pending until it comes within range.
 const OFFSCREEN_MARGIN = 300;
 let staleCount = 0;
+let currentFrame = 0;
 
-function isNearViewport(object) {
-  const body = object.physicalBody;
-  if (body.isSticky) return true;
-  const reach = OFFSCREEN_MARGIN + Math.max(body.width, body.height);
+function isNear(x, y, size) {
+  const reach = OFFSCREEN_MARGIN + size;
   const left = window.scrollX - reach;
   const top = window.scrollY - reach;
-  return body.x > left && body.x < left + window.innerWidth + 2 * reach &&
-    body.y > top && body.y < top + window.innerHeight + 2 * reach;
+  return x > left && x < left + window.innerWidth + 2 * reach &&
+    y > top && y < top + window.innerHeight + 2 * reach;
+}
+
+function shouldWrite(object) {
+  const body = object.physicalBody;
+  if (body.isSticky) return true;
+  const size = Math.max(body.width, body.height);
+  if (isNear(body.x, body.y, size)) return true;
+  if (isNear(object._shown.x, object._shown.y, size)) return true;
+  for (let current = object.parent; current; current = current.parent) {
+    if (current._writtenFrame === currentFrame) return true;
+  }
+  return false;
 }
 
 function setStale(object, stale) {
@@ -34,23 +47,46 @@ export function hasStaleTransforms() {
   return staleCount > 0;
 }
 
-function writeTransform(object, x, y, angle) {
+function apply(object) {
+  const { x, y, angle, bodyX, bodyY } = object._pending;
   const cache = object._transformCache;
-  const rx = round(x, TRANSFORM_CONFIG.positionRounding);
-  const ry = round(y, TRANSFORM_CONFIG.positionRounding);
-  const ra = round(angle, TRANSFORM_CONFIG.angleRounding);
-  if (!isNearViewport(object)) {
-    object._pending = { x: rx, y: ry, angle: ra };
+  setStale(object, false);
+  object._writtenFrame = currentFrame;
+  object._shown.x = bodyX;
+  object._shown.y = bodyY;
+  if (cache.x === x && cache.y === y && cache.angle === angle) return;
+  cache.x = x;
+  cache.y = y;
+  cache.angle = angle;
+  object.domElement.style.transform =
+    angle === 0 ? `translate(${x}px,${y}px)` : `translate(${x}px,${y}px) rotate(${angle}rad)`;
+}
+
+// A child is drawn inside its ancestors, so they must show their current pose
+// before the child's transform (relative to them) means anything.
+function applyStaleAncestors(object) {
+  const stale = [];
+  for (let current = object.parent; current; current = current.parent) {
+    if (current._stale) stale.push(current);
+  }
+  for (let i = stale.length - 1; i >= 0; i--) apply(stale[i]);
+}
+
+function writeTransform(object, x, y, angle) {
+  const body = object.physicalBody;
+  object._pending = {
+    x: round(x, TRANSFORM_CONFIG.positionRounding),
+    y: round(y, TRANSFORM_CONFIG.positionRounding),
+    angle: round(angle, TRANSFORM_CONFIG.angleRounding),
+    bodyX: body.x,
+    bodyY: body.y,
+  };
+  if (!shouldWrite(object)) {
     setStale(object, true);
     return;
   }
-  setStale(object, false);
-  if (cache.x === rx && cache.y === ry && cache.angle === ra) return;
-  cache.x = rx;
-  cache.y = ry;
-  cache.angle = ra;
-  object.domElement.style.transform =
-    ra === 0 ? `translate(${rx}px,${ry}px)` : `translate(${rx}px,${ry}px) rotate(${ra}rad)`;
+  applyStaleAncestors(object);
+  apply(object);
 }
 
 // `will-change` promotes an element to its own GPU layer: worth it while it
@@ -150,15 +186,9 @@ export function clearTransforms(physicalDomObjects) {
 }
 
 function flushIfNear(object) {
-  if (!object._stale || !isNearViewport(object)) return;
-  const { x, y, angle } = object._pending;
-  const cache = object._transformCache;
-  setStale(object, false);
-  cache.x = x;
-  cache.y = y;
-  cache.angle = angle;
-  object.domElement.style.transform =
-    angle === 0 ? `translate(${x}px,${y}px)` : `translate(${x}px,${y}px) rotate(${angle}rad)`;
+  if (!object._stale || !shouldWrite(object)) return;
+  applyStaleAncestors(object);
+  apply(object);
 }
 
 /**
@@ -166,10 +196,13 @@ function flushIfNear(object) {
  * `physicalDomObjects`, so a child always reads its parent's fresh local pose.
  */
 export function updateTransforms(physicalDomObjects, frame, scrolled) {
+  currentFrame = frame;
   for (const object of physicalDomObjects) {
     if (!object.physicalBody) continue;
     if (!object._transformCache) {
       object._transformCache = { x: 0, y: 0, angle: 0 };
+      // Where the element is drawn, in page pixels (its layout position).
+      object._shown = { x: object.initialPos.x, y: object.initialPos.y };
       object._willChange = false;
       object.localPos.x = object.initialPos.x;
       object.localPos.y = object.initialPos.y;
