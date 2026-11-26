@@ -23,7 +23,8 @@ type Skill =
   | "Python"
   | "Java"
   | "Swift"
-  | "Rust";
+  | "Rust"
+  | "LangGraph";
 
 interface ProjectCardProps {
   className?: string;

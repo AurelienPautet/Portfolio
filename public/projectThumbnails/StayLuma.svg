@@ -1,0 +1,62 @@
+<svg width="640" height="400" viewBox="0 0 640 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="640" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#FFF3EC"/>
+    </linearGradient>
+    <linearGradient id="before" x1="0" y1="0" x2="0" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B3530"/>
+      <stop offset="1" stop-color="#1F1B18"/>
+    </linearGradient>
+    <linearGradient id="after" x1="0" y1="0" x2="0" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD9A8"/>
+      <stop offset="1" stop-color="#F5A35A"/>
+    </linearGradient>
+    <clipPath id="card"><rect x="350" y="70" width="250" height="260" rx="22"/></clipPath>
+  </defs>
+
+  <rect width="640" height="400" fill="url(#bg)"/>
+
+  <!-- Logo mark: folded-corner square -->
+  <g transform="translate(44,44)">
+    <rect x="0" y="0" width="34" height="34" rx="9" fill="#F0641E"/>
+    <path d="M34 0 L34 12 L22 0 Z" fill="#C24E12"/>
+  </g>
+  <text x="90" y="68" font-family="Verdana, Geneva, sans-serif" font-size="26" font-weight="700" fill="#1A1A1A">stay<tspan fill="#F0641E">luma</tspan></text>
+
+  <!-- Headline -->
+  <text x="44" y="150" font-family="Verdana, Geneva, sans-serif" font-size="34" font-weight="800" fill="#1A1A1A">Photos guests</text>
+  <text x="44" y="192" font-family="Verdana, Geneva, sans-serif" font-size="34" font-weight="800" fill="#1A1A1A">can't scroll past.</text>
+
+  <!-- Subtitle -->
+  <text x="44" y="236" font-family="Verdana, Geneva, sans-serif" font-size="15" fill="#6B6258">AI photo enhancement for</text>
+  <text x="44" y="258" font-family="Verdana, Geneva, sans-serif" font-size="15" fill="#6B6258">Airbnb &amp; Booking hosts</text>
+
+  <!-- Tag pill -->
+  <rect x="44" y="286" width="232" height="44" rx="22" fill="#FFFFFF" stroke="#F0641E" stroke-width="2"/>
+  <text x="66" y="313" font-family="Verdana, Geneva, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">Upload your photos</text>
+  <circle cx="254" cy="308" r="15" fill="#F0641E"/>
+  <path d="M254 301 L254 315 M248 307 L254 301 L260 307" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Before / After preview card -->
+  <g clip-path="url(#card)">
+    <rect x="350" y="70" width="125" height="260" fill="url(#before)"/>
+    <rect x="475" y="70" width="125" height="260" fill="url(#after)"/>
+    <!-- simple window suggestion on the after side -->
+    <rect x="500" y="110" width="78" height="120" rx="6" fill="#FFE9CC" opacity="0.65"/>
+    <line x1="539" y1="110" x2="539" y2="230" stroke="#F5A35A" stroke-width="2" opacity="0.7"/>
+  </g>
+  <rect x="350" y="70" width="250" height="260" rx="22" fill="none" stroke="#EADfd5" stroke-width="2"/>
+
+  <!-- Before label -->
+  <rect x="366" y="86" width="74" height="26" rx="13" fill="#1F1B18"/>
+  <text x="403" y="104" text-anchor="middle" font-family="Verdana, Geneva, sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">Before</text>
+  <!-- After label -->
+  <rect x="512" y="86" width="74" height="26" rx="13" fill="#F0641E"/>
+  <text x="549" y="104" text-anchor="middle" font-family="Verdana, Geneva, sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">StayLuma</text>
+
+  <!-- Divider handle -->
+  <line x1="475" y1="70" x2="475" y2="330" stroke="#FFFFFF" stroke-width="3"/>
+  <circle cx="475" cy="200" r="20" fill="#F0641E"/>
+  <path d="M468 200 L462 200 M468 200 L472 196 M468 200 L472 204 M482 200 L488 200 M482 200 L478 196 M482 200 L478 204" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
