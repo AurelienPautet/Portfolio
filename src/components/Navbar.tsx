@@ -63,10 +63,10 @@ const Navbar = () => {
             Skills
           </button>
           <button
-            onClick={() => scrollToSection("education")}
+            onClick={() => scrollToSection("experience")}
             className="text-white font-semibold hover:text-gray-200 transition-colors px-3 py-2 rounded bg-blueprint-bg"
           >
-            Education
+            Experience
           </button>
           <button
             onClick={() => scrollToSection("projects")}
@@ -75,10 +75,10 @@ const Navbar = () => {
             Projects
           </button>
           <button
-            onClick={() => scrollToSection("experience")}
+            onClick={() => scrollToSection("education")}
             className="text-white font-semibold hover:text-gray-200 transition-colors px-3 py-2 rounded bg-blueprint-bg"
           >
-            Experience
+            Education
           </button>
           <button
             onClick={() => scrollToSection("hire-me")}
@@ -133,10 +133,10 @@ const Navbar = () => {
               Skills
             </button>
             <button
-              onClick={() => scrollToSection("education")}
+              onClick={() => scrollToSection("experience")}
               className="text-white font-semibold hover:text-gray-200 transition-colors px-3 py-2 rounded lg:bg-blueprint-bg text-left"
             >
-              Education
+              Experience
             </button>
             <button
               onClick={() => scrollToSection("projects")}
@@ -145,10 +145,10 @@ const Navbar = () => {
               Projects
             </button>
             <button
-              onClick={() => scrollToSection("experience")}
+              onClick={() => scrollToSection("education")}
               className="text-white font-semibold hover:text-gray-200 transition-colors px-3 py-2 rounded lg:bg-blueprint-bg text-left"
             >
-              Experience
+              Education
             </button>
             <button
               onClick={() => scrollToSection("hire-me")}

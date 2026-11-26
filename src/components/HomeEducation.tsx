@@ -28,7 +28,7 @@ const HomeEducation = () => {
         />
 
         <EducationCard
-          institution="Ingeniering School, IMT Atlantique"
+          institution="Engineering School, IMT Atlantique"
           degree="Engineering Diploma"
           date="2024 - 2027"
           location="Nantes, France"

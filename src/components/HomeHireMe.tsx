@@ -50,7 +50,7 @@ const HomeHireMe = () => {
               WRONG CHOICE <span className="text-white">!</span>
             </h3>
             <p className="text-xl text-white/80 font-mono">
-              (I'm hearthbroken... )
+              (I'm heartbroken... )
             </p>
           </div>
         )}

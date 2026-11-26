@@ -32,7 +32,7 @@ const HomeProjects = () => {
           className=""
           title="Text Foundry"
           date="2025"
-          description="My first vibe coded app using Antigravity. Text Foundry is a native macOs application that allows users to quickly apply prompts to selected text in any application using shortcuts. It supports custom prompts, history and more. It's the swift port of my Grammar Corrector Java application."
+          description="My first vibe coded app using Antigravity. Text Foundry is a native macOS application that allows users to quickly apply prompts to selected text in any application using shortcuts. It supports custom prompts, history and more. It's the swift port of my Grammar Corrector Java application."
           imgUrl="/projectThumbnails/TextFoundry.webp"
           visitUrl="https://aurelien.pautet.net/TextFoundry/"
           gitHubUrl="https://github.com/AurelienPautet/TextFoundry"
@@ -53,7 +53,7 @@ const HomeProjects = () => {
           className=""
           title="WiiGameBien"
           date="2024 - Now"
-          description="A Javascript and html canvas recreation of the Wii Plays tank game, with a custom game and physics engine. Features include multiplayer, level editor, player skins and more."
+          description="A Javascript and html canvas recreation of the Wii Play tank game, with a custom game and physics engine. Features include multiplayer, level editor, player skins and more."
           imgUrl="/projectThumbnails/WiiGameBien.webp"
           visitUrl="https://wiitank.pautet.net"
           gitHubUrl="https://github.com/AurelienPautet/WiiGameBien"
@@ -62,18 +62,9 @@ const HomeProjects = () => {
         />
         <ProjectCard
           className=" "
-          title="Transat integration of Fourchettas"
-          date="2025"
-          description="Integration of the Fourchettas ordering page into the student made Transat mobile app. See the Fourchettas project below for more details."
-          imgUrl="/projectThumbnails/TransatFourchettas.webp"
-          gitHubUrl="https://github.com/PlugImt/transat-app"
-          skills={["React", "Tailwind", "Git"]}
-        />
-        <ProjectCard
-          className=" "
           title="Fourchettas"
           date="2025"
-          description="A full stack web application used in my engineering school to host foods events where students can order meals made by our cooking club. It includes an admin panel to manage the events and orders."
+          description="A full stack web application used in my engineering school to host foods events where students can order meals made by our cooking club. It includes an admin panel to manage the events and orders, and I later integrated the ordering page into Transat, the student-made mobile app."
           imgUrl="/projectThumbnails/Fourchettas.webp"
           visitUrl="https://fourchettas-client.vercel.app"
           gitHubUrl="https://github.com/AurelienPautet/FOURCHETTAS"
@@ -81,31 +72,13 @@ const HomeProjects = () => {
         />
 
         <ProjectCard
-          className=""
-          title="Grammar Corrector"
-          date="2025"
-          description="A little Java application that can correct any selected text in any application (shortcut Ctr+Alt+C), using the gemini API from Google. I recently ported it to Swift for macOs."
-          imgUrl="/projectThumbnails/GrammarCorrector.webp"
-          gitHubUrl="https://github.com/AurelienPautet/AICorrector"
-          skills={["Java"]}
-        />
-        <ProjectCard
-          className=" "
-          title="YouTube Downloader"
-          date="2021"
-          description="One of my earliest projects, a simple GUI to download YouTube videos from its url."
-          imgUrl="/projectThumbnails/YoutubeDownloader.webp"
-          visitUrl="https://aurelien.pautet.net/software/"
-          skills={["Python"]}
-        />
-        <ProjectCard
           className=" "
           title="My Early Projects"
           date="2019 - 2021"
-          description="A collection of my earlies projects, mostly small jsGames"
+          description="A collection of my earliest projects: mostly small JS games, plus a Python GUI to download YouTube videos from their URL."
           imgUrl="/projectThumbnails/SiteGallery.webp"
           visitUrl="https://aurelien.pautet.net/SiteGallery/"
-          skills={["Css", "Html", "Js"]}
+          skills={["Css", "Html", "Js", "Python"]}
         />
       </div>
     </div>

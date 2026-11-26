@@ -1,9 +1,6 @@
 import WordSeparate from "./WordSeparate";
 
 const HomeTitle = () => {
-
-  const age = Date.now() - new Date("2005-06-29").getTime();
-  const ageInYears = Math.floor(age / (1000 * 60 * 60 * 24 * 365));
   return (
       <div className="flex  w-full  flex-col justify-center items-center gap-2 mt-32 mb-2">
         <div className="flex flex-row justify-center items-center gap-2 flex-wrap ">
@@ -17,13 +14,13 @@ const HomeTitle = () => {
           </div>
 
         <WordSeparate
-          text={`${ageInYears} years old`}
+          text="Pautet"
           wordGap={1}
           className="physical  text-5xl w-fit h-fit font-mono font-bold text-white"
         />
       </div>
       <WordSeparate
-        text="Passionate developer from France, working on personnal projects to improve my skills."
+        text="Software engineer · IMT Atlantique × Georgia Tech (ML/AI) · currently freelancing at Lyter"
         wordGap={1}
         className="physical text-xl w-fit h-fit font-mono text-white"
         parentClassName="mt-2"
