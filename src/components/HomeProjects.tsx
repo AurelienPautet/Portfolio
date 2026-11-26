@@ -12,13 +12,12 @@ const HomeProjects = () => {
       <div className=" mt-10 w-full flex-col justify-center items-center flex gap-14">
         <ProjectCard
           className=""
-          title="StayLuma"
+          title="Gudrun Gallery"
           date="2026"
-          description="An AI photo enhancement web app for short-term rental hosts on Airbnb and Booking. Hosts upload their listing photos and get them back brighter, truer and booking-ready in two minutes, with an AI-generated summary of every change made. Built with a React frontend and a FastAPI backend orchestrated with LangGraph, using Gemini for image enhancement and Claude for the review generation."
-          imgUrl="/projectThumbnails/StayLuma.svg"
-          visitUrl="https://stayluma.net/"
-          gitHubUrl="https://github.com/AurelienPautet/stayluma"
-          skills={["React", "Ts", "Python", "Postgres", "LangGraph"]}
+          description="An online gallery for a painter and photographer, with a private back office to manage the works. Built as a single Next.js app on PostgreSQL with Drizzle, it generates responsive image variants with sharp, and an iOS Shortcut lets the artist photograph a new piece, crop it and publish it from a phone in a few taps."
+          imgUrl="/projectThumbnails/GudrunGallery.webp"
+          visitUrl="https://no4lsrc328hhur19kavkyslm.37.59.112.252.sslip.io/"
+          skills={["React", "Ts", "Postgres"]}
         />
         <ProjectCard
           className=""

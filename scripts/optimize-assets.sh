@@ -32,6 +32,7 @@ while read -r name w h; do
     "$CWEBP" -q 80 -quiet -resize 960 0 "$src" -o "$THUMBS/$name-960.webp"
   fi
 done <<'DIMS'
+GudrunGallery 1600 900
 MindCap 618 872
 RustTracer 1710 1073
 TextFoundry 1012 916

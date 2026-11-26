@@ -11,6 +11,7 @@ export interface ImageDimensions {
 }
 
 const PROJECT_THUMBNAILS: Record<string, ImageDimensions> = {
+  "/projectThumbnails/GudrunGallery.webp": { width: 1600, height: 900 },
   "/projectThumbnails/MindCap.webp": { width: 618, height: 872 },
   "/projectThumbnails/RustTracer.webp": { width: 1710, height: 1073 },
   "/projectThumbnails/TextFoundry.webp": { width: 1012, height: 916 },
