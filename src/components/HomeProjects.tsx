@@ -14,7 +14,7 @@ const HomeProjects = () => {
           className=""
           title="Gudrun Gallery"
           date="2026"
-          description="An online gallery for my mum, a painter and photographer, with a private back office to manage her works. Built as a single Next.js app on PostgreSQL with Drizzle, it generates responsive image variants with sharp, and an iOS Shortcut lets her photograph a new piece, crop it and publish it from a phone in a few taps."
+          description="An online gallery for my mum, a painter and photographer, with a private back office to manage her works. Built as a single Next.js app on PostgreSQL with Drizzle. Every work is embedded from its image and text with Voyage multimodal embeddings, which power semantic search, similar-works suggestions and a map of the whole catalogue projected in 2D with UMAP. An iOS Shortcut lets her photograph a new piece, crop it and publish it from a phone in a few taps."
           imgUrl="/projectThumbnails/GudrunGallery.webp"
           visitUrl="https://no4lsrc328hhur19kavkyslm.37.59.112.252.sslip.io/"
           skills={["React", "Ts", "Postgres"]}
