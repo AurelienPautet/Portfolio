@@ -5,7 +5,7 @@ import { useState } from "react";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // the smooth scrolling is not as easy as normal because of the matter physics engine running in the background and capturing scroll events
+  // the smooth scrolling is not as easy as normal because of the physics engine running in the background and capturing scroll events
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {

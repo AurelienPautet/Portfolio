@@ -1,11 +1,10 @@
-import { changeGravity } from "../matter/dynamicSettings.js";
+import { changeGravity } from "../physics";
 import { useState } from "react";
 
 const HomeHireMe = () => {
   const [active, setActive] = useState<string | null>(null);
 
   const releaseObjects = () => {
-    // @ts-ignore
     const physicalDomObjects = window.physicalDomObjects;
     if (physicalDomObjects && physicalDomObjects.length > 0) {
       for (const physicalDomObject of physicalDomObjects) {

@@ -1,4 +1,4 @@
-import { changeGravity } from "../matter/dynamicSettings.js";
+import { changeGravity } from "../physics";
 import { useState } from "react";
 
 const HomeScale = () => {

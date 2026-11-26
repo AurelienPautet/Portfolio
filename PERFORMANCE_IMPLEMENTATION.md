@@ -162,3 +162,56 @@ and only one containment callback was registered. Pressing the real React NO but
 then restored dynamic compound parts with no non-finite bodies. These checks used
 desktop browser viewport resizing, not a physical phone. The development server is
 available at http://localhost:5174/; the public site was not deployed in this task.
+
+## Rapier migration (2026-11-26)
+
+Matter.js was replaced by Rapier 0.21 (`@dimforge/rapier2d-simd`, WebAssembly), in
+`src/physics/` (the old `src/matter/` is gone). Measured with `scripts/bench-physics.mjs`,
+median of 3 page loads per build, both builds served locally and run back to back in
+Google Chrome. The "phone" profile is a 390 px viewport with the CPU throttled 4×.
+
+| | Matter.js | Rapier |
+| --- | ---: | ---: |
+| Idle, desktop: main thread busy | 8.4% | 2.9% |
+| Idle, phone: main thread busy | 10.9% | 2.7% |
+| Idle: physics script time | 53–60 ms/s | 1.3–1.6 ms/s |
+| Idle: awake bodies | 195–201 | 0 |
+| After "NO", phone: main thread busy | 56% | 47% |
+| 10 s after "NO", phone: main thread busy | 43% | 18% |
+| 10 s after "NO", phone: style writes | 7 962/s | 1 574/s |
+| 10 s after "NO": awake bodies | 43–56 | 0 |
+| Physics step under load (phone) | 1.35–1.61 ms | 0.71–0.91 ms |
+
+Frame rates are not compared: the laptop ran on battery and Chrome's energy saver
+capped both builds at 30 fps at different moments.
+
+Why idle is nearly free now:
+
+- Matter.js wakes every body attached to a constraint on every step, so ~200 held
+  elements never slept. Held elements now use hand-written springs
+  (`src/physics/springs.js`) that never wake a body already on its anchor, have no
+  gravity while held, and start asleep.
+- The single `requestAnimationFrame` loop stops scheduling itself once nothing is
+  awake; input, scrolling (sticky elements), gravity changes and releases restart it.
+- Held elements do not collide with each other (collision layers in `config.js`):
+  two springs pushing through a contact jammed and jittered forever. The dragged
+  element still pushes held ones aside; free bodies collide with everything.
+- Each moved element gets one inline `transform` per frame instead of separate
+  `translate` and `rotate` writes, and elements whose body and ancestors did not
+  move are not touched at all.
+
+Costs:
+
+- Rapier's WebAssembly is 2.4 MB (906 kB gzipped) plus 42 kB of JS. It is imported
+  lazily, so the page renders without it (main bundle 107 kB → 81 kB gzipped) and
+  physics starts once it arrives (~0.1 s later locally; longer on a slow network).
+  If it fails to load, the page stays static. `public/assets/.htaccess` asks
+  Apache to gzip it and to cache hashed build files for a year.
+- Dragging and throwing were tuned against the Matter.js build: a held element
+  follows about 40% of a drag and snaps back in ~200 ms; a thrown free body leaves
+  at pointer speed (the velocity cap no longer applies to the dragged body, and
+  continuous collision detection replaces it against tunnelling).
+- `chain-container` support was dropped (no element used it).
+
+`scripts/verify-perf.*` tested Matter.js internals and were removed;
+`scripts/verify-physics.mjs` checks the behaviour in a real browser instead.

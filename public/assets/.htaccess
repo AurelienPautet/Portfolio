@@ -1,0 +1,16 @@
+# Applies only to this folder: the build's JS, CSS and WebAssembly files.
+# Every module is optional, so a missing one cannot break the folder.
+
+<IfModule mod_mime.c>
+  AddType application/wasm .wasm
+</IfModule>
+
+# Rapier's .wasm is 2.4 MB raw, about 0.9 MB gzipped.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE application/wasm application/javascript text/css
+</IfModule>
+
+# File names carry a content hash and never change: cache them for a year.
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>

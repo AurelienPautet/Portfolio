@@ -6,7 +6,7 @@ import type { CSSProperties } from "react";
 export interface ImageDimensions {
   width: number;
   height: number;
-  /** Non-rectangular physics collider hint (see matter/domLoader). */
+  /** Non-rectangular physics collider hint (see physics/body.js). */
   shape?: "circle";
 }
 
